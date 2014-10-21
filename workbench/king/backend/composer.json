@@ -1,0 +1,26 @@
+{
+    "name": "king/backend",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vuong Bui",
+            "email": "vuongabc92@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/controllers",
+            "src/models",
+            "src/utilities"
+        ],
+        "psr-0": {
+            "King\\Backend\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
