@@ -13,6 +13,7 @@ class Role extends \Eloquent
     protected $table = 'roles';
 
     public function users(){
-        $this->hasMany('User');
+        
+        return $this->hasMany('User');
     }
 }

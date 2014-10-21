@@ -37,7 +37,7 @@
                     </li>
                     <li class="vertical-nav-top">
                         <a href="{{ url('/admin/accounts'); }}">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
+                            <i class="fa fa-users left-nav-icon"></i>
                             <span class="left-nav-txt">Accounts</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>

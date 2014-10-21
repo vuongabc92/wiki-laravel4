@@ -44,7 +44,7 @@
         <div class="form-group has-error has-feedback">
             <label class="col-sm-2 control-label">Role</label>
             <div class="col-sm-9">
-                {{ Form::text('role', null, array('class' => 'form-control', 'disabled')) }}
+                {{ Form::text('role', $user->role->role, array('class' => 'form-control', 'disabled')) }}
             </div>
         </div>
         <div class="form-group">

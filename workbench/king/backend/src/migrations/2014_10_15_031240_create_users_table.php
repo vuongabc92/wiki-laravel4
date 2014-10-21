@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username', 32);
             $table->string('email', 100);
             $table->string('password', 128);
-            $table->string('role', 16);
+            $table->integer('role_id');
             $table->boolean('is_active');
             $table->string('remember_token', 100);//Should has nullable attribute
             $table->timestamps();
