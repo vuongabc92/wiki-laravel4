@@ -11,23 +11,41 @@
     </head>
     <body>
 
-        <div class="header">
-            <a href="{{ url('/admin/auth/logout') }}" class="logout-btn">Logout <i class="fa fa-sign-out"></i></a>
+        @if(Session::has('adminError'))
+        <div class="alert alert-danger_fwfl  _tc _r0 _b0 _tw _bgr _fwb _m0">
+            {{ Session::get('adminErrors') }}
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        </div>
+        @endif
+        @if(Session::has('adminSuccess'))
+        <div class="alert alert-danger_fwfl  _tc _r0 _b0 _tw _bgs _fwb _m0">
+            {{ Session::get('adminSuccess') }}
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        </div>
+        @endif
+        @if(Session::has('adminWarning'))
+        <div class="alert alert-warning _fwfl  _tc _r0 _b0 _tw _bgwr _fwb _m0">
+            {{ Session::get('adminWarning') }}
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        </div>
+        @endif
+
+        <div class="_fwfl _bgw header">
+            <a href="{{ url('/admin/auth/logout') }}" class="_fr _td_i _tg1 _cp logout-btn">Logout <i class="fa fa-sign-out"></i></a>
         </div>
 
-        <div class="admin-wrapper">
+        <div class="_fwfl admin-wrapper">
 
-            <div class="left-col">
+            <div class="_fl left-col">
 
-                <div class="admin-box">
-                    <h4 class="hallo-admin">
-                        <span class="hallo">Hallo </span>
+                <div class="_fwfl admin-box">
+                    <h4 class="_fwfl _fs16 _tb _m0 hallo-admin">
+                        <span class="_fs13 hallo">Hallo </span>
                         {{ \Auth::user()->username }}
-                        {{ \King\Backend\AuthUtility::checkMaster() ? '<sup style="color:#a77;font-size:11px;">master</sup>' : '' }}
                     </h4>
-                    <a href="{{ url('/admin/account/current-edit') }}" class="edit-acc-nav">Account setting</a>
+                    <a href="{{ url('/admin/account/current-edit') }}" class="_fl _r3 _td_i _fs12 edit-acc-nav">Account setting</a>
                 </div>
-                <ul class="vertical-nav">
+                <ul class="_fwfl _db _m0 vertical-nav">
                     <li class="vertical-nav-top">
                         <a href="#">
                             <i class="fa fa-dashboard left-nav-icon"></i>
@@ -75,14 +93,14 @@
             </div>
 
             <div class="right-col">
-                <div class="right-col-header">
-                    <div class="right-col-breadcrumb">
-                        <ol class="breadcrumb admin-breadcrumb">
+                <div class="_fwfl right-col-header">
+                    <div class="_fwfl right-col-breadcrumb">
+                        <ol class="breadcrumb _fs13 admin-breadcrumb">
                             @yield('breadcrumb')
                         </ol>
                     </div>
 
-                    <div class="admin-page-info">
+                    <div class="_fwfl _tb admin-page-info">
                         @yield('pageinfo')
                     </div>
                 </div>
@@ -97,8 +115,9 @@
         </div>
 
         <!-- Load JS -->
-        {{ HTML::script('packages/king/backend/js/jquery_v1.5.1.js') }}
+        {{ HTML::script('packages/king/backend/js/jquery_v1.11.1.js') }}
         {{ HTML::script('packages/king/backend/js/bootstrap.js') }}
         {{ HTML::script('packages/king/backend/js/script.js') }}
+        @yield('js')
     </body>
 </html>

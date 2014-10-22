@@ -27,8 +27,13 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
      */
     protected $hidden = array('password', 'remember_token');
 
-    public function role(){
+    /**
+     * Get role via role id
+     *
+     * @return object King\Backend\Role
+     */
+    public function getRole(){
 
-        return $this->hasOne('King\Backend\Role');
+        return Role::find($this->role_id);
     }
 }

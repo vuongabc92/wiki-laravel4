@@ -4,43 +4,44 @@
 @show
 
 @section('body')
+<div class="_fwfl">
+    @if(Session::has('authErrors'))
+    <div class="_fwfl _bgr _tw _tc _fwb _fs15 auth-errors">
+        {{ Session::get('authErrors') }}
+    </div>
+    @endif
 
-@if(Session::has('authErrors'))
-<div class="auth-errors">
-    {{ Session::get('authErrors') }}
+    @if(Session::has('authSuccess'))
+    <div class="_fwfl _tw _tc _fwb _fs15 auth-success">
+        {{ Session::get('authSuccess') }}
+    </div>
+    @endif
 </div>
-@endif
-
-@if(Session::has('authSuccess'))
-<div class="auth-success">
-    {{ Session::get('authSuccess') }}
-</div>
-@endif
 
 <div class="container">
     <div class="auth">
 
-        <div class="auth-inside">
+        <div class="_fwfl _bgw _r3 _sd auth-inside">
             <div class="auth-space">
                 <div class="auth-content">
-                    <h4 class="auth-welcome"><i class="glyphicon glyphicon-user"></i> Welcome to login!</h4>
+                    <h4 class="_fwfl _tb auth-welcome"><i class="glyphicon glyphicon-user"></i> Welcome to login!</h4>
 
-                    {{ Form::open(array('method' => 'POST', 'url' => 'admin/auth/login', 'class' => 'auth-form')) }}
-                    {{ Form::email('_email', '', array('class' => 'auth-field', 'placeholder' => 'Email')) }}
-                    {{ Form::password('_password', array('class' => 'auth-field auth-password', 'placeholder' => 'Password')) }}
-                    <span class="auth-remember">
+                    {{ Form::open(array('method' => 'POST', 'url' => 'admin/auth/login', 'class' => '_fwfl')) }}
+                    {{ Form::email('_email', '', array('class' => '_fwfl _r3 _ff0 auth-field', 'placeholder' => 'Email')) }}
+                    {{ Form::password('_password', array('class' => '_fwfl _r3 _ff0 auth-field auth-password', 'placeholder' => 'Password')) }}
+                    <span class="_fwfl auth-remember">
                         <label>
-                            {{ Form::checkbox('auth-remember', '1', true, array('class' => 'auth-remember-checkbox')) }}
-                            <span class='auth-remember-txt'>Remember login</span>
+                            {{ Form::checkbox('auth-remember', '1', true, array('class' => '_fl _fc0 auth-remember-checkbox')) }}
+                            <span class='_fl _tb auth-remember-txt'>Remember login</span>
                         </label>
                     </span>
-                    <button type="submit" class="auth-btn">Authenticate</button>
+                    <button type="submit" class="_fwfl _fc0 _r3 _tw _bgb _fwb auth-btn">Authenticate</button>
                     {{ Form::close() }}
                 </div>
             </div>
-            <div class="auth-footer">
-                <a class="auth-foot-nav auth-foot-nav-left" href="#">New account</a>
-                <a class="auth-foot-nav" href="#">Forgot password?</a>
+            <div class="_fwfl auth-footer">
+                <a class="_w50 _fl _tb _td_i _tc auth-foot-nav auth-foot-nav-left" href="#">New account</a>
+                <a class="_w50 _fl _tb _td_i _tc auth-foot-nav" href="#">Forgot password?</a>
             </div>
         </div>
     </div>

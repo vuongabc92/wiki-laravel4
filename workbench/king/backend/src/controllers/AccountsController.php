@@ -16,6 +16,30 @@ class AccountsController extends \BaseController
 
     protected $layout = 'backend::layouts._master';
 
+    public $rules = array(
+                'username' => 'required|min:5|max:32|alpha_num|unique:users,username',
+                'email' => 'required|email|max:100|unique:users,email',
+                'password' => 'required|min:6|max:60|confirmed',
+                'password_confirmation' => 'required',
+                'role' => 'required|numeric',
+            );
+
+    public $msg = array(
+                'username.required' => 'The username field is required.',
+                'username.min' => 'The username must be at least 5 characters.',
+                'username.max' => 'The username may not be greater than 32 characters.',
+                'username.unique' => 'The username has already been taken.',
+                'email.required' => 'The email field is required.',
+                'email.max' => 'The username may not be greater than 100 characters.',
+                'password.required' => 'The password field is required.',
+                'password.min' => 'The password must be at least 5 characters.',
+                'password.max' => 'The username may not be greater than 60 characters.',
+                'password.confirmed' => 'The password confirmation does not match.',
+                'password_confirmation.required' => 'The password confirmation field is required.',
+                'role.required' => 'The role field must be selected.',
+                'role.numeric' => 'The role must be a number.'
+            );
+
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
@@ -54,30 +78,7 @@ class AccountsController extends \BaseController
     {
         if(Request::isMethod('POST')){
 
-            $rules = array(
-                'username' => 'required|min:5|max:32|alpha_num',
-                'email' => 'required|email|max:100',
-                'password' => 'required|min:6|max:60|confirmed',
-                'password_confirmation' => 'required',
-                'role' => 'required|numeric',
-            );
-
-            $msg = array(
-                'username.required' => 'Username must be filled',
-                'username.min' => 'Username is too short',
-                'username.max' => 'Username is too long',
-                'email.required' => 'Email must be filled',
-                'email.max' => 'Email is too long',
-                'password.required' => 'Password must be filled',
-                'password.min' => 'Password is too short',
-                'password.max' => 'Password is too long',
-                'password.confirmed' => 'Password confirmation is not match',
-                'password_confirmation.required' => 'Password confirmation must be filled',
-                'role.required' => 'Role must be selected',
-                'role.numeric' => 'Role must be number'
-            );
-
-            $validator = Valid::make(Input::all(), $rules, $msg);
+            $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withErrors($validator)->withInput();
             }
@@ -88,7 +89,14 @@ class AccountsController extends \BaseController
             $user->password = Hash::make(Input::get('password'));
             $user->is_active = Input::get('is_active') ? 1 : 0;
             $user->role_id = Input::get('role');
-            $user->save();
+            try{
+                $user->save();
+            }  catch (Exception $e){
+                Session::flash('adminErrors', 'Opp! please again!!');
+                return Redirect::back()->withInput();
+            }
+            Session::flash('adminSuccess', 'Save account success!!');
+            return Redirect::to('/admin/accounts');
         }
     }
 
@@ -111,7 +119,10 @@ class AccountsController extends \BaseController
      */
     public function edit($id)
     {
-        //
+        $this->layout->content = View::make('backend::accounts.edit', array(
+            'roles' => Role::where('role', '!=', 'ROLE_MASTER')->get(),
+            'user' => User::find($id)
+        ));
     }
 
     /**
@@ -122,7 +133,37 @@ class AccountsController extends \BaseController
      */
     public function update($id)
     {
-        //
+        if(Request::isMethod('PUT')){
+
+            $user = User::find($id);
+            if(strtolower($user->username) === strtolower(Input::get('username'))){
+                $this->rules['username'] = 'required|min:5|max:32|alpha_num';
+            }
+            if(strtolower($user->email) === strtolower(Input::get('email'))){
+                $this->rules['email'] = 'required|email|max:100';
+            }
+            $this->rules['password'] = 'min:6|max:60|confirmed';
+            $this->rules['password_confirmation'] = '';
+            $validator = Validator::make(Input::all(), $this->rules, $this->msg);
+            if($validator->fails()){
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+
+            $user->username = Input::get('username');
+            $user->email = Input::get('email');
+            $user->password = Hash::make(Input::get('password'));
+            $user->is_active = Input::get('is_active') ? 1 : 0;
+            $user->role_id = Input::get('role');
+            try{
+                $user->save();
+            }  catch (Exception $e){
+                Session::flash('adminErrors', 'Opp! please again!!');
+                return Redirect::back()->withInput();
+            }
+            Session::flash('adminSuccess', 'Save account success!!');
+            return Redirect::to('/admin/accounts');
+        }
     }
 
     /**
@@ -133,7 +174,11 @@ class AccountsController extends \BaseController
      */
     public function destroy($id)
     {
-        //
+        if(Request::isMethod('DELETE')){
+            User::find($id)->delete();
+            Session::flash('adminWarning', 'Delete account success!');
+            return Redirect::to('admin/accounts');
+        }
     }
 
     public function currentEdit()
@@ -193,4 +238,12 @@ class AccountsController extends \BaseController
         }
     }
 
+    public function _ajaxActiveAccount($data){
+
+        $this->layout = null;
+
+        list($model, $id) = explode('-', $data);
+        $model = ucfirst($model);
+        echo AuthUtility::active($model, $id);
+    }
 }
