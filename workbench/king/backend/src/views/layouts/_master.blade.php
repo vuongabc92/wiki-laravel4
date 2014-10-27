@@ -11,20 +11,20 @@
     </head>
     <body>
 
-        @if(Session::has('adminError'))
-        <div class="alert alert-danger_fwfl  _tc _r0 _b0 _tw _bgr _fwb _m0">
+        @if(Session::has('adminErrors'))
+        <div class="alert alert-danger _fwfl  _tc _r0 _b0 _tw _bgr _fwb _fs13 _m0">
             {{ Session::get('adminErrors') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
         @endif
         @if(Session::has('adminSuccess'))
-        <div class="alert alert-danger_fwfl  _tc _r0 _b0 _tw _bgs _fwb _m0">
+        <div class="alert alert-danger _fwfl  _tc _r0 _b0 _tw _bgs _fwb _fs13 _m0">
             {{ Session::get('adminSuccess') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
         @endif
         @if(Session::has('adminWarning'))
-        <div class="alert alert-warning _fwfl  _tc _r0 _b0 _tw _bgwr _fwb _m0">
+        <div class="alert alert-warning _fwfl  _tc _r0 _b0 _tw _bgwr _fwb _fs13 _m0">
             {{ Session::get('adminWarning') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
@@ -47,7 +47,7 @@
                 </div>
                 <ul class="_fwfl _db _m0 vertical-nav">
                     <li class="vertical-nav-top">
-                        <a href="#">
+                        <a href="{{ url('/admin') }}">
                             <i class="fa fa-dashboard left-nav-icon"></i>
                             <span class="left-nav-txt">Dashboard</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
@@ -61,16 +61,16 @@
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="#">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                        <a href="{{ url('admin/about') }}">
+                            <i class="fa fa-comment-o left-nav-icon"></i>
+                            <span class="left-nav-txt">About</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
                         <a href="#">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                            <i class="fa fa-file-o left-nav-icon"></i>
+                            <span class="left-nav-txt">Post</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>

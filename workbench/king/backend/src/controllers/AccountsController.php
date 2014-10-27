@@ -31,9 +31,10 @@ class AccountsController extends \BaseController
                 'username.unique' => 'The username has already been taken.',
                 'email.required' => 'The email field is required.',
                 'email.max' => 'The username may not be greater than 100 characters.',
+                'email.email' => 'The email must be a valid email address.',
                 'password.required' => 'The password field is required.',
                 'password.min' => 'The password must be at least 5 characters.',
-                'password.max' => 'The username may not be greater than 60 characters.',
+                'password.max' => 'The password may not be greater than 60 characters.',
                 'password.confirmed' => 'The password confirmation does not match.',
                 'password_confirmation.required' => 'The password confirmation field is required.',
                 'role.required' => 'The role field must be selected.',
@@ -52,8 +53,10 @@ class AccountsController extends \BaseController
      */
     public function index()
     {
+        $role = Role::where('role', '=', 'ROLE_MASTER')->first();
         $this->layout->content = View::make('backend::accounts.index', array(
-            'users' => User::all()
+            'users' => User::where('role_id', '!=', $role->id)->get(),
+            'total' => User::count()
         ));
     }
 
@@ -149,10 +152,18 @@ class AccountsController extends \BaseController
                 return Redirect::back()->withErrors($validator)->withInput();
             }
 
-
-            $user->username = Input::get('username');
-            $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
+            $username = Input::get('username');
+            $email = Input::get('email');
+            $password = Input::get('password');
+            if(strlen(trim($username)) > 0){
+                $user->username = $username;
+            }
+            if(strlen(trim($email)) > 0){
+                $user->email = $email;
+            }
+            if(strlen(trim(Input::get('password'))) > 0){
+                $user->password = Hash::make(Input::get('password'));
+            }
             $user->is_active = Input::get('is_active') ? 1 : 0;
             $user->role_id = Input::get('role');
             try{
@@ -181,6 +192,11 @@ class AccountsController extends \BaseController
         }
     }
 
+    /**
+     * Show the form for editing the logged in user (current user in the system).
+     *
+     * @return Response
+     */
     public function currentEdit()
     {
 
@@ -192,58 +208,69 @@ class AccountsController extends \BaseController
         ));
     }
 
+    /**
+     * Update the logged in user resource in storage.
+     *
+     * @return Response
+     */
     public function currentSave()
     {
 
         if (Request::isMethod('PUT')) {
 
-            $rules = array(
-                'username' => 'min:5|max:32|alpha_num',
-                'email' => 'email|max:100',
-                'password' => 'min:5|max:60|confirmed',
-            );
-
-            $msg = array(
-                'username.min' => 'Username is too short',
-                'username.max' => 'Username is too long',
-                'username.alpha_num' => 'Username must be in list of alpha number',
-                'email.email' => 'Email format is in valid',
-                'email.max' => 'Email is too long',
-                'password.min' => 'Password is too short',
-                'password.max' => 'Password is too long',
-                'password.confirmed' => 'Password confirmation is incorrect',
-            );
-
-            $validator = Validator::make(Input::all(), $rules, $msg);
-            if ($validator->fails()) {
-                return Redirect::back()->withInput()->withErrors($validator);
-            } else {
-
-                $userId = \Auth::user()->id;
-                $user = User::find($userId);
-                if (Input::has('username')) {
-                    $user->username = \Input::get('username');
-                }
-                if (Input::has('email')) {
-                    $user->email = \Input::get('email');
-                }
-                if (Input::has('password')) {
-                    $user->password = \Input::get('password');
-                }
-                $user->save();
-                Auth::logout();
-                Session::flash('authSuccess', 'Your account has changed success, please login again!');
-                return Redirect::to('/admin/auth/login');
+            $userId = Auth::user()->id;
+            $user = User::find($userId);
+            if(strtolower($user->username) === strtolower(Input::get('username'))){
+                $this->rules['username'] = 'required|min:5|max:32|alpha_num';
             }
+            if(strtolower($user->email) === strtolower(Input::get('email'))){
+                $this->rules['email'] = 'required|email|max:100';
+            }
+            $this->rules['password'] = 'min:6|max:60|confirmed';
+            $this->rules['password_confirmation'] = '';
+            $this->rules['role'] = '';
+            $validator = Validator::make(Input::all(), $this->rules, $this->msg);
+            if($validator->fails()){
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $username = Input::get('username');
+            $email = Input::get('email');
+            $password = Input::get('password');
+            if(strlen(trim($username)) > 0){
+                $user->username = $username;
+            }
+            if(strlen(trim($email)) > 0){
+                $user->email = $email;
+            }
+            if(strlen(trim(Input::get('password'))) > 0){
+                $user->password = Hash::make(Input::get('password'));
+            }
+
+            try{
+                $user->save();
+            }  catch (Exception $e){
+                Session::flash('adminErrors', 'Opp! please again!!');
+                return Redirect::back()->withInput();
+            }
+            Auth::logout();
+            Session::flash('authSuccess', 'Your account has changed success, please login again!');
+            return Redirect::to('/admin/auth/login');
         }
     }
 
+    /**
+     * Ajax update the active status
+     *
+     * @return bool Current active status
+     */
     public function _ajaxActiveAccount($data){
 
         $this->layout = null;
 
         list($model, $id) = explode('-', $data);
         $model = ucfirst($model);
-        echo AuthUtility::active($model, $id);
+
+        echo CommonUtility::active($model, $id);
     }
 }

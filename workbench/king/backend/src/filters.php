@@ -78,3 +78,10 @@ Route::filter('csrf', function() {
         throw new Illuminate\Session\TokenMismatchException;
     }
 });
+
+Route::filter('master', function(){
+    if( ! \King\Backend\AuthUtility::checkMaster()){
+        Session::flash('adminErrors', 'Access denied!!');
+        return Redirect::intended('/admin');
+    }
+});

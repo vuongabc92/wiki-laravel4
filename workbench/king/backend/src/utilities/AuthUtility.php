@@ -12,7 +12,7 @@ class AuthUtility{
     private static $roleMaster = 'ROLE_MASTER';
 
     /**
-     * Check the logged in user or user with specified id is supper admin or not
+     * Check the current user in system or specified user is supper admin or not
      *
      * @param int $userId User id
      *
@@ -25,22 +25,10 @@ class AuthUtility{
         }
         $role = User::find($userId)->getRole()->role;
         if ($role === self::$roleMaster) {
+
             return true;
         }
+
         return false;
-    }
-
-    public static function active($model, $id){
-
-        $model = $model::find($id);
-        if($model->is_active){
-            $model->is_active = 0;
-        }else{
-            $model->is_active = 1;
-        }
-        
-        $model->save();
-
-        return $model->is_active;
     }
 }

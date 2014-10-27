@@ -30,21 +30,27 @@ class AuthController extends \BaseController{
                 '_email' => 'required|email',
                 '_password' => 'required'
             );
-
             $validator = Validator::make(Input::all(), $rules);
             if($validator->fails()){
-                Session::flash('authErrors', 'Could not authenticate');
+                Session::flash('authErrors', 'Could not authenticate!!');
                return Redirect::back()->withInput();
             }else{
                  $login = array(
                     'email' => Input::get('_email'),
                     'password' => Input::get('_password')
                 );
-
+                //Login
                 if(Auth::attempt($login, Input::get('remember'))){
-                    return Redirect::intended('/admin');
+                    //Check active
+                    if(Auth::user()->is_active){
+                        return Redirect::intended('/admin');
+                    }
+                    
+                    Auth::logout();
+                    Session::flash('authErrors', 'Account is disable!!');
+                    return Redirect::back()->withInput();
                 }else{
-                    Session::flash('authErrors', 'Could not authenticate');
+                    Session::flash('authErrors', 'Could not authenticate!!');
                     return Redirect::back()->withInput();
                 }
             }

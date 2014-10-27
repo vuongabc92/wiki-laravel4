@@ -49,6 +49,6 @@ List accounts
 </table>
 
 <div class="_fwfl">
-    <a href="{{ url('admin/accounts/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new account</a>
+    <a href="{{ url('admin/accounts/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new account (<span class="text text-warning">{{ $total - 1 }}</span>) </a>
 </div>
 @show
