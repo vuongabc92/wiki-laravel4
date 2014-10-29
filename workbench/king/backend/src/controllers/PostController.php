@@ -9,7 +9,7 @@ use \View,
     \Redirect,
     \Auth,
     \Session,
-    \Hash;
+    \File;
 
 class PostController extends \BaseController
 {
@@ -22,7 +22,7 @@ class PostController extends \BaseController
      * @var array rules Insert|update rules
      */
     public $rules = array(
-        'name' => 'required|min:10|max:255|alpha_num|unique:post,name',
+        'name' => 'required|min:3|max:255|alpha_dash|unique:post,name',
         'image' => 'image|mimes:jpg,png,jpeg,gif',
         'description' => 'max:255',
         'content' => 'required|min:100',
@@ -35,9 +35,10 @@ class PostController extends \BaseController
         'name.required' => 'The name field is required.',
         'name.min' => 'The name is too short.',
         'name.max' => 'The name is too long.',
-        'name.alpha_num' => 'The name could not contain characters that is not alpha number.',
+        'name.alpha_dash' => 'The name may only contain letters, numbers, and dashes, such as: about_us, page_contact.',
         'name.unique' => 'The name has already been taken.',
-        'image.image' => 'The image must be image file.',
+        'image.image' => 'The image must be an image.',
+        'image.mimes' => 'The image must be a file of type: jpg, png, jpeg, gif.',
         'description.max' => 'The description is too long.',
         'content.required' => 'The content field is required.',
         'content.min' => 'The content is too short.',
@@ -85,7 +86,35 @@ class PostController extends \BaseController
             $post->name = Input::get('name');
             $post->description = Input::get('description');
             $post->content = Input::get('content');
-            $post->content = Input::get('content');
+            $post->is_active = Input::get('is_active');
+
+            //Upload image
+            $uploadOk = true;
+            if(Input::hasFile('image')){
+                $originalExt = Input::file('image')->getClientOriginalExtension();
+                $newName = Input::get('name') . '_' .  time() . '.' . $originalExt;
+                Input::file('image')->move($post->getAbsolutePath() . '/', $newName);
+                if(is_file($post->getAbsolutePath() . '/' . $newName)){
+                    $post->image = $newName;
+                }else{
+                    $uploadOk = false;
+                }
+            }
+
+            try{
+                $post->save();
+            } catch (Exception $ex) {
+                Session::flash('adminErrors', 'Opp! please try again.');
+                return Redirect::to('/admin/post');
+            }
+
+            if($uploadOk){
+                Session::flash('adminSuccess', 'Add new post successful!');
+                return Redirect::to('/admin/post');
+            }
+
+            Session::flash('adminWarning', 'Add new post successful but the file was not uploaded!');
+            return Redirect::to('/admin/post');
         }
     }
 
@@ -108,7 +137,16 @@ class PostController extends \BaseController
      */
     public function edit($id)
     {
-        //
+
+        $post = Post::find($id);
+        if(is_null($post)){
+            Session::flash('adminWarning', 'Resource does not exist!');
+            return Redirect::to('/admin/post');
+        }
+
+        $this->layout->content = View::make('backend::post.edit', array(
+            'post' => $post
+        ));
     }
 
     /**
@@ -119,7 +157,63 @@ class PostController extends \BaseController
      */
     public function update($id)
     {
-        //
+        if(Request::isMethod('PUT')){
+
+            $post = Post::find($id);
+
+            if(is_null($post)){
+                Session::flash('adminWarning', 'Resource does not exist!');
+                return Redirect::to('/admin/post');
+            }
+
+            if(Input::get('name') == $post->name){
+                $this->rules['name'] = 'required|min:3|max:255|alpha_dash';
+            }else{
+
+            }
+
+            $validator = Validator::make(Input::all(), $this->rules, $this->msg);
+            if($validator->fails()){
+                return Redirect::back()->withInput()->withErrors($validator);
+            }
+
+            $post->name = Input::get('name');
+            $post->description = Input::get('description');
+            $post->content = Input::get('content');
+            $post->is_active = Input::get('is_active');
+
+            //Upload image
+            $uploadOk = true;
+            if(Input::hasFile('image')){
+                $originalExt = Input::file('image')->getClientOriginalExtension();
+                $newName = Input::get('name') . '_' .  time() . '.' . $originalExt;
+                $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+                if(is_file($oldFile)){
+                    File::delete($oldFile);
+                }
+                Input::file('image')->move($post->getAbsolutePath() . '/', $newName);
+                if(is_file($post->getAbsolutePath() . '/' . $newName)){
+                    $post->image = $newName;
+                }else{
+                    $uploadOk = false;
+                }
+            }
+
+            try{
+                $post->save();
+            } catch (Exception $ex) {
+                Session::flash('adminErrors', 'Opp! please try again.');
+                return Redirect::to('/admin/post');
+            }
+
+            if($uploadOk){
+                Session::flash('adminSuccess', 'Save post successful!');
+                return Redirect::to('/admin/post');
+            }
+
+            Session::flash('adminWarning', 'Save post successful but the file was not uploaded!');
+            return Redirect::to('/admin/post');
+        }
     }
 
     /**
@@ -130,7 +224,61 @@ class PostController extends \BaseController
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        if(is_null($post)){
+            Session::flash('adminWarning', 'Resource does not exist!');
+            return Redirect::to('/admin/post');
+        }
+
+        $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+        if (is_file($oldFile)) {
+            File::delete($oldFile);
+        }
+
+        $post->delete();
+
+        Session::flash('adminWarning', 'Delete the post successful!');
+        return Redirect::to('/admin/post');
     }
 
+    /**
+     * Remove the specified image resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroyImg($id){
+
+        $post = Post::find($id);
+
+        if(is_null($post)){
+            Session::flash('adminWarning', 'Resource does not exist!');
+            return Redirect::to('/admin/post');
+        }
+
+        $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+        if (is_file($oldFile)) {
+            File::delete($oldFile);
+        }
+
+        Session::flash('adminWarning', 'Delete image successful !');
+        return Redirect::to('/admin/post');
+    }
+
+//    public function preventduplicate_get()
+//    {
+//
+//        $model = 'base_model';
+//        $tableName = 'ZSALONCLIENT';
+//        $this->load->model($model);
+//        $this->{$model}->setTable($tableName);
+//        $salonIdList = $this->{$model}->getClientId(false);
+//        $salonIdArr = array();
+//        foreach ($salonIdList as $one) {
+//            $salonIdArr[$one['Z_PK']] = $one['ZSALONCLIENTID'];
+//        }
+//    }
+//
 }
+

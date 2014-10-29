@@ -162,14 +162,41 @@
 
   Plugin.prototype = {
     init: function() {
-        var element = this.element,
-            id = element.attr('data-filehiddenid');
+        var that = this,
+            element = this.element,
+            idName = element.attr('data-filehiddenid'),
+            id = $('#' + idName),
+            clsNameError = element.attr('data-filehiddenerror'),
+            clsError = $('.' + clsNameError),
+            ext = element.attr('data-ext'),
+            filePathSplit = '',
+            fileExt = '';
 
         element.on('click', function(){
-            $('#' + id).click();
+            id.click();
         });
 
+        id.on('change', function(){
+            filePathSplit = id.val();
+            filePathSplit = filePathSplit.split('.');
+            fileExt = filePathSplit[filePathSplit.length - 1];
+            var extArr = ext.split('|');
+            if(that.checkExist(fileExt, extArr) === false){
+                clsError.show();
+            }else{
+                clsError.hide();
+            }
+            element.html('<i class="fa fa-image"></i> ' + id.val());
+        });
 
+    },
+    checkExist: function(ext, arrExt){
+        for(var i = 0; i < arrExt.length; i++){
+            if(arrExt[i] === ext){
+                return true;
+            }
+        }
+        return false;
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);

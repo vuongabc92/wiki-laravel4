@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
 <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li><a href="{{ url('/admin/accounts') }}">accounts</a></li>
+<li><a href="{{ url('/admin/post') }}">posts</a></li>
 <li class="active">add new post</li>
 @show
 
@@ -16,10 +16,10 @@
 
 <div class="_fwfl">
 
-    {{ Form::open(array('url' => url('/admin/post'), 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal')) }}
+    {{ Form::open(array('url' => url('/admin/post'), 'files' => true, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <h3 class="_fwfl _tb _fs20 form-title"><i class="glyphicon glyphicon-user"></i> Add new post</h3>
+                <h3 class="_fwfl _tb _fs20 form-title"><i class="fa fa-file-text-o"></i> Add new post</h3>
             </div>
         </div>
         @if(count($errors) > 0)
@@ -42,7 +42,8 @@
             <label for="email" class="col-sm-2 control-label">Image</label>
             <div class="col-sm-9">
                 {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden', 'data-id' => 'aaa')) }}
-                <span class="btn btn-primary btn-xs _fl btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden">You could choose an image...</span>
+                <span class="btn btn-primary btn-xs _fl btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden" data-filehiddenerror="file-hidden-error" data-ext="jpg|png|gif|bmp"><i class="fa fa-image"></i> Choose an image...</span>
+                <span class="text text-danger _fl _fs13 file-hidden-error"> <i class="fa fa-exclamation-circle"></i> The file that you chosen is not valid</span>
             </div>
         </div>
         <div class="form-group">
@@ -53,7 +54,7 @@
         </div>
 
         <div class="form-group">
-            <label for="content" class="col-sm-2 control-label">Content</label>
+            <label for="content" class="col-sm-2 control-label">Content <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
                 {{ Form::textarea('content', '', array('class' => 'form-control', 'id' => 'content')) }}
             </div>

@@ -43,6 +43,7 @@ List accounts
                 {{ Form::open(array('url' => 'admin/accounts/' . $user->id, 'method' => 'DELETE')) }}
                     <button type="submit" class="_ff0" data-confirmation data-msg="Delete this account???"><i class="text-danger _td_i fa fa-trash"></i></button>
                 {{ Form::close() }}
+            </td>
         </tr>
         @endforeach
     </tbody>

@@ -10,7 +10,19 @@
         {{ HTML::style('packages/king/backend/css/style.css') }}
     </head>
     <body>
+        <div class="_fwfl">
+            @if(Session::has('authErrors'))
+            <div class="_fwfl _bgr _tw _tc _fwb _fs13 auth-errors">
+                <i class="fa fa-remove"></i> {{ Session::get('authErrors') }}
+            </div>
+            @endif
 
+            @if(Session::has('authSuccess'))
+            <div class="_fwfl _tw _tc _fwb _fs13 auth-success">
+                <i class="fa fa-check"></i> {{ Session::get('authSuccess') }}
+            </div>
+            @endif
+        </div>
         @yield('body')
 
         <!-- Load JS -->

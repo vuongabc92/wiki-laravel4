@@ -13,19 +13,19 @@
 
         @if(Session::has('adminErrors'))
         <div class="alert alert-danger _fwfl  _tc _r0 _b0 _tw _bgr _fwb _fs13 _m0">
-            {{ Session::get('adminErrors') }}
+            <i class="fa fa-remove"></i> {{ Session::get('adminErrors') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
         @endif
         @if(Session::has('adminSuccess'))
         <div class="alert alert-danger _fwfl  _tc _r0 _b0 _tw _bgs _fwb _fs13 _m0">
-            {{ Session::get('adminSuccess') }}
+            <i class="fa fa-check"></i> {{ Session::get('adminSuccess') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
         @endif
         @if(Session::has('adminWarning'))
         <div class="alert alert-warning _fwfl  _tc _r0 _b0 _tw _bgwr _fwb _fs13 _m0">
-            {{ Session::get('adminWarning') }}
+            <i class="fa fa-exclamation-circle"></i> {{ Session::get('adminWarning') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
         @endif
@@ -68,8 +68,8 @@
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="#">
-                            <i class="fa fa-file-o left-nav-icon"></i>
+                        <a href="{{ url('admin/post') }}">
+                            <i class="fa fa-file-text-o left-nav-icon"></i>
                             <span class="left-nav-txt">Post</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>

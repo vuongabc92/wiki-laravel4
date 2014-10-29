@@ -29,6 +29,7 @@ class AccountsController extends \BaseController
                 'username.min' => 'The username must be at least 5 characters.',
                 'username.max' => 'The username may not be greater than 32 characters.',
                 'username.unique' => 'The username has already been taken.',
+                'username.alpha_num' => 'The username may only contain letters and numbers.',
                 'email.required' => 'The email field is required.',
                 'email.max' => 'The username may not be greater than 100 characters.',
                 'email.email' => 'The email must be a valid email address.',

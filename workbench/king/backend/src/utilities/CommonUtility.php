@@ -15,6 +15,7 @@ class CommonUtility{
      */
     public static function active($model, $id){
 
+        $model = 'King\Backend\\' . $model;
         $model = $model::find($id);
         if($model->is_active){
             $model->is_active = 0;
@@ -27,5 +28,5 @@ class CommonUtility{
         return $model->is_active;
     }
 
-    
+
 }

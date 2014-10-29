@@ -13,7 +13,7 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     //Accounts
     Route::group(['before' => 'master'], function($router){
         $router->resource('/accounts', 'King\Backend\AccountsController');
-        $router->get('/account/active/{data}', 'King\Backend\AccountsController@_ajaxActiveAccount');
+        $router->get('/account/active/{data}', 'King\Backend\CommonController@_ajaxActive');
     });
     $router->get('/account/current-edit', 'King\Backend\AccountsController@currentEdit');
     $router->put('/account/current-save', 'King\Backend\AccountsController@currentSave');
@@ -23,4 +23,8 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
 
     //Post
     $router->resource('/post', 'King\Backend\PostController');
+    $router->delete('/post/delete-image/{id}', 'King\Backend\PostController@destroyImg');
+
+    //Change active status
+    $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

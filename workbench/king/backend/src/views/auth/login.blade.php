@@ -4,19 +4,6 @@
 @show
 
 @section('body')
-<div class="_fwfl">
-    @if(Session::has('authErrors'))
-    <div class="_fwfl _bgr _tw _tc _fwb _fs13 auth-errors">
-        {{ Session::get('authErrors') }}
-    </div>
-    @endif
-
-    @if(Session::has('authSuccess'))
-    <div class="_fwfl _tw _tc _fwb _fs13 auth-success">
-        {{ Session::get('authSuccess') }}
-    </div>
-    @endif
-</div>
 
 <div class="container">
     <div class="auth">
