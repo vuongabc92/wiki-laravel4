@@ -33,7 +33,7 @@ List posts
             @define $i = $i +1
         <tr>
             <td>{{ $i }}</td>
-            <td>{{ $post->name }}</td>
+            <td><a href="{{ url('admin/post/' . $post->id) }}">{{ $post->name }}</a></td>
             <td>
                 {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) }}
                 @if(is_file('uploads/images/post/' . $post->image))

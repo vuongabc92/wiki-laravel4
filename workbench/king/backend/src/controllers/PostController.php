@@ -126,7 +126,18 @@ class PostController extends \BaseController
      */
     public function show($id)
     {
-        //
+        $d = new \DateTime('2014-10-23 1:12:55');
+        var_dump($d->);die;
+        $post = Post::find($id);
+
+        if (is_null($post)) {
+            Session::flash('adminWarning', 'Resource does not exist!');
+            return Redirect::to('/admin/post');
+        }
+
+        $this->layout->content = View::make('backend::post.show', array(
+            'post' => $post
+        ));
     }
 
     /**
