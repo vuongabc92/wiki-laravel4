@@ -1,4 +1,4 @@
-<?php namespace King\Backend\Facades;
+<?php namespace King\Backend;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -16,14 +16,14 @@ class StatusServiceProvider extends ServiceProvider {
         // Register 'underlyingclass' instance container to our UnderlyingClass object
         $this->app['status'] = $this->app->share(function($app)
         {
-            return new Status;
+            return new Status\Status;
         });
 
         // Shortcut so developers don't need to add an Alias in app/config/app.php
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Status', 'King\Backend\Facades\Status');
+            $loader->alias('Status', 'King\Backend\Status');
         });
     }
 }
