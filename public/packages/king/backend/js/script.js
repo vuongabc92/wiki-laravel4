@@ -168,6 +168,7 @@
             id = $('#' + idName),
             clsNameError = element.attr('data-filehiddenerror'),
             clsError = $('.' + clsNameError),
+            errorTxt = element.attr('data-filehiddenerrortxt'),
             ext = element.attr('data-ext'),
             filePathSplit = '',
             fileExt = '';
@@ -182,11 +183,12 @@
             fileExt = filePathSplit[filePathSplit.length - 1];
             var extArr = ext.split('|');
             if(that.checkExist(fileExt, extArr) === false){
-                clsError.show();
+                clsError.addClass('text text-danger');
+                clsError.removeClass('_tg');
+                clsError.html(errorTxt);
             }else{
-                clsError.hide();
+                clsError.html('<i class="fa fa-image"></i> ' + id.val())
             }
-            element.html('<i class="fa fa-image"></i> ' + id.val());
         });
 
     },

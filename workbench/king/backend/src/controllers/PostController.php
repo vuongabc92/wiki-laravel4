@@ -94,7 +94,7 @@ class PostController extends \BaseController
                 $originalExt = Input::file('image')->getClientOriginalExtension();
                 $newName = Input::get('name') . '_' .  time() . '.' . $originalExt;
                 Input::file('image')->move($post->getAbsolutePath() . '/', $newName);
-                if(is_file($post->getAbsolutePath() . '/' . $newName)){
+                if(file_exists($post->getAbsolutePath() . '/' . $newName)){
                     $post->image = $newName;
                 }else{
                     $uploadOk = false;
@@ -126,8 +126,6 @@ class PostController extends \BaseController
      */
     public function show($id)
     {
-        $d = new \DateTime('2014-10-23 1:12:55');
-        var_dump($d->);die;
         $post = Post::find($id);
 
         if (is_null($post)) {
@@ -199,7 +197,7 @@ class PostController extends \BaseController
                 $originalExt = Input::file('image')->getClientOriginalExtension();
                 $newName = Input::get('name') . '_' .  time() . '.' . $originalExt;
                 $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-                if(is_file($oldFile)){
+                if(file_exists($oldFile)){
                     File::delete($oldFile);
                 }
                 Input::file('image')->move($post->getAbsolutePath() . '/', $newName);
@@ -243,7 +241,7 @@ class PostController extends \BaseController
         }
 
         $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-        if (is_file($oldFile)) {
+        if (file_exists($oldFile)) {
             File::delete($oldFile);
         }
 
@@ -269,7 +267,7 @@ class PostController extends \BaseController
         }
 
         $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-        if (is_file($oldFile)) {
+        if (file_exists($oldFile)) {
             File::delete($oldFile);
         }
 

@@ -1,9 +1,6 @@
-<?php
+<?php namespace King\Backend;
 
-namespace King\Backend;
-
-class CommonUtility{
-
+class Status{
 
     /**
      * Update active status for table that have specified model name and primary key
@@ -13,7 +10,7 @@ class CommonUtility{
      *
      * @return int Current active status
      */
-    public static function active($model, $id){
+    public function active($model, $id){
 
         $model = 'King\Backend\\' . $model;
         $model = $model::find($id);
@@ -36,10 +33,11 @@ class CommonUtility{
      *
      * @return string Datetime string with format was set
      */
-    public static function changeDatetimeFormat($datetime, $format){
+    public function changeDatetimeFormat($datetime, $format){
 
         $date = new \DateTime($datetime);
 
         return $date->format($format);
     }
+
 }

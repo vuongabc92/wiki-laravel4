@@ -14,6 +14,6 @@ class CommonController extends \BaseController{
         list($model, $id) = explode('-', $data);
         $model = ucfirst($model);
 
-        echo CommonUtility::active($model, $id);
+        echo Facades\Status::active($model, $id);
     }
 }

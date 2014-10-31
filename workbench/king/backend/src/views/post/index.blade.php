@@ -36,7 +36,7 @@ List posts
             <td><a href="{{ url('admin/post/' . $post->id) }}">{{ $post->name }}</a></td>
             <td>
                 {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) }}
-                @if(is_file('uploads/images/post/' . $post->image))
+                @if(file_exists('uploads/images/post/' . $post->image))
                     {{ Form::open(array('url' => 'admin/post/delete-image/' . $post->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}
                         <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
                     {{ Form::close() }}
@@ -46,7 +46,7 @@ List posts
             <td>{{ substr($post->content, 0, 100) . '...' }}</td>
             @define $url = url('/admin/ajax/active/post-' . $post->id)
             <td class="active-container">{{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-warning _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
-            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d h:i:s', $post->updated_at)->diffForHumans() }}</td>
+            <td>{{ King\Backend\CommonUtility::changeDatetimeFormat($post->updated_at, 'd/m/Y h:i ') }}</td>
             <td class="_tc"><a href="{{ url('admin/post/' . $post->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td class="_tc">
                 {{ Form::open(array('url' => 'admin/post/' . $post->id, 'method' => 'DELETE')) }}

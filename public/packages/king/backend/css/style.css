@@ -217,8 +217,8 @@ transition:all 0.5s ease 0s;}
 .admin-content{width:100%;float:left;margin-top:20px;padding:20px;background-color:#fff;border-radius:3px;border:solid 1px #eee;}
 .form-title{margin-bottom:0;}
 .file-hidden{float:left;height:0;width:0;opacity:0;visibility:hidden;}
-.btn-trigger-file-hidden-post{margin-top:7px;}
-.file-hidden-error{margin: 8px 0 0 5px;display:none;}
+.btn-trigger-file-hidden-post{margin:1px 0 0 0;}
+.file-hidden-error{margin: 8px 0 0 15px;}
 
 /** POST **/
 .post-upload-image{width:100px;}

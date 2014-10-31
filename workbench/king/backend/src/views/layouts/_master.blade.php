@@ -61,16 +61,23 @@
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="{{ url('admin/about') }}">
-                            <i class="fa fa-comment-o left-nav-icon"></i>
+                        <a href="{{ url('/admin/accounts'); }}">
+                            <i class="fa fa-lock left-nav-icon"></i>
+                            <span class="left-nav-txt">Roles</span>
+                            <i class="fa fa-angle-left left-nav-arrow"></i>
+                        </a>
+                    </li>
+                    <li class="vertical-nav-top">
+                        <a href="{{ url('admin/roles') }}">
+                            <i class="fa fa-comment left-nav-icon"></i>
                             <span class="left-nav-txt">About</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
                         <a href="{{ url('admin/post') }}">
-                            <i class="fa fa-file-text-o left-nav-icon"></i>
-                            <span class="left-nav-txt">Post</span>
+                            <i class="fa fa-file-text left-nav-icon"></i>
+                            <span class="left-nav-txt">Posts</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>

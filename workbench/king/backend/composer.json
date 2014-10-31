@@ -16,7 +16,9 @@
             "src/migrations",
             "src/controllers",
             "src/models",
-            "src/utilities"
+            "src/utilities",
+            "src/KingLib",
+            "src/Facades"
         ],
         "psr-0": {
             "King\\Backend\\": "src/"

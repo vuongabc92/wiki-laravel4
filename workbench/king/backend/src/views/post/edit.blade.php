@@ -44,9 +44,11 @@
                 <div class="_fwfl">
                     {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => '_fl img-thumbnail _fl post-upload-image']) }}
                 </div>
-                {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden')) }}
-                <span class="btn btn-primary btn-xs _fl btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden" data-filehiddenerror="file-hidden-error" data-ext="jpg|png|gif|bmp"><i class="fa fa-image"></i> Choose an image...</span>
-                <span class="text text-danger _fl _fs13 file-hidden-error"> <i class="fa fa-exclamation-circle"></i> The file that you chosen is not valid</span>
+                <div class="_fwfl">
+                    {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden')) }}
+                    <span class="btn btn-primary btn-xs _fl btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden" data-filehiddenerror="file-hidden-error" data-ext="jpg|png|gif|bmp"><i class="fa fa-image"></i> Choose an image...</span>
+                    <span class="text text-danger _fl _fs13 file-hidden-error"> <i class="fa fa-exclamation-circle"></i> The file that you chosen is not valid</span>
+                </div>
             </div>
         </div>
         <div class="form-group">

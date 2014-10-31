@@ -41,9 +41,9 @@
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Image</label>
             <div class="col-sm-9">
-                {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden', 'data-id' => 'aaa')) }}
-                <span class="btn btn-primary btn-xs _fl btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden" data-filehiddenerror="file-hidden-error" data-ext="jpg|png|gif|bmp"><i class="fa fa-image"></i> Choose an image...</span>
-                <span class="text text-danger _fl _fs13 file-hidden-error"> <i class="fa fa-exclamation-circle"></i> The file that you chosen is not valid</span>
+                {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden',)) }}
+                <span class="btn btn-default _fl _tg _fs13 btn-trigger-file-hidden-post" data-filehidden data-filehiddenid="post-file-hidden" data-filehiddenerror="file-hidden-error" data-filehiddenerrortxt="The file that you chosen is not valid" data-ext="jpg|png|gif|bmp"><i class="fa fa-link"></i> Choose File...</span>
+                <span class="_tg _fl _fs13 file-hidden-error">File name...</span>
             </div>
         </div>
         <div class="form-group">

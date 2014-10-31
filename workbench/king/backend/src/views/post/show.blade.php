@@ -16,13 +16,19 @@ Post view detail
 <table class="table table-responsive">
     <tr>
         <td style="width:200px;">Name</td>
-        <td>{{ $post->name }}</td>
+        <td>
+            <span></ {{ $post->name }}
+            <span class="_fwfl">
+                <br />
+                <a href="{{ url('admin/post/' . $post->id . '/edit') }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a>
+            </span>
+        </td>
     </tr>
     <tr>
         <td>Image</td>
         <td>
             {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) }}
-            @if(is_file('uploads/images/post/' . $post->image))
+            @if(file_exists('uploads/images/post/' . $post->image))
                 {{ Form::open(array('url' => 'admin/post/delete-image/' . $post->id, 'method' => 'DELETE', 'class' => '_fwfl delete-image-frm')) }}
                 <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
                 {{ Form::close() }}
@@ -42,7 +48,7 @@ Post view detail
     </tr>
     <tr>
         <td>Modified</td>
-        <td>2014-10-23 1:12:55</td>
+        <td>{{ King\Backend\CommonUtility::changeDatetimeFormat($post->updated_at, 'd/m/Y h:i ') }}</td>
     </tr>
     <tr>
         <td>Content</td>
