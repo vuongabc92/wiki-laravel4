@@ -17,7 +17,7 @@ Post view detail
     <tr>
         <td style="width:200px;">Name</td>
         <td>
-            <span></ {{ $post->name }}
+            <span class="text text-primary _fs15">{{ $post->name }}</span>
             <span class="_fwfl">
                 <br />
                 <a href="{{ url('admin/post/' . $post->id . '/edit') }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a>

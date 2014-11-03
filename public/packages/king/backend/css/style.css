@@ -148,6 +148,11 @@
 ._btnr{background-color: #f66;color: #fff;}
 ._btnr:hover{opacity: 0.8;color: #fff;}
 ._btnr:active{background-color: #f55;opacity: 1;}
+/* Margin 5 */
+._mt5{margin: 5px 0 0 0;}
+._mr5{margin: 0 5px 0 0;}
+._mb5{margin: 0 0 5px 0;}
+._ml5{margin: 0 0 0 5px;}
 
 body{font-family:'lucida grande',tahoma,verdana,arial,sans-serif;background-color:#f2f2f2;}
 

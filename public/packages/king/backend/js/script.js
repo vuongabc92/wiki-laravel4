@@ -187,6 +187,8 @@
                 clsError.removeClass('_tg');
                 clsError.html(errorTxt);
             }else{
+                clsError.removeClass('text-danger');
+                clsError.addClass('text-success');
                 clsError.html('<i class="fa fa-image"></i> ' + id.val())
             }
         });
