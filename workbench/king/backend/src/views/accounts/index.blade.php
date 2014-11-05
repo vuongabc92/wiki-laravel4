@@ -37,7 +37,7 @@ List accounts
             <td><span class="text-danger">{{ $user->getRole()->role }}<span></td>
             @define $url = url('/admin/account/active/user-' . $user->id)
             <td class="active-container">{{ $user->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-warning _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
-            <td>{{ $user->updated_at }}</td>
+            <td>{{ King\Backend\_Common::changeDateTimeFormat($user->updated_at, 'd/m/Y') }}</td>
             <td class="_tc"><a href="{{ url('admin/accounts/' . $user->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td class="_tc">
                 {{ Form::open(array('url' => 'admin/accounts/' . $user->id, 'method' => 'DELETE')) }}

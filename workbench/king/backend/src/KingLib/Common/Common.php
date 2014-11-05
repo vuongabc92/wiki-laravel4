@@ -1,6 +1,6 @@
-<?php namespace King\Backend\Status;
+<?php namespace King\Backend\Common;
 
-class Status{
+class Common{
 
     /**
      * Update active status for table that have specified model name and primary key
@@ -26,10 +26,10 @@ class Status{
     }
 
     /**
-     * Change string datetime to other format suchc as: d/m/Y, Y-m-d,...
+     * Change string datetime to other format
      *
      * @param string $datetime
-     * @param string $format
+     * @param string $format (d/m/Y, Y-m-d,...)
      *
      * @return string Datetime string with format was set
      */

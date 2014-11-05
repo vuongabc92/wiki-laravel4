@@ -4,11 +4,12 @@ Post view detail
 
 @section('breadcrumb')
 <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li class="active">post view detail</li>
+<li><a href="{{ url('/admin/post') }}">posts</a></li>
+<li class="active">post details</li>
 @show
 
 @section('pageinfo')
-<h4 class="admin-page-name">Post view detail</h4>
+<h4 class="admin-page-name">Post details</h4>
 @show
 
 @section('body')
@@ -27,7 +28,7 @@ Post view detail
     <tr>
         <td>Image</td>
         <td>
-            {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) }}
+            {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url('uploads/images/post/' . $post->image) . '">' . HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
             @if(file_exists('uploads/images/post/' . $post->image))
                 {{ Form::open(array('url' => 'admin/post/delete-image/' . $post->id, 'method' => 'DELETE', 'class' => '_fwfl delete-image-frm')) }}
                 <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
@@ -48,7 +49,7 @@ Post view detail
     </tr>
     <tr>
         <td>Modified</td>
-        <td>{{ King\Backend\CommonUtility::changeDatetimeFormat($post->updated_at, 'd/m/Y h:i ') }}</td>
+        <td>{{ King\Backend\_Common::changeDatetimeFormat($post->updated_at, 'd/m/Y') }}</td>
     </tr>
     <tr>
         <td>Content</td>

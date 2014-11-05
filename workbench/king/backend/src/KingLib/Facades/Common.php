@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Status extends Facade {
+class _Common extends Facade {
 
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'status'; }
+    protected static function getFacadeAccessor() { return 'common'; }
 
 }

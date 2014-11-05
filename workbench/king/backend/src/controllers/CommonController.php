@@ -14,6 +14,6 @@ class CommonController extends \BaseController{
         list($model, $id) = explode('-', $data);
         $model = ucfirst($model);
 
-        echo Status::active($model, $id);
+        echo _Common::active($model, $id);
     }
 }

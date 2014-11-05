@@ -12,8 +12,13 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
 
     //Accounts
     Route::group(['before' => 'master'], function($router){
+        //Accounts
         $router->resource('/accounts', 'King\Backend\AccountsController');
         $router->get('/account/active/{data}', 'King\Backend\CommonController@_ajaxActive');
+
+        //Roles
+        $router->resource('/roles', 'King\Backend\RolesController');
+        $router->get('/roles/active/{data}', 'King\Backend\CommonController@_ajaxActive');
     });
     $router->get('/account/current-edit', 'King\Backend\AccountsController@currentEdit');
     $router->put('/account/current-save', 'King\Backend\AccountsController@currentSave');

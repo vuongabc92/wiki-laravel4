@@ -122,7 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'King\Backend\BackendServiceProvider',
-		'King\Backend\StatusServiceProvider',
+		'King\Backend\Common\CommonServiceProvider',
 
 	),
 

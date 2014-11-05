@@ -14,12 +14,12 @@ use \View,
 class PostController extends \BaseController
 {
     /**
-     * @var string layout layout controller
+     * @var string $layout layout controller
      */
     protected $layout = 'backend::layouts._master';
 
     /**
-     * @var array rules Insert|update rules
+     * @var array $rules Insert|update rules
      */
     public $rules = array(
         'name' => 'required|min:3|max:255|alpha_dash|unique:post,name',
@@ -29,7 +29,7 @@ class PostController extends \BaseController
     );
 
     /**
-     * @var array rules Insert|update rules
+     * @var array $msg Insert|update rules
      */
     public $msg = array(
         'name.required' => 'The name field is required.',
@@ -189,7 +189,7 @@ class PostController extends \BaseController
             $post->name = Input::get('name');
             $post->description = Input::get('description');
             $post->content = Input::get('content');
-            $post->is_active = Input::get('is_active');
+            $post->is_active = !is_null(Input::get('is_active')) ? Input::get('is_active') : 0;
 
             //Upload image
             $uploadOk = true;
@@ -233,22 +233,24 @@ class PostController extends \BaseController
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
+        if(Request::isMethod('DELETE')){
+            $post = Post::find($id);
 
-        if(is_null($post)){
-            Session::flash('adminWarning', 'Resource does not exist!');
+            if(is_null($post)){
+                Session::flash('adminWarning', 'Resource does not exist!');
+                return Redirect::to('/admin/post');
+            }
+
+            $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+            if (file_exists($oldFile)) {
+                File::delete($oldFile);
+            }
+
+            $post->delete();
+
+            Session::flash('adminWarning', 'Delete the post successful!');
             return Redirect::to('/admin/post');
         }
-
-        $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-        if (file_exists($oldFile)) {
-            File::delete($oldFile);
-        }
-
-        $post->delete();
-
-        Session::flash('adminWarning', 'Delete the post successful!');
-        return Redirect::to('/admin/post');
     }
 
     /**
@@ -259,35 +261,23 @@ class PostController extends \BaseController
      */
     public function destroyImg($id){
 
-        $post = Post::find($id);
+        if(Request::isMethod('DELETE')){
+            $post = Post::find($id);
 
-        if(is_null($post)){
-            Session::flash('adminWarning', 'Resource does not exist!');
+            if(is_null($post)){
+                Session::flash('adminWarning', 'Resource does not exist!');
+                return Redirect::to('/admin/post');
+            }
+
+            $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+            if (file_exists($oldFile)) {
+                File::delete($oldFile);
+            }
+
+            Session::flash('adminWarning', 'Delete image successful !');
             return Redirect::to('/admin/post');
         }
-
-        $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-        if (file_exists($oldFile)) {
-            File::delete($oldFile);
-        }
-
-        Session::flash('adminWarning', 'Delete image successful !');
-        return Redirect::to('/admin/post');
     }
 
-//    public function preventduplicate_get()
-//    {
-//
-//        $model = 'base_model';
-//        $tableName = 'ZSALONCLIENT';
-//        $this->load->model($model);
-//        $this->{$model}->setTable($tableName);
-//        $salonIdList = $this->{$model}->getClientId(false);
-//        $salonIdArr = array();
-//        foreach ($salonIdList as $one) {
-//            $salonIdArr[$one['Z_PK']] = $one['ZSALONCLIENTID'];
-//        }
-//    }
-//
 }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace King\Backend;
+namespace King\Backend\Common;
 
 use Illuminate\Support\ServiceProvider;
 
-class StatusServiceProvider extends ServiceProvider {
+class CommonServiceProvider extends ServiceProvider {
 
     /**
      * Register the service provider.
@@ -14,16 +14,16 @@ class StatusServiceProvider extends ServiceProvider {
     public function register()
     {
         // Register 'underlyingclass' instance container to our UnderlyingClass object
-        $this->app['status'] = $this->app->share(function($app)
+        $this->app['common'] = $this->app->share(function($app)
         {
-            return new Status\Status;
+            return new Common;
         });
 
         // Shortcut so developers don't need to add an Alias in app/config/app.php
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Status', 'King\Backend\Status');
+            $loader->alias('Common', 'King\Backend\_Common');
         });
     }
 }
