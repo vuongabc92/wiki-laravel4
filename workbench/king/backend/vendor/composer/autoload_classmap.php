@@ -77,4 +77,7 @@ return array(
     'King\\Backend\\Common\\CommonServiceProvider' => $baseDir . '/src/KingLib/Common/CommonServiceProvider.php',
     'King\\Backend\\_Common' => $baseDir . '/src/KingLib/Facades/Common.php',
     'King\\Backend\\Common\\Common' => $baseDir . '/src/KingLib/Common/Common.php',
+    'King\\Backend\\Knight\\KnightServiceProvider' => $baseDir . '/src/KingLib/Knight/KnightServiceProvider.php',
+    'King\\Backend\\_Knight' => $baseDir . '/src/KingLib/Facades/Knight.php',
+    'King\\Backend\\Knight\\Knight' => $baseDir . '/src/KingLib/Knight/Knight.php',
 );

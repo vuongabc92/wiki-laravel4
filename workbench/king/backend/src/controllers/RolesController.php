@@ -129,11 +129,11 @@ class RolesController extends \BaseController
                 return Redirect::to('/admin/roles');
             }
 
-            if(Input::get('role_name') === $role->role_name){
+            if(ucfirst(Input::get('role_name')) === ucfirst($role->role_name)){
                 $this->rules['role_name'] = 'required|min:3|max:32';
             }
 
-            if(Input::get('role') === $role->role){
+            if(ucfirst(Input::get('role')) === ucfirst($role->role)){
                 $this->rules['role'] = 'required|min:3|max:32|alpha_dash';
             }
 

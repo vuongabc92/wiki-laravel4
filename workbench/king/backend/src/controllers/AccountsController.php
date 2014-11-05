@@ -69,7 +69,7 @@ class AccountsController extends \BaseController
     public function create()
     {
         $this->layout->content = View::make('backend::accounts.create', array(
-            'roles' => Role::where('role', '!=', 'ROLE_MASTER')->get()
+            'roles' => Role::whereRaw('role != ? AND is_active = ?', array('ROLE_MASTER', 1))->get()
         ));
     }
 
@@ -124,7 +124,7 @@ class AccountsController extends \BaseController
     public function edit($id)
     {
         $this->layout->content = View::make('backend::accounts.edit', array(
-            'roles' => Role::where('role', '!=', 'ROLE_MASTER')->get(),
+            'roles' => Role::whereRaw('role != ? AND is_active = ?', array('ROLE_MASTER', 1))->get(),
             'user' => User::find($id)
         ));
     }

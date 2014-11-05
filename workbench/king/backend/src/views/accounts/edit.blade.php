@@ -56,11 +56,17 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Role <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
-                @define $listRole = array()
-                @foreach($roles as $role)
-                    @define $listRole[$role->id] = $role->role
-                @endforeach
-                {{ Form::select('role', $listRole, $user->role_id, array('class' => 'form-control')) }}
+                @if(count($roles) > 0)
+                    @define $listRole = array()
+                    @foreach($roles as $role)
+                        @define $listRole[$role->id] = $role->role
+                    @endforeach
+                    {{ Form::select('role', $listRole, $user->role_id, array('class' => 'form-control')) }}
+                @else
+                    <span class="_fwfl _mt5">
+                        <span class="label label-danger">NO-ROLES-AVAILABLE</span>
+                    </span>
+                @endif
             </div>
         </div>
         <div class="form-group">
@@ -82,7 +88,11 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                @if(count($roles) > 0)
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                @else
+                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-remove"></i> You can not save due to no roles available</button>
+                @endif
                 <a href="{{ url('/admin/accounts') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>

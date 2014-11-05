@@ -7,9 +7,11 @@ use \Auth;
 class AuthUtility{
 
     /**
+     * The greatest role that has all permissions in system
+     *
      * @var string $roleMaster Role master
      */
-    private static $roleMaster = 'ROLE_MASTER';
+    private $roleMaster = 'ROLE_MASTER';
 
     /**
      * Check the current user in system or specified user is supper admin or not
@@ -18,7 +20,7 @@ class AuthUtility{
      *
      * @return bool true(master)|false
      */
-    public static function checkMaster($userId = null){
+    public function checkMaster($userId = null){
 
         if(is_null($userId)){
             $userId = Auth::user()->id;

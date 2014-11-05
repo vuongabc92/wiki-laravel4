@@ -58,8 +58,9 @@ Route::filter('auth.basic', function() {
  */
 
 Route::filter('guest', function() {
-    if (Auth::check())
+    if (Auth::check()){
         return Redirect::to('/admin');
+    }
 });
 
 /*
@@ -79,9 +80,21 @@ Route::filter('csrf', function() {
     }
 });
 
+/*
+  |--------------------------------------------------------------------------
+  | Master Filter
+  |--------------------------------------------------------------------------
+  |
+  | The Master filter will protect routes from all users who is not have
+  | permission of supper admin
+  |
+  |
+ */
 Route::filter('master', function(){
-    if( ! \King\Backend\AuthUtility::checkMaster()){
-        Session::flash('adminErrors', 'Access denied!!');
+    if( ! King\Backend\_Knight::isMaster()){
+
+        Session::flash('adminErrors', 'Opp! Access denied.');
+
         return Redirect::intended('/admin');
     }
 });

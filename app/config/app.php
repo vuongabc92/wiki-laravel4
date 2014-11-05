@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'King\Backend\BackendServiceProvider',
 		'King\Backend\Common\CommonServiceProvider',
+		'King\Backend\Knight\KnightServiceProvider',
 
 	),
 
