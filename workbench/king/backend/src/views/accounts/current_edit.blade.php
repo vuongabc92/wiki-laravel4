@@ -1,14 +1,14 @@
 @section('title')
-    Account setting
+    {{ trans('backend::main.accounts_currentedit_title') }}
 @show
 
 @section('breadcrumb')
-<li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li class="active">account</li>
+<li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> {{ trans('backend::main.layouts_master_dashboard') }}</a></li>
+<li class="active">{{ trans('backend::main.accounts_currentedit_accinfo') }}</li>
 @show
 
 @section('pageinfo')
-    <h4 class="admin-page-name">Account info</h4>
+    <h4 class="admin-page-name">{{ trans('backend::main.accounts_currentedit_pagetitle') }}</h4>
 @show
 
 @section('body')
@@ -17,7 +17,7 @@
     {{ Form::model($user, array('url' => url('/admin/account/current-save'), 'method' => 'PUT', 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <h3 class="form-title"><i class="glyphicon glyphicon-user"></i> Change your account info</h3>
+                <h3 class="form-title"><i class="glyphicon glyphicon-user"></i> {{ trans('backend::form.accounts_currentedit_formtitle') }}</h3>
             </div>
         </div>
         @if(count($errors) > 0)
@@ -30,38 +30,43 @@
         </div>
         @endif
         <div class="form-group">
-            <label for="username" class="col-sm-2 control-label">Username</label>
+            <label for="username" class="col-sm-2 control-label">{{ trans('backend::form.accounts_username') }} <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
-                {{ Form::text('username', null, array('class' => 'form-control', 'id' => 'username', 'placeholder' => 'Username')) }}
+                {{ Form::text('username', null, array('class' => 'form-control', 'id' => 'username', 'placeholder' => trans('backend::form.accounts_username'))) }}
             </div>
         </div>
         <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Email</label>
+            <label for="email" class="col-sm-2 control-label">Email <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
                 {{ Form::email('email', null, array('class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email')) }}
             </div>
         </div>
         <div class="form-group has-error has-feedback">
-            <label class="col-sm-2 control-label">Role</label>
+            <label class="col-sm-2 control-label">{{ trans('backend::form.accounts_role') }}</label>
             <div class="col-sm-9">
                 {{ Form::text('role', $user->getRole()->role, array('class' => 'form-control', 'disabled')) }}
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">Password</label>
+            <label for="password" class="col-sm-2 control-label">{{ trans('backend::form.accounts_pass') }}</label>
             <div class="col-sm-9">
-                {{ Form::password('password', array('class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password')) }}
+                {{ Form::password('password', array('class' => 'form-control', 'id' => 'password', 'placeholder' => trans('backend::form.accounts_pass') )) }}
             </div>
         </div>
         <div class="form-group">
-            <label for="password-confirmation" class="col-sm-2 control-label">Password 2</label>
+            <label for="password-confirmation" class="col-sm-2 control-label">{{ trans('backend::form.accounts_repass') }}</label>
             <div class="col-sm-9">
-                {{ Form::password('password_confirmation', array('class' => 'form-control', 'id' => 'password-confirmation', 'placeholder' => 'Password confirmation')) }}
+                {{ Form::password('password_confirmation', array('class' => 'form-control', 'id' => 'password-confirmation', 'placeholder' => trans('backend::form.accounts_passconfirm'))) }}
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <sup class="text-danger">*</sup> {{ trans('backend::form.required') }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> {{ trans('backend::form.save') }}</button>
             </div>
         </div>
     {{ Form::close() }}

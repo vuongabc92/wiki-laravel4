@@ -8,7 +8,8 @@ use \Request,
     \Session,
     \Auth,
     \View,
-    \Redirect;
+    \Redirect,
+    \Lang;
 
 class AuthController extends \BaseController{
 
@@ -32,7 +33,7 @@ class AuthController extends \BaseController{
             );
             $validator = Validator::make(Input::all(), $rules);
             if($validator->fails()){
-                Session::flash('authErrors', 'Could not authenticate!!');
+                Session::flash('authErrors', Lang::get('backend::alert.auth_login_fails'));
                return Redirect::back()->withInput();
             }else{
                  $login = array(
@@ -45,12 +46,12 @@ class AuthController extends \BaseController{
                     if(Auth::user()->is_active){
                         return Redirect::intended('/admin');
                     }
-                    
+
                     Auth::logout();
-                    Session::flash('authErrors', 'Account is disable!!');
+                    Session::flash('authErrors', Lang::get('backend::alert.auth_login_disable'));
                     return Redirect::back()->withInput();
                 }else{
-                    Session::flash('authErrors', 'Could not authenticate!!');
+                    Session::flash('authErrors', Lang::get('backend::alert.auth_login_fails'));
                     return Redirect::back()->withInput();
                 }
             }
