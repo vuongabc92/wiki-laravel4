@@ -129,11 +129,11 @@ class RolesController extends \BaseController
                 return Redirect::to('/admin/roles');
             }
 
-            if(ucfirst(Input::get('role_name')) === ucfirst($role->role_name)){
+            if(strtolower(Input::get('role_name')) === strtolower($role->role_name)){
                 $this->rules['role_name'] = 'required|min:3|max:32';
             }
 
-            if(ucfirst(Input::get('role')) === ucfirst($role->role)){
+            if(strtolower(Input::get('role')) === strtolower($role->role)){
                 $this->rules['role'] = 'required|min:3|max:32|alpha_dash';
             }
 
@@ -170,13 +170,13 @@ class RolesController extends \BaseController
             $role = Role::find($id);
 
             if(is_null($role)){
-                Session::flash('adminWarning', 'Resource does not exist!');
+                Session::flash('adminWarning', 'Resource does not exist.');
                 return Redirect::to('/admin/roles');
             }
 
             $role->delete();
 
-            Session::flash('adminWarning', 'Delete role successful !');
+            Session::flash('adminWarning', 'Delete successful.');
             return Redirect::to('/admin/roles');
         }
     }

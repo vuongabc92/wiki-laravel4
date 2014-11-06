@@ -29,7 +29,7 @@ class Knight{
     public static function isMaster($userId = null){
 
         if(is_null($userId)){
-            $userId = \Auth::user()->id;
+            $userId = Auth::user()->id;
         }
         $role = User::find($userId)->getRole()->role;
         if ($role === self::$roleMaster) {
@@ -50,7 +50,7 @@ class Knight{
     public static function isAdmin($userId = null){
 
         if(is_null($userId)){
-            $userId = \Auth::user()->id;
+            $userId = Auth::user()->id;
         }
         $role = User::find($userId)->getRole()->role;
         if ($role === self::$roleAdmin) {

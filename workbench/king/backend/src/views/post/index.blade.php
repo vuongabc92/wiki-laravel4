@@ -45,7 +45,7 @@ List posts
             <td>{{ substr($post->description, 0, 50) . '...' }}</td>
             <td>{{ substr($post->content, 0, 100) . '...' }}</td>
             @define $url = url('/admin/ajax/active/post-' . $post->id)
-            <td class="active-container">{{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-warning _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
+            <td class="active-container">{{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($post->updated_at, 'd/m/Y') }}</td>
             <td class="_tc"><a href="{{ url('admin/post/' . $post->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td class="_tc">
@@ -59,6 +59,6 @@ List posts
 </table>
 
 <div class="_fwfl">
-    <a href="{{ url('admin/post/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new account (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/post/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
 </div>
 @show

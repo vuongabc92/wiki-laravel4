@@ -34,7 +34,7 @@ List roles
             <td>{{ $role->role_name }}</td>
             <td>{{ $role->role }}</td>
             @define $url = url('/admin/roles/active/role-' . $role->id)
-            <td>{{ $role->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-warning _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
+            <td>{{ $role->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($role->updated_at, 'd/m/Y') }}</td>
             <td><a href="{{ url('admin/roles/' . $role->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td>
@@ -48,6 +48,6 @@ List roles
 </table>
 
 <div class="_fwfl">
-    <a href="{{ url('admin/roles/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new role (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/roles/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
 </div>
 @show

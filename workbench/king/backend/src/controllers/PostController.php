@@ -86,7 +86,7 @@ class PostController extends \BaseController
             $post->name = Input::get('name');
             $post->description = Input::get('description');
             $post->content = Input::get('content');
-            $post->is_active = Input::get('is_active');
+            $post->is_active = ! is_null(Input::get('is_active')) ? 1 : 0;
 
             //Upload image
             $uploadOk = true;
@@ -171,14 +171,12 @@ class PostController extends \BaseController
             $post = Post::find($id);
 
             if(is_null($post)){
-                Session::flash('adminWarning', 'Resource does not exist!');
+                Session::flash('adminErrors', 'Resource does not exist!');
                 return Redirect::to('/admin/post');
             }
 
-            if(Input::get('name') == $post->name){
+            if(strtolower(Input::get('name')) === strtolower($post->name)){
                 $this->rules['name'] = 'required|min:3|max:255|alpha_dash';
-            }else{
-
             }
 
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
@@ -189,7 +187,7 @@ class PostController extends \BaseController
             $post->name = Input::get('name');
             $post->description = Input::get('description');
             $post->content = Input::get('content');
-            $post->is_active = !is_null(Input::get('is_active')) ? Input::get('is_active') : 0;
+            $post->is_active = !is_null(Input::get('is_active')) ? 1 : 0;
 
             //Upload image
             $uploadOk = true;
@@ -216,11 +214,11 @@ class PostController extends \BaseController
             }
 
             if($uploadOk){
-                Session::flash('adminSuccess', 'Save post successful!');
+                Session::flash('adminSuccess', 'Save success');
                 return Redirect::to('/admin/post');
             }
 
-            Session::flash('adminWarning', 'Save post successful but the file was not uploaded!');
+            Session::flash('adminWarning', 'Save successful but the file was not uploaded.');
             return Redirect::to('/admin/post');
         }
     }
@@ -237,7 +235,7 @@ class PostController extends \BaseController
             $post = Post::find($id);
 
             if(is_null($post)){
-                Session::flash('adminWarning', 'Resource does not exist!');
+                Session::flash('adminErrors', 'Resource does not exist.');
                 return Redirect::to('/admin/post');
             }
 
@@ -248,7 +246,7 @@ class PostController extends \BaseController
 
             $post->delete();
 
-            Session::flash('adminWarning', 'Delete the post successful!');
+            Session::flash('adminWarning', 'Delete success.');
             return Redirect::to('/admin/post');
         }
     }
@@ -262,19 +260,24 @@ class PostController extends \BaseController
     public function destroyImg($id){
 
         if(Request::isMethod('DELETE')){
-            $post = Post::find($id);
 
+            $post = Post::find($id);
             if(is_null($post)){
-                Session::flash('adminWarning', 'Resource does not exist!');
+                Session::flash('adminErrors', 'Resource does not exist.');
                 return Redirect::to('/admin/post');
             }
 
-            $oldFile = $post->getAbsolutePath() . '/' . $post->image;
-            if (file_exists($oldFile)) {
-                File::delete($oldFile);
-            }
+            if( ! empty($post->image)){
 
-            Session::flash('adminWarning', 'Delete image successful !');
+                $oldFile = $post->getAbsolutePath() . '/' . $post->image;
+                if (file_exists($oldFile)) {
+                    File::delete($oldFile);
+
+                    Session::flash('adminWarning', 'Delete success.');
+                    return Redirect::to('/admin/post');
+                }
+            }
+            Session::flash('adminErrors', 'Resource does not exist.');
             return Redirect::to('/admin/post');
         }
     }

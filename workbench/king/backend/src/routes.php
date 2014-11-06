@@ -30,6 +30,9 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->resource('/post', 'King\Backend\PostController');
     $router->delete('/post/delete-image/{id}', 'King\Backend\PostController@destroyImg');
 
+    //Category root
+    $router->resource('/category-root', 'King\Backend\CategoryRootController');
+
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

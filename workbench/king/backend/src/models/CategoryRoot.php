@@ -1,0 +1,13 @@
+<?php namespace King\Backend;
+
+class CategoryRoot extends \Eloquent{
+
+    /**
+     * Table name
+     *
+     * @var string $table
+     */
+    protected $table = 'category_root';
+
+    
+}

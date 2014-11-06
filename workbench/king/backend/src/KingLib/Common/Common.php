@@ -1,5 +1,8 @@
 <?php namespace King\Backend\Common;
 
+use \Redirect,
+    \Session;
+
 class Common{
 
     /**
@@ -39,5 +42,25 @@ class Common{
 
         return $date->format($format);
     }
+
+
+    /**
+     * Find specified resources
+     *
+     * @param model $model Model to find resource
+     * @param string $msg Message when resource not found
+     * @param string $url URL will be returned
+     *
+     * @return string Datetime string with format was set
+     */
+    public function findResource($model, $msg, $url){
+
+        if(is_null($model)){
+            Session::flash('adminErrors', $msg);
+            return Redirect::to($url);
+        }
+    }
+
+
 
 }
