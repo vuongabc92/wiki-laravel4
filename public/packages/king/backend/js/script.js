@@ -95,13 +95,13 @@
                 success: function(response){
                     if(parseInt(response) === 1){
                         element.text('active');
-                        element.removeClass('label-warning');
+                        element.removeClass('label-danger');
                         element.addClass('label-success');
                     }
                     if(parseInt(response) === 0){
                         element.text('disable');
                         element.removeClass('label-success');
-                        element.addClass('label-warning');
+                        element.addClass('label-danger');
                     }
                 }
             });

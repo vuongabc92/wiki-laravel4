@@ -31,7 +31,7 @@
         @endif
 
         <div class="_fwfl _bgw header">
-            <a href="{{ url('/admin/auth/logout') }}" class="_fr _td_i _tg1 _cp logout-btn">Logout <i class="fa fa-sign-out"></i></a>
+            <a href="{{ url('/admin/auth/logout') }}" class="_fr _td_i _tg1 _cp logout-btn">{{ trans('backend::main.layouts_master_logout') }} <i class="fa fa-sign-out"></i></a>
         </div>
 
         <div class="_fwfl admin-wrapper">
@@ -42,42 +42,45 @@
                     <h4 class="_fwfl _fs16 _tb _m0 hallo-admin">
                         <span class="_fs13 hallo">Hallo </span>
                         {{ \Auth::user()->username }}
+                        @if(King\Backend\_Knight::isMaster())
+                            <sup><i class="fa fa-star _fs13"></i></sup>
+                        @endif
                     </h4>
-                    <a href="{{ url('/admin/account/current-edit') }}" class="_fl _r3 _td_i _fs12 edit-acc-nav">Account setting</a>
+                    <a href="{{ url('/admin/account/current-edit') }}" class="_fl _r3 _td_i _fs12 edit-acc-nav">{{ trans('backend::main.layouts_master_accsetting') }}</a>
                 </div>
                 <ul class="_fwfl _db _m0 vertical-nav">
                     <li class="vertical-nav-top">
                         <a href="{{ url('/admin') }}">
                             <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                            <span class="left-nav-txt">{{ trans('backend::main.layouts_master_dashboard') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
                         <a href="{{ url('/admin/accounts'); }}">
                             <i class="fa fa-users left-nav-icon"></i>
-                            <span class="left-nav-txt">Accounts</span>
+                            <span class="left-nav-txt">{{ trans('backend::main.layouts_master_acc') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
                         <a href="{{ url('/admin/roles'); }}">
                             <i class="fa fa-lock left-nav-icon"></i>
-                            <span class="left-nav-txt">Roles</span>
+                            <span class="left-nav-txt">{{ trans('backend::main.layouts_master_role') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
                         <a href="{{ url('admin/post') }}">
                             <i class="fa fa-file-text left-nav-icon"></i>
-                            <span class="left-nav-txt">Posts</span>
+                            <span class="left-nav-txt">{{ trans('backend::main.layouts_master_post') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="#">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                        <a href="{{ url('admin/category-root') }}">
+                            <i class="fa fa-anchor left-nav-icon"></i>
+                            <span class="left-nav-txt">Category root</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>

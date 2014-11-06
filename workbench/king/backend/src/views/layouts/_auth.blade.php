@@ -13,7 +13,7 @@
         <div class="_fwfl">
             @if(Session::has('authErrors'))
             <div class="_fwfl _bgr _tw _tc _fwb _fs13 auth-errors">
-                <i class="fa fa-remove"></i> {{ Session::get('authErrors') }}
+                <i class="fa fa-remove"></i> {{ Session::get('authErrors') }}.
             </div>
             @endif
 

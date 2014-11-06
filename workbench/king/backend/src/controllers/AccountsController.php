@@ -9,7 +9,8 @@ use \View,
     \Redirect,
     \Auth,
     \Session,
-    \Hash;
+    \Hash,
+    \Lang;
 
 class AccountsController extends \BaseController
 {
@@ -24,27 +25,29 @@ class AccountsController extends \BaseController
                 'role' => 'required|numeric',
             );
 
-    public $msg = array(
-                'username.required' => 'The username field is required.',
-                'username.min' => 'The username must be at least 5 characters.',
-                'username.max' => 'The username may not be greater than 32 characters.',
-                'username.unique' => 'The username has already been taken.',
-                'username.alpha_num' => 'The username may only contain letters and numbers.',
-                'email.required' => 'The email field is required.',
-                'email.max' => 'The username may not be greater than 100 characters.',
-                'email.email' => 'The email must be a valid email address.',
-                'password.required' => 'The password field is required.',
-                'password.min' => 'The password must be at least 5 characters.',
-                'password.max' => 'The password may not be greater than 60 characters.',
-                'password.confirmed' => 'The password confirmation does not match.',
-                'password_confirmation.required' => 'The password confirmation field is required.',
-                'role.required' => 'The role field must be selected.',
-                'role.numeric' => 'The role must be a number.'
-            );
+    public $msg = array();
 
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
+        $this->msg = array(
+                'username.required' => Lang::get('backend::alert.accounts_currentedit_usernamerequired'),
+                'username.min' => Lang::get('backend::alert.accounts_currentedit_usernamemin'),
+                'username.max' => Lang::get('backend::alert.accounts_currentedit_usernamemax'),
+                'username.unique' => Lang::get('backend::alert.accounts_currentedit_usernameunique'),
+                'username.alpha_num' => Lang::get('backend::alert.accounts_currentedit_usernamealpha_num'),
+                'email.required' => Lang::get('backend::alert.accounts_currentedit_emailrequired'),
+                'email.max' => Lang::get('backend::alert.accounts_currentedit_emailmax'),
+                'email.email' => Lang::get('backend::alert.accounts_currentedit_emailemail'),
+                'email.unique' => Lang::get('backend::alert.accounts_currentedit_emailemail'),
+                'password.required' => Lang::get('backend::alert.accounts_currentedit_passrequired'),
+                'password.min' => Lang::get('backend::alert.accounts_currentedit_passmin'),
+                'password.max' => Lang::get('backend::alert.accounts_currentedit_passmax'),
+                'password.confirmed' => Lang::get('backend::alert.accounts_currentedit_passconfirmed'),
+                'password_confirmation.required' => Lang::get('backend::alert.accounts_currentedit_passconfirmrequired'),
+                'role.required' => Lang::get('backend::alert.accounts_currentedit_rolerequired'),
+                'role.numeric' => Lang::get('backend::alert.accounts_currentedit_rolenumeric')
+            );
     }
 
     /**
@@ -96,10 +99,10 @@ class AccountsController extends \BaseController
             try{
                 $user->save();
             }  catch (Exception $e){
-                Session::flash('adminErrors', 'Opp! please again!!');
+                Session::flash('adminErrors', Lang::get('backend::alert.fails'));
                 return Redirect::back()->withInput();
             }
-            Session::flash('adminSuccess', 'Save account success!!');
+            Session::flash('adminSuccess', Lang::get('backend::alert.save_success'));
             return Redirect::to('/admin/accounts');
         }
     }
@@ -112,7 +115,11 @@ class AccountsController extends \BaseController
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        if(is_null($user)){
+            Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+            return Redirect::to('/admin/accounts');
+        }
     }
 
     /**
@@ -123,6 +130,12 @@ class AccountsController extends \BaseController
      */
     public function edit($id)
     {
+        $user = User::find($id);
+        if(is_null($user)){
+            Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+            return Redirect::to('/admin/accounts');
+        }
+
         $this->layout->content = View::make('backend::accounts.edit', array(
             'roles' => Role::whereRaw('role != ? AND is_active = ?', array('ROLE_MASTER', 1))->get(),
             'user' => User::find($id)
@@ -140,6 +153,11 @@ class AccountsController extends \BaseController
         if(Request::isMethod('PUT')){
 
             $user = User::find($id);
+            if(is_null($user)){
+                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+                return Redirect::to('/admin/accounts');
+            }
+
             if(strtolower($user->username) === strtolower(Input::get('username'))){
                 $this->rules['username'] = 'required|min:5|max:32|alpha_num';
             }
@@ -170,10 +188,10 @@ class AccountsController extends \BaseController
             try{
                 $user->save();
             }  catch (Exception $e){
-                Session::flash('adminErrors', 'Opp! please again!!');
+                Session::flash('adminErrors', Lang::get('backend::alert.fails'));
                 return Redirect::back()->withInput();
             }
-            Session::flash('adminSuccess', 'Save account success!!');
+            Session::flash('adminSuccess', Lang::get('backend::alert.save_success'));
             return Redirect::to('/admin/accounts');
         }
     }
@@ -187,8 +205,20 @@ class AccountsController extends \BaseController
     public function destroy($id)
     {
         if(Request::isMethod('DELETE')){
-            User::find($id)->delete();
-            Session::flash('adminWarning', 'Delete account success!');
+            $user = User::find($id);
+            if(is_null($user)){
+                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+                return Redirect::to('/admin/accounts');
+            }
+
+            try{
+                $user->delete();
+            } catch (Exception $ex) {
+                Session::flash('adminErrors', Lang::get('backend::alert.fails'));
+                return Redirect::to('/admin/accounts');
+            }
+
+            Session::flash('adminWarning', Lang::get('backend::alert.delete_success'));
             return Redirect::to('admin/accounts');
         }
     }
@@ -203,6 +233,10 @@ class AccountsController extends \BaseController
 
         $userId = \Auth::user()->id;
         $user = User::find($userId);
+        if (is_null($user)) {
+            Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+            return Redirect::to('/admin/accounts');
+        }
 
         $this->layout->content = \View::make('backend::accounts.current_edit', array(
                     'user' => $user
@@ -221,6 +255,11 @@ class AccountsController extends \BaseController
 
             $userId = Auth::user()->id;
             $user = User::find($userId);
+            if (is_null($user)) {
+                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
+                return Redirect::to('/admin/accounts');
+            }
+
             if(strtolower($user->username) === strtolower(Input::get('username'))){
                 $this->rules['username'] = 'required|min:5|max:32|alpha_num';
             }
@@ -251,11 +290,11 @@ class AccountsController extends \BaseController
             try{
                 $user->save();
             }  catch (Exception $e){
-                Session::flash('adminErrors', 'Opp! please again!!');
+                Session::flash('adminErrors', Lang::get('backend::alert.fails'));
                 return Redirect::back()->withInput();
             }
             Auth::logout();
-            Session::flash('authSuccess', 'Your account has changed success, please login again!');
+            Session::flash('authSuccess', Lang::get('backend::alert.save_success'));
             return Redirect::to('/admin/auth/login');
         }
     }
