@@ -39,5 +39,17 @@ return array(
 
     //Common
     'add_new' => 'Thêm mới',
+    'active' => 'Is active',
+    'modify' => 'Modified',
+    'edit' => 'Edit',
+    'del' => 'Deleted',
+    'name' => 'Name',
+    'content' => 'Content',
+    'des' => 'Description',
+    'img' => 'Image',
+    'username' => 'Username',
+    'pass' => 'Password',
+    'email' => 'Email',
+    'role' => 'Role',
 
 );

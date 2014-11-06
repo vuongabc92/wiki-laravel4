@@ -40,6 +40,14 @@ return array(
 
     //Common
     'add_new' => 'Add new',
+    'active' => 'Is active',
+    'modify' => 'Modified',
+    'edit' => 'Edit',
+    'del' => 'Deleted',
+    'name' => 'Name',
+    'content' => 'Content',
+    'des' => 'Description',
+    'img' => 'Image',
 
 );
 

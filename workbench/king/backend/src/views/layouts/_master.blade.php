@@ -78,9 +78,9 @@
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="#">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                        <a href="{{ url('admin/category-root') }}">
+                            <i class="fa fa-anchor left-nav-icon"></i>
+                            <span class="left-nav-txt">Category root</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
