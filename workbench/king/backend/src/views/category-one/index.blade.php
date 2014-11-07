@@ -17,21 +17,11 @@ List category one
 <div class="_fwfl _mt5 _mb5">
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Category root
+            Category root: <span>All</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" style="max-height:500px;overflow-x:hidden">
             @foreach($categoryRoot as $root)
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
-                <li><a href="javascript:void();">{{ $root->name }}</a></li>
                 <li><a href="javascript:void();">{{ $root->name }}</a></li>
             @endforeach
         </ul>
