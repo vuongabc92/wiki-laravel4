@@ -47,18 +47,16 @@ class Common{
     /**
      * Find specified resources
      *
-     * @param model $model Model to find resource
-     * @param string $msg Message when resource not found
-     * @param string $url URL will be returned
+     * @param string $sessionID Id of session flash
+     * @param string $sessionMsg Message of session flash
+     * @param string $urlTo URL will be redirected to
      *
      * @return string Datetime string with format was set
      */
-    public function findResource($model, $msg, $url){
+    public function redirectWithMsg($sessionID, $sessionMsg, $urlTo){
 
-        if(is_null($model)){
-            Session::flash('adminErrors', $msg);
-            return Redirect::to($url);
-        }
+        Session::flash($sessionID, $sessionMsg);
+        return Redirect::to($urlTo);
     }
 
 

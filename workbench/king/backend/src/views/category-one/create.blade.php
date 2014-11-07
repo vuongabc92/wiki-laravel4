@@ -1,25 +1,25 @@
 @section('title')
-    Add new post
+    Add new category one
 @show
 
 @section('breadcrumb')
 <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li><a href="{{ url('/admin/post') }}">posts</a></li>
-<li class="active">add new post</li>
+<li><a href="{{ url('/admin/category-one') }}">categories one</a></li>
+<li class="active">add new category one</li>
 @show
 
 @section('pageinfo')
-    <h4 class="admin-page-name">Add new post</h4>
+    <h4 class="admin-page-name">Add new category</h4>
 @show
 
 @section('body')
 
 <div class="_fwfl">
 
-    {{ Form::open(array('url' => url('/admin/post'), 'files' => true, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal')) }}
+    {{ Form::open(array('url' => url('/admin/category-one'), 'method' => 'POST', 'files' => true, 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <h3 class="_fwfl _tb _fs20 form-title"><i class="fa fa-file-text-o"></i> Add new post</h3>
+                <h3 class="_fwfl _tb _fs20 form-title"><i class="fa fa-anchor"></i> Add new category one</h3>
             </div>
         </div>
         @if(count($errors) > 0)
@@ -32,6 +32,23 @@
             </div>
         </div>
         @endif
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Category root <sup class="text-danger">*</sup></label>
+            <div class="col-sm-9">
+                @if(count($categoryRoot) > 0)
+                    @define $listRoot = array()
+                    @define $listRoot[''] = 'Please choose a category'
+                    @foreach($categoryRoot as $one)
+                        @define $listRoot[$one->id] = $one->name
+                    @endforeach
+                    {{ Form::select('root_id', $listRoot, '',array('class' => 'form-control')) }}
+                @else
+                    <span class="_fwfl _mt5">
+                        <span class="label label-danger">NO-ROOT-AVAILABLE</span>
+                    </span>
+                @endif
+            </div>
+        </div>
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
@@ -52,13 +69,6 @@
                 {{ Form::textarea('description', '', array('class' => 'form-control', 'id' => 'description', 'rows' => 4)) }}
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="content" class="col-sm-2 control-label">Content <sup class="text-danger">*</sup></label>
-            <div class="col-sm-9">
-                {{ Form::textarea('content', '', array('class' => 'form-control', 'id' => 'content')) }}
-            </div>
-        </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
@@ -75,8 +85,12 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                <a href="{{ url('/admin/post') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
+                @if(count($categoryRoot) > 0)
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                @else
+                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-remove"></i> Could not save due to no root available</button>
+                @endif
+                <a href="{{ url('/admin/category-one') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>
 

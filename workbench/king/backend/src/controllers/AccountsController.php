@@ -102,8 +102,8 @@ class AccountsController extends \BaseController
                 Session::flash('adminErrors', Lang::get('backend::alert.fails'));
                 return Redirect::back()->withInput();
             }
-            Session::flash('adminSuccess', Lang::get('backend::alert.save_success'));
-            return Redirect::to('/admin/accounts');
+
+            return _Common::redirectWithMsg('adminSuccess', Lang::get('backend::alert.save_success'), '/admin/accounts');
         }
     }
 
@@ -132,8 +132,7 @@ class AccountsController extends \BaseController
     {
         $user = User::find($id);
         if(is_null($user)){
-            Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
-            return Redirect::to('/admin/accounts');
+            return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.resource_empty'), '/admin/accounts');
         }
 
         $this->layout->content = View::make('backend::accounts.edit', array(
@@ -154,8 +153,7 @@ class AccountsController extends \BaseController
 
             $user = User::find($id);
             if(is_null($user)){
-                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
-                return Redirect::to('/admin/accounts');
+                return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.resource_empty'), '/admin/accounts');
             }
 
             if(strtolower($user->username) === strtolower(Input::get('username'))){
@@ -191,8 +189,8 @@ class AccountsController extends \BaseController
                 Session::flash('adminErrors', Lang::get('backend::alert.fails'));
                 return Redirect::back()->withInput();
             }
-            Session::flash('adminSuccess', Lang::get('backend::alert.save_success'));
-            return Redirect::to('/admin/accounts');
+
+            return _Common::redirectWithMsg('adminSuccess', Lang::get('backend::alert.save_success'), '/admin/accounts');
         }
     }
 
@@ -207,19 +205,16 @@ class AccountsController extends \BaseController
         if(Request::isMethod('DELETE')){
             $user = User::find($id);
             if(is_null($user)){
-                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
-                return Redirect::to('/admin/accounts');
+                return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.resource_empty'), '/admin/accounts');
             }
 
             try{
                 $user->delete();
             } catch (Exception $ex) {
-                Session::flash('adminErrors', Lang::get('backend::alert.fails'));
-                return Redirect::to('/admin/accounts');
+                return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.fails'), '/admin/accounts');
             }
 
-            Session::flash('adminWarning', Lang::get('backend::alert.delete_success'));
-            return Redirect::to('admin/accounts');
+            return _Common::redirectWithMsg('adminWarning', Lang::get('backend::alert.delete_success'), '/admin/accounts');
         }
     }
 
@@ -234,8 +229,7 @@ class AccountsController extends \BaseController
         $userId = \Auth::user()->id;
         $user = User::find($userId);
         if (is_null($user)) {
-            Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
-            return Redirect::to('/admin/accounts');
+            return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.resource_empty'), '/admin/accounts');
         }
 
         $this->layout->content = \View::make('backend::accounts.current_edit', array(
@@ -256,8 +250,7 @@ class AccountsController extends \BaseController
             $userId = Auth::user()->id;
             $user = User::find($userId);
             if (is_null($user)) {
-                Session::flash('adminWarning', Lang::get('backend::alert.resource_empty'));
-                return Redirect::to('/admin/accounts');
+                return _Common::redirectWithMsg('adminErrors', Lang::get('backend::alert.resource_empty'), '/admin/accounts');
             }
 
             if(strtolower($user->username) === strtolower(Input::get('username'))){
@@ -294,8 +287,8 @@ class AccountsController extends \BaseController
                 return Redirect::back()->withInput();
             }
             Auth::logout();
-            Session::flash('authSuccess', Lang::get('backend::alert.save_success'));
-            return Redirect::to('/admin/auth/login');
+
+            return _Common::redirectWithMsg('authSuccess', Lang::get('backend::alert.save_success'), '/admin/auth/login');
         }
     }
 

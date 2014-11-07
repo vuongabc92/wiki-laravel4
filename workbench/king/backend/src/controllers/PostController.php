@@ -44,6 +44,13 @@ class PostController extends \BaseController
         'content.min' => 'The content is too short.',
     );
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('csrf', array('on' => 'post'));
+    }
 
     /**
      * Display a listing of the resource.
@@ -105,16 +112,14 @@ class PostController extends \BaseController
                 $post->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
-                return Redirect::to('/admin/post');
+                return Redirect::back()->withInput();
             }
 
             if($uploadOk){
-                Session::flash('adminSuccess', 'Add new post successful!');
-                return Redirect::to('/admin/post');
+                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/post');
             }
 
-            Session::flash('adminWarning', 'Add new post successful but the file was not uploaded!');
-            return Redirect::to('/admin/post');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success but the file was not uploaded.', '/admin/post');
         }
     }
 
@@ -127,10 +132,8 @@ class PostController extends \BaseController
     public function show($id)
     {
         $post = Post::find($id);
-
         if (is_null($post)) {
-            Session::flash('adminWarning', 'Resource does not exist!');
-            return Redirect::to('/admin/post');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
         }
 
         $this->layout->content = View::make('backend::post.show', array(
@@ -149,8 +152,7 @@ class PostController extends \BaseController
 
         $post = Post::find($id);
         if(is_null($post)){
-            Session::flash('adminWarning', 'Resource does not exist!');
-            return Redirect::to('/admin/post');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
         }
 
         $this->layout->content = View::make('backend::post.edit', array(
@@ -171,8 +173,7 @@ class PostController extends \BaseController
             $post = Post::find($id);
 
             if(is_null($post)){
-                Session::flash('adminErrors', 'Resource does not exist!');
-                return Redirect::to('/admin/post');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
             }
 
             if(strtolower(Input::get('name')) === strtolower($post->name)){
@@ -210,16 +211,14 @@ class PostController extends \BaseController
                 $post->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
-                return Redirect::to('/admin/post');
+                return Redirect::back()->withInput();
             }
 
             if($uploadOk){
-                Session::flash('adminSuccess', 'Save success');
-                return Redirect::to('/admin/post');
+                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/post');
             }
 
-            Session::flash('adminWarning', 'Save successful but the file was not uploaded.');
-            return Redirect::to('/admin/post');
+            return _Common::redirectWithMsg('adminWarning', 'Save successful but the file was not uploaded.', '/admin/post');
         }
     }
 
@@ -232,11 +231,10 @@ class PostController extends \BaseController
     public function destroy($id)
     {
         if(Request::isMethod('DELETE')){
-            $post = Post::find($id);
 
+            $post = Post::find($id);
             if(is_null($post)){
-                Session::flash('adminErrors', 'Resource does not exist.');
-                return Redirect::to('/admin/post');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
             }
 
             $oldFile = $post->getAbsolutePath() . '/' . $post->image;
@@ -246,8 +244,7 @@ class PostController extends \BaseController
 
             $post->delete();
 
-            Session::flash('adminWarning', 'Delete success.');
-            return Redirect::to('/admin/post');
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/post');
         }
     }
 
@@ -263,8 +260,7 @@ class PostController extends \BaseController
 
             $post = Post::find($id);
             if(is_null($post)){
-                Session::flash('adminErrors', 'Resource does not exist.');
-                return Redirect::to('/admin/post');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
             }
 
             if( ! empty($post->image)){
@@ -273,12 +269,11 @@ class PostController extends \BaseController
                 if (file_exists($oldFile)) {
                     File::delete($oldFile);
 
-                    Session::flash('adminWarning', 'Delete success.');
-                    return Redirect::to('/admin/post');
+                    return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/post');
                 }
             }
-            Session::flash('adminErrors', 'Resource does not exist.');
-            return Redirect::to('/admin/post');
+
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/post');
         }
     }
 

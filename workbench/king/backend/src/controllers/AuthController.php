@@ -62,6 +62,7 @@ class AuthController extends \BaseController{
 
     public function logout(){
         Auth::logout();
-        return Redirect::to('/admin/auth/login');
+        
+        return _Common::redirectWithMsg('adminSuccess', 'Logout Success.', '/admin/auth/login');
     }
 }

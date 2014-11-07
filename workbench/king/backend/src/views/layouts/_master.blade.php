@@ -46,7 +46,7 @@
                             <sup><i class="fa fa-star _fs13"></i></sup>
                         @endif
                     </h4>
-                    <a href="{{ url('/admin/account/current-edit') }}" class="_fl _r3 _td_i _fs12 edit-acc-nav">{{ trans('backend::main.layouts_master_accsetting') }}</a>
+                    <a href="{{ url('/admin/account/current-edit') }}" class="_fl _r3 _td_i _fs12 edit-acc-nav"><i class="fa fa-gear"></i> {{ trans('backend::main.layouts_master_accsetting') }}</a>
                 </div>
                 <ul class="_fwfl _db _m0 vertical-nav">
                     <li class="vertical-nav-top">
@@ -85,9 +85,9 @@
                         </a>
                     </li>
                     <li class="vertical-nav-top">
-                        <a href="#">
-                            <i class="fa fa-dashboard left-nav-icon"></i>
-                            <span class="left-nav-txt">Dashboard</span>
+                        <a href="{{ url('admin/category-one') }}">
+                            <i class="fa fa-list left-nav-icon"></i>
+                            <span class="left-nav-txt">Category one</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>

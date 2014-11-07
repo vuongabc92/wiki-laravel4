@@ -36,6 +36,14 @@ class RolesController extends \BaseController
     );
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('csrf', array('on' => 'post'));
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -81,11 +89,10 @@ class RolesController extends \BaseController
                 $role->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
-                return Redirect::to('/admin/roles');
+                return Redirect::back()->withInput();
             }
 
-            Session::flash('adminSuccess', 'Add new role successful!');
-            return Redirect::to('/admin/roles');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/roles');
         }
     }
 
@@ -108,8 +115,13 @@ class RolesController extends \BaseController
      */
     public function edit($id)
     {
+        $role = Role::find($id);
+        if(is_null($role)){
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/roles');
+        }
+
         $this->layout->content = View::make('backend::roles.edit', array(
-            'role' => Role::find($id),
+            'role' => $role,
         ));
     }
 
@@ -125,8 +137,7 @@ class RolesController extends \BaseController
 
             $role = Role::find($id);
             if(is_null($role)){
-                Session::flash('adminWarning', 'Resource does not exist!');
-                return Redirect::to('/admin/roles');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/roles');
             }
 
             if(strtolower(Input::get('role_name')) === strtolower($role->role_name)){
@@ -150,11 +161,10 @@ class RolesController extends \BaseController
                 $role->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
-                return Redirect::to('/admin/roles');
+                return Redirect::back()->withInput();
             }
 
-            Session::flash('adminSuccess', 'Save role successful!');
-            return Redirect::to('/admin/roles');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/roles');
         }
     }
 
@@ -170,14 +180,12 @@ class RolesController extends \BaseController
             $role = Role::find($id);
 
             if(is_null($role)){
-                Session::flash('adminWarning', 'Resource does not exist.');
-                return Redirect::to('/admin/roles');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/roles');
             }
 
             $role->delete();
 
-            Session::flash('adminWarning', 'Delete successful.');
-            return Redirect::to('/admin/roles');
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/roles');
         }
     }
 

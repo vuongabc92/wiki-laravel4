@@ -35,8 +35,8 @@ List posts
             <td>{{ $i }}</td>
             <td><a href="{{ url('admin/post/' . $post->id) }}">{{ $post->name }}</a></td>
             <td>
-                {{ ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url('uploads/images/post/' . $post->image) . '">' . HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
-                @if(file_exists('uploads/images/post/' . $post->image))
+                {{ empty($post->image) || ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url('uploads/images/post/' . $post->image) . '">' . HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
+                @if( ! empty($post->image) && file_exists('uploads/images/post/' . $post->image))
                     {{ Form::open(array('url' => 'admin/post/delete-image/' . $post->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}
                         <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
                     {{ Form::close() }}
