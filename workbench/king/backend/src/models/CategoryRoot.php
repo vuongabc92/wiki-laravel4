@@ -9,8 +9,8 @@ class CategoryRoot extends \Eloquent{
      */
     protected $table = 'category_root';
 
-    public function categoryOne(){
+    public function categoryOnes(){
 
-        return $this->hasMany('CategoryOne');
+        return $this->hasMany('King\Backend\CategoryOne');
     }
 }

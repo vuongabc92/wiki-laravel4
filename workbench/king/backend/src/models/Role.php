@@ -14,6 +14,6 @@ class Role extends \Eloquent
 
     public function users(){
         
-        return $this->hasMany('User');
+        return $this->hasMany('King\Backend\User');
     }
 }

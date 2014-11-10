@@ -42,7 +42,8 @@
             <label for="email" class="col-sm-2 control-label">Image</label>
             <div class="col-sm-9">
                 <div class="_fwfl">
-                    {{ empty($post->image) || ! is_file('uploads/images/post/' . $post->image) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url('uploads/images/post/' . $post->image) . '">' . HTML::image('uploads/images/post/' . $post->image, $post->name, ['class' => '_fl img-thumbnail _fl post-upload-image']) . '</a>' }}
+                    @define $img = 'uploads/images/post/' . $post->image
+                    {{ empty($post->image) || ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '">' . HTML::image($img, $post->name, ['class' => '_fl img-thumbnail _fl post-upload-image']) . '</a>' }}
                 </div>
                 <div class="_fwfl _mt5">
                     {{ Form::file('image', array('class' => 'file-hidden', 'id' => 'post-file-hidden',)) }}

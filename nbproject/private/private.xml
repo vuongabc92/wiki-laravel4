@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/public/packages/king/backend/css/style.css</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/views/category-one/edit.blade.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/controllers/CategoryOneController.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/models/CategoryOne.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/views/category-one/create.blade.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/views/category-one/index.blade.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/KingLib/Common/Common.php</file>
+        </group>
     </open-files>
 </project-private>

@@ -33,6 +33,6 @@ class CategoryOne extends \Eloquent{
     }
 
     public function getRoot(){
-        return CategoryRoot::find($this->root_id);
+        return CategoryRoot::find($this->category_root_id);
     }
 }

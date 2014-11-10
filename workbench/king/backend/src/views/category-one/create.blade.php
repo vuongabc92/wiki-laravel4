@@ -41,7 +41,7 @@
                     @foreach($categoryRoot as $one)
                         @define $listRoot[$one->id] = $one->name
                     @endforeach
-                    {{ Form::select('root_id', $listRoot, '',array('class' => 'form-control')) }}
+                    {{ Form::select('category_root_id', $listRoot, '',array('class' => 'form-control')) }}
                 @else
                     <span class="_fwfl _mt5">
                         <span class="label label-danger">NO-ROOT-AVAILABLE</span>
@@ -67,6 +67,12 @@
             <label for="description" class="col-sm-2 control-label">Description</label>
             <div class="col-sm-9">
                 {{ Form::textarea('description', '', array('class' => 'form-control', 'id' => 'description', 'rows' => 4)) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="order-number" class="col-sm-2 control-label">Order number <sup class="text-danger">*</sup></label>
+            <div class="col-sm-9">
+                {{ Form::text('order_number', King\Backend\_Common::getMaxOrderNumber('King\Backend\CategoryOne') + 1, array('class' => 'form-control', 'id' => 'order-number', 'placeholder' => 'Order number')) }}
             </div>
         </div>
         <div class="form-group">

@@ -35,6 +35,7 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
 
     //Category one
     $router->resource('/category-one', 'King\Backend\CategoryOneController');
+    $router->get('/category-one/filter/{root}', 'King\Backend\CategoryOneController@filterRoot');
 
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');

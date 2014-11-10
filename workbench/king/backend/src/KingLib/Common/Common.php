@@ -59,6 +59,17 @@ class Common{
         return Redirect::to($urlTo);
     }
 
+    /**
+     * Get max order number
+     *
+     * @param string $model Model class name
+     * @param string $column Order number column
+     *
+     * @return int max order number
+     */
+    public function getMaxOrderNumber($model, $column = 'order_number'){
 
+        return $model::max($column);
+    }
 
 }

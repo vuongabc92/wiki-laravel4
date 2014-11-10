@@ -15,11 +15,13 @@ class CreateCategoryOneTable extends Migration
     {
         Schema::create('category_one', function($table){
             $table->increments('id');
-            $table->integer('root_id');
+            $table->integer('category_root_id');
             $table->string('name');
             $table->string('image');
             $table->string('description');
             $table->boolean('is_active');
+            $table->boolean('is_active');
+            $table->integer('order_number');
             $table->timestamps();
         });
     }
