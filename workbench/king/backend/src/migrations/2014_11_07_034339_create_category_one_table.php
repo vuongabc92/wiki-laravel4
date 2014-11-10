@@ -20,7 +20,6 @@ class CreateCategoryOneTable extends Migration
             $table->string('image');
             $table->string('description');
             $table->boolean('is_active');
-            $table->boolean('is_active');
             $table->integer('order_number');
             $table->timestamps();
         });

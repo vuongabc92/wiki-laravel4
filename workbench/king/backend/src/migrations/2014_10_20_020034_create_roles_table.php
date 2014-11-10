@@ -15,7 +15,6 @@ class CreateRolesTale extends Migration
     {
         Schema::create('roles', function($table){
             $table->increments('id');
-            $table->integer('user_id');
             $table->string('role_name', 32);
             $table->string('role', 32);
             $table->boolean('is_active');
