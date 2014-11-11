@@ -74,6 +74,7 @@ return array(
     'King\\Backend\\PostController' => $baseDir . '/src/controllers/PostController.php',
     'King\\Backend\\Role' => $baseDir . '/src/models/Role.php',
     'King\\Backend\\User' => $baseDir . '/src/models/User.php',
+    'King\\Backend\\RemindersController' => $baseDir . '/src/controllers/RemindersController.php',
     'King\\Backend\\CategoryRootController' => $baseDir . '/src/controllers/CategoryRootController.php',
     'King\\Backend\\CategoryRoot' => $baseDir . '/src/models/CategoryRoot.php',
     'King\\Backend\\CategoryOneController' => $baseDir . '/src/controllers/CategoryOneController.php',

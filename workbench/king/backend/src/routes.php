@@ -6,6 +6,7 @@ Route::group(['before' => 'guest','prefix' => 'admin/auth'], function($router){
 });
 Route::get('admin/auth/logout', 'King\Backend\AuthController@logout');
 
+Route::controller('password', 'King\Backend\RemindersController');
 
 Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->get('/', 'King\Backend\IndexController@index');
