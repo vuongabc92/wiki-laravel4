@@ -16,7 +16,7 @@
 
 <div class="_fwfl">
 
-    {{ Form::model($category, array('url' => url('/admin/category-one/' . $category->id), 'method' => 'PUT', 'role' => 'form', 'class' => 'form-horizontal')) }}
+    {{ Form::model($category, array('url' => url('/admin/category-one/' . $category->id), 'files' => true,'method' => 'PUT', 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
                 <h3 class="_fwfl _tb _fs20 form-title"><i class="fa fa-anchor"></i> Edit category one</h3>
@@ -97,7 +97,11 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                @if(count($categoryRoot) > 0)
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                @else
+                    <button type="button" class="btn btn-danger disabled"><i class="fa fa-remove"></i> Could not save due to no root available</button>
+                @endif
                 <a href="{{ url('/admin/category-one') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>

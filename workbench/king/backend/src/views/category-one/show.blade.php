@@ -59,5 +59,6 @@ Category view detail
         <td>Modified</td>
         <td>{{ King\Backend\_Common::changeDatetimeFormat($category->updated_at, 'd/m/Y') }}</td>
     </tr>
+    
 </table>
 @show

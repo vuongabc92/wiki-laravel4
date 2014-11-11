@@ -5,7 +5,8 @@ use \View,
     \Redirect,
     \Validator,
     \Request,
-    \Input;
+    \Input,
+    \File;
 
 class CategoryOneController extends \BaseController
 {
@@ -139,7 +140,7 @@ class CategoryOneController extends \BaseController
         if(is_null($category)){
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
-        
+
         $this->layout->content = View::make('backend::category-one.show', array(
             'category' => $category
         ));
@@ -157,12 +158,12 @@ class CategoryOneController extends \BaseController
         if(is_null($category)){
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
-        
+
 //        $categoryRoot = CategoryRoot::find($category->category_root_id)->where('is_active', '=', '1')->get();
 //        if(is_null($categoryRoot)){
 //            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
 //        }
-        
+
         $this->layout->content = View::make('backend::category-one.edit', array(
             'category' => $category,
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get()
@@ -249,14 +250,76 @@ class CategoryOneController extends \BaseController
         return _Common::redirectWithMsg('adminWarning', 'Delete Success.', '/admin/category-one');
     }
 
+    /**
+     * Remove the specified image resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroyImg($id){
+
+        if(Request::isMethod('DELETE')){
+
+            $category = CategoryOne::find($id);
+            if(is_null($category)){
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+            }
+
+            if( ! empty($category->image)){
+
+                $oldFile = $category->getAbsolutePath() . '/' . $category->image;
+                if (file_exists($oldFile)) {
+
+                    File::delete($oldFile);
+
+                    return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+                }
+            }
+
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+        }
+    }
+
+    /**
+     * Delete all resource data and files
+     *
+     * @return response
+     */
+    public function destroyAll(){
+
+        if(Request::isMethod('DELETE')){
+            $categoryOne = new CategoryOne();
+            $emptyFolder = File::cleanDirectory($categoryOne->getDestinationPath() . '/');
+
+            if($emptyFolder){
+                try{
+                    $categories = CategoryOne::truncate();
+                } catch (Exception $ex) {
+                    return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
+                }
+
+                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+            }
+            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
+
+        }
+
+        $this->layout->content = View::make('backend::category-one.delete-all-comfirmation', array());
+    }
+
+    /**
+     * Filter category one via category root.
+     *
+     * @param string $root Some string like root-{id-root}
+     * @return Response
+     */
     public function filterRoot($root){
         list($txt, $id) = explode('-', $root);
         $categoryRoot = CategoryRoot::find($id);
         if (is_null($categoryRoot)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
-        $categories = CategoryRoot::find($id)->categoryOnes;
-        
+        $categories = CategoryRoot::find($id)->categoryOnes()->paginate(15);
         $this->layout->content = View::make('backend::category-one.index', array(
             'categories' => $categories,
             'total' => CategoryOne::count(),

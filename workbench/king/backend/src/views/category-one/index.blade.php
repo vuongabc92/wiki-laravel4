@@ -47,6 +47,7 @@ List category one
 <table class="table table-bordered table-hover table-striped table-responsive">
     <thead>
         <tr>
+            <th><input type="checkbox" class="checkbox-top" data-checkall data-checkallclass="check-all"/></th>
             <th>#</th>
             <th>Root</th>
             <th>Name</th>
@@ -59,12 +60,15 @@ List category one
         </tr>
     </thead>
     <tbody>
-        @define $i = 0
         @foreach($categories as $category)
-            @define $i = $i +1
-        <tr>
+            @define $class = ! $category->getRoot()->is_active ? 'warning' : ''
+        <tr class="{{ $class }}">
+            <td><input type="checkbox" class="check-all" id="check-{{ $category->id }}"/></td>
             <td>{{ $category->order_number }}</td>
-            <td>{{ $category->getRoot()->name }}</td>
+            <td>
+                {{ $category->getRoot()->name }}
+                @if(! $category->getRoot()->is_active) <sup class="text text-danger" title="Disable or deleted">(*)</sup>@endif
+            </td>
             <td><a href="{{ url('admin/category-one/' . $category->id) }}">{{ $category->name }}</a></td>
             <td>
                 @define $img = 'uploads/images/category/' . $category->image
@@ -91,7 +95,8 @@ List category one
 </table>
 
 <div class="_fwfl">
-    <a href="{{ url('admin/category-one/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/category-one/create') }}" class="btn btn-default _fl"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/category-one/delete-all') }}" class="btn btn-danger _fr"><i class="fa fa-trash"></i> Delete all </a>
 </div>
 
 <div class="_fwfl">
