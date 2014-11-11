@@ -23,8 +23,8 @@ List category one
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-what">
             <li>
                 @define $allTxt = 'All'
-                <a href="{{ $filter === $allTxt ? '#' :   url('admin/category-one') }}" @if($allTxt === $filter) style="background-color:#f5f5f5" @endif>
-                    {{ $allTxt }}
+                <a class="_fwfl" href="{{ $filter === $allTxt ? '#' :   url('admin/category-one') }}" @if($allTxt === $filter) style="background-color:#f5f5f5" @endif>
+                   <span class="_fl">{{ $allTxt }}</span>
                     @if($allTxt === $filter)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                     @endif
@@ -32,8 +32,8 @@ List category one
             </li>
             @foreach($categoryRoot as $root)
                 <li>
-                    <a href="{{ url('admin/category-one/filter/root-' . $root->id) }}" @if($root->name === $filter) style="background-color:#f5f5f5" @endif>
-                        {{ $root->name }}
+                    <a class="_fwfl" href="{{ url('admin/category-one/filter/root-' . $root->id) }}" @if($root->name === $filter) style="background-color:#f5f5f5" @endif>
+                        <span class="_fl">{{ $root->name }}</span>
                         @if($root->name === $filter)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                         @endif

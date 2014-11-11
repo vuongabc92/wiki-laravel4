@@ -257,11 +257,11 @@
         var element = this.element,
             classContain = $('.' + element.attr('data-filter-class')),
             aTag = (element.children('li')).children('a');
-            
+
             aTag.on('click', function(e){
-                classContain.html($(this).html());
+                classContain.html($(this).text().trim());
             });
-        
+
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
