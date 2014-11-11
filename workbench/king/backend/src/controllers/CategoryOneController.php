@@ -60,7 +60,7 @@ class CategoryOneController extends \BaseController
     public function index()
     {
         $this->layout->content = View::make('backend::category-one.index', array(
-            'categories' => CategoryOne::orderBy('order_number')->get(),
+            'categories' => CategoryOne::orderBy('order_number')->paginate(15),
             'total' => CategoryOne::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'filter' => 'All'
@@ -139,6 +139,10 @@ class CategoryOneController extends \BaseController
         if(is_null($category)){
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
+        
+        $this->layout->content = View::make('backend::category-one.show', array(
+            'category' => $category
+        ));
     }
 
     /**

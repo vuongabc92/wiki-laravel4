@@ -44,7 +44,7 @@ Post view detail
         <td>Status</td>
         <td>
             @define $url = url('/admin/ajax/active/post-' . $post->id)
-            {{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-warning _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}
+            {{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}
         </td>
     </tr>
     <tr>
