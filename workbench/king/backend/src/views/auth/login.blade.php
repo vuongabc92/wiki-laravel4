@@ -28,7 +28,7 @@
             </div>
             <div class="_fwfl auth-footer">
                 <a class="_w50 _fl _tb _td_i _tc auth-foot-nav auth-foot-nav-left" href="#">{{ trans('backend::main.auth_login_newacc') }}</a>
-                <a class="_w50 _fl _tb _td_i _tc auth-foot-nav" href="#">{{ trans('backend::main.auth_login_forgotpass') }}?</a>
+                <a class="_w50 _fl _tb _td_i _tc auth-foot-nav" href="{{ url('admin/auth/password/remind') }}">{{ trans('backend::main.auth_login_forgotpass') }}?</a>
             </div>
         </div>
     </div>

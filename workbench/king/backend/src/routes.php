@@ -3,10 +3,10 @@
 Route::group(['before' => 'guest','prefix' => 'admin/auth'], function($router){
     $router->get('/login', 'King\Backend\AuthController@login');
     $router->post('/login', 'King\Backend\AuthController@login');
+    Route::controller('/password', 'King\Backend\RemindersController');
 });
-Route::get('admin/auth/logout', 'King\Backend\AuthController@logout');
 
-Route::controller('password', 'King\Backend\RemindersController');
+Route::get('admin/auth/logout', 'King\Backend\AuthController@logout');
 
 Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->get('/', 'King\Backend\IndexController@index');

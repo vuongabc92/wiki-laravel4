@@ -109,7 +109,7 @@ class PasswordBroker {
 		// if we did not we will redirect back to this current URI with a piece of
 		// "flash" data in the session to indicate to the developers the errors.
 		$user = $this->getUser($credentials);
-
+                
 		if (is_null($user))
 		{
 			return self::INVALID_USER;
