@@ -56,38 +56,45 @@
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
-                    <li class="vertical-nav-top">
+                    <li>
                         <a href="{{ url('/admin/accounts'); }}">
                             <i class="fa fa-users left-nav-icon"></i>
                             <span class="left-nav-txt">{{ trans('backend::main.layouts_master_acc') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
-                    <li class="vertical-nav-top">
+                    <li>
                         <a href="{{ url('/admin/roles'); }}">
                             <i class="fa fa-lock left-nav-icon"></i>
                             <span class="left-nav-txt">{{ trans('backend::main.layouts_master_role') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
-                    <li class="vertical-nav-top">
+                    <li>
                         <a href="{{ url('admin/post') }}">
                             <i class="fa fa-file-text left-nav-icon"></i>
                             <span class="left-nav-txt">{{ trans('backend::main.layouts_master_post') }}</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
-                    <li class="vertical-nav-top">
+                    <li>
                         <a href="{{ url('admin/category-root') }}">
                             <i class="fa fa-anchor left-nav-icon"></i>
                             <span class="left-nav-txt">Category root</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>
-                    <li class="vertical-nav-top">
+                    <li>
                         <a href="{{ url('admin/category-one') }}">
-                            <i class="fa fa-list left-nav-icon"></i>
+                            <i class="fa fa-list-ul left-nav-icon"></i>
                             <span class="left-nav-txt">Category one</span>
+                            <i class="fa fa-angle-left left-nav-arrow"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/category-two') }}">
+                            <i class="fa fa-list left-nav-icon"></i>
+                            <span class="left-nav-txt">Category two</span>
                             <i class="fa fa-angle-left left-nav-arrow"></i>
                         </a>
                     </li>

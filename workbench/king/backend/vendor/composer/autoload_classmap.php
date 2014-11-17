@@ -79,6 +79,8 @@ return array(
     'King\\Backend\\CategoryRoot' => $baseDir . '/src/models/CategoryRoot.php',
     'King\\Backend\\CategoryOneController' => $baseDir . '/src/controllers/CategoryOneController.php',
     'King\\Backend\\CategoryOne' => $baseDir . '/src/models/CategoryOne.php',
+    'King\\Backend\\CategoryTwoController' => $baseDir . '/src/controllers/CategoryTwoController.php',
+    'King\\Backend\\CategoryTwo' => $baseDir . '/src/models/CategoryTwo.php',
     'King\\Backend\\Common\\CommonServiceProvider' => $baseDir . '/src/KingLib/Common/CommonServiceProvider.php',
     'King\\Backend\\_Common' => $baseDir . '/src/KingLib/Facades/Common.php',
     'King\\Backend\\Common\\Common' => $baseDir . '/src/KingLib/Common/Common.php',

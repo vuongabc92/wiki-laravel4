@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'smtp.mailgun.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'vuongabc92@gmail.com', 'name' => 'vuongabc92'),
+	'from' => array('address' => 'postmaster@sandbox30fb4041b45d428c87a839208c4df429.mailgun.org', 'name' => 'vuong bui'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'wiki@sandbox30fb4041b45d428c87a839208c4df429.mailgun.org',
+	'username' => 'postmaster@sandbox30fb4041b45d428c87a839208c4df429.mailgun.org',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => '123456',
+	'password' => '9ba29d3a2f7aa5bab0306c3b1c0299ac',
 
 	/*
 	|--------------------------------------------------------------------------

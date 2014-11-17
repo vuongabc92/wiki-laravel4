@@ -8,7 +8,7 @@ use \View,
     \Input,
     \File;
 
-class CategoryOneController extends \BaseController
+class CategoryTwoController extends \BaseController
 {
 
     /**
@@ -21,7 +21,8 @@ class CategoryOneController extends \BaseController
      */
     public $rules = array(
         'category_root_id' => 'required|numeric',
-        'name' => 'required|min:3|max:255|unique:category_one,name',
+        'category_one_id' => 'required|numeric',
+        'name' => 'required|min:3|max:255|unique:category_two,name',
         'image' => 'image|mimes:jpg,png,jpeg,gif',
         'description' => 'max:255',
         'order_number' => 'required|numeric'
@@ -31,8 +32,10 @@ class CategoryOneController extends \BaseController
      * @var array $msg Insert|update rules
      */
     public $msg = array(
-        'category_root_id.required' => 'The root field is required.',
-        'category_root_id.numeric' => 'The root field must be a number.',
+        'category_root_id.required' => 'The category root field is required.',
+        'category_root_id.numeric' => 'The category root field must be a number.',
+        'category_one_id.required' => 'The category one field is required.',
+        'category_one_id.numeric' => 'The category one field must be a number.',
         'name.required' => 'The name field is required.',
         'name.min' => 'The name is too short.',
         'name.max' => 'The name is too long.',
@@ -60,10 +63,11 @@ class CategoryOneController extends \BaseController
      */
     public function index()
     {
-        $this->layout->content = View::make('backend::category-one.index', array(
-            'categories' => CategoryOne::orderBy('order_number')->paginate(15),
-            'total' => CategoryOne::count(),
+        $this->layout->content = View::make('backend::category-two.index', array(
+            'categories' => CategoryTwo::orderBy('order_number')->paginate(15),
+            'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
             'filter' => 'All'
         ));
     }
@@ -75,8 +79,9 @@ class CategoryOneController extends \BaseController
      */
     public function create()
     {
-        $this->layout->content = View::make('backend::category-one.create', array(
-            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get()
+        $this->layout->content = View::make('backend::category-two.create', array(
+            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get()
         ));
     }
 
@@ -93,8 +98,9 @@ class CategoryOneController extends \BaseController
                 return Redirect::back()->withInput()->withErrors($validator);
             }
 
-            $category = new CategoryOne();
+            $category = new CategoryTwo();
             $category->category_root_id = Input::get('category_root_id');
+            $category->category_one_id = Input::get('category_one_id');
             $category->name = Input::get('name');
             $category->description = Input::get('description');
             $category->order_number = Input::get('order_number');
@@ -104,7 +110,7 @@ class CategoryOneController extends \BaseController
             $uploadOk = true;
             if(Input::hasFile('image')){
                 $originalExt = Input::file('image')->getClientOriginalExtension();
-                $newName = 'category_one_' .  time() . '.' . $originalExt;
+                $newName = 'category_two_' .  time() . '.' . $originalExt;
                 Input::file('image')->move($category->getAbsolutePath() . '/', $newName);
                 if(file_exists($category->getAbsolutePath() . '/' . $newName)){
                     $category->image = $newName;
@@ -121,10 +127,10 @@ class CategoryOneController extends \BaseController
             }
 
             if($uploadOk){
-                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-one');
+                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-two');
             }
 
-            return _Common::redirectWithMsg('adminSuccess', 'Save success but the file was not uploaded.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success but the file was not uploaded.', '/admin/category-two');
         }
     }
 
@@ -136,12 +142,12 @@ class CategoryOneController extends \BaseController
      */
     public function show($id)
     {
-        $category = CategoryOne::find($id);
+        $category = CategoryTwo::find($id);
         if(is_null($category)){
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
         }
 
-        $this->layout->content = View::make('backend::category-one.show', array(
+        $this->layout->content = View::make('backend::category-two.show', array(
             'category' => $category
         ));
     }
@@ -154,19 +160,15 @@ class CategoryOneController extends \BaseController
      */
     public function edit($id)
     {
-        $category = CategoryOne::find($id);
+        $category = CategoryTwo::find($id);
         if(is_null($category)){
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
 
-//        $categoryRoot = CategoryRoot::find($category->category_root_id)->where('is_active', '=', '1')->get();
-//        if(is_null($categoryRoot)){
-//            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
-//        }
-
-        $this->layout->content = View::make('backend::category-one.edit', array(
+        $this->layout->content = View::make('backend::category-two.edit', array(
             'category' => $category,
-            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get()
+            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get()
         ));
     }
 
@@ -180,9 +182,9 @@ class CategoryOneController extends \BaseController
     {
         if(Request::isMethod('PUT')){
 
-            $category = CategoryOne::find($id);
+            $category = CategoryTwo::find($id);
             if(is_null($category)){
-                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
             }
 
             if(strtolower(Input::get('name')) === strtolower($category->name)){
@@ -196,15 +198,16 @@ class CategoryOneController extends \BaseController
 
             $category->name = Input::get('name');
             $category->category_root_id = Input::get('category_root_id');
+            $category->category_one_id = Input::get('category_one_id');
             $category->description = Input::get('description');
             $category->order_number = Input::get('order_number');
-            $category->is_active = !is_null(Input::get('is_active')) ? 1 : 0;
+            $category->is_active = ! is_null(Input::get('is_active')) ? 1 : 0;
 
             //Upload image
             $uploadOk = true;
             if(Input::hasFile('image')){
                 $originalExt = Input::file('image')->getClientOriginalExtension();
-                $newName = 'category_one_' .  time() . '.' . $originalExt;
+                $newName = 'category_two_' .  time() . '.' . $originalExt;
                 Input::file('image')->move($category->getAbsolutePath() . '/', $newName);
                 if(file_exists($category->getAbsolutePath() . '/' . $newName)){
                     $category->image = $newName;
@@ -221,10 +224,10 @@ class CategoryOneController extends \BaseController
             }
 
             if($uploadOk){
-                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-one');
+                return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-two');
             }
 
-            return _Common::redirectWithMsg('adminSuccess', 'Save success but the file was not uploaded.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success but the file was not uploaded.', '/admin/category-two');
         }
     }
 
@@ -281,7 +284,7 @@ class CategoryOneController extends \BaseController
     }
 
     /**
-     * Remove all resources 
+     * Remove all resources
      *
      * @return response
      */
@@ -326,5 +329,21 @@ class CategoryOneController extends \BaseController
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'filter' => $categoryRoot->name
         ));
+    }
+
+    public function filterRootCreate($id){
+
+        $this->layout = null;
+
+        $id = (int) $id;
+        $categoryOne = CategoryRoot::find($id)->categoryOnes;
+
+        $result = '<option value = "" selected="selected">Please choose a category</option>';
+        if( ! is_null($categoryOne)){
+            foreach($categoryOne as $one){
+                $result .= '<option value="' . $one->id . '">' . $one->name . '</option>';
+            }
+        }
+        return \Response::make($result);
     }
 }

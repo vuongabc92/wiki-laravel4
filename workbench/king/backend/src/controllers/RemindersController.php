@@ -30,6 +30,7 @@ class RemindersController extends \BaseController
      */
     public function postRemind()
     {
+        dd(Password::remind(Input::only('email')));
         switch ($response = Password::remind(Input::only('email'))) {
             case Password::INVALID_USER:
                 return Redirect::back()->with('authErrors', Lang::get($response));
