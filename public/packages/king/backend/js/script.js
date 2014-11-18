@@ -375,6 +375,7 @@
     init: function() {
         var element = this.element,
             categoryOneId = $('#' + element.attr('data-categoryoneid')),
+            categoryOneParent = categoryOneId.parent('div'),
             url = element.attr('data-categoryonefilterrooturl');
 
         element.on('change', function(){
@@ -386,7 +387,7 @@
                         $('.loading').show();
                     },
                     success: function(response){
-                        categoryOneId.html(response);
+                        categoryOneParent.html(response);
                         $('.loading').hide();
                     }
                 });

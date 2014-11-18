@@ -14,6 +14,11 @@ class CategoryOne extends \Eloquent{
      */
     protected $destinationPath = 'uploads/images/category';
 
+    public function categoryTwos(){
+
+        return $this->hasMany('King\Backend\CategoryTwo');
+    }
+
     /**
      * Get absolute path to file
      *

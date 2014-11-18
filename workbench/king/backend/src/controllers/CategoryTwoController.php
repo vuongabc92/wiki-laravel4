@@ -63,12 +63,17 @@ class CategoryTwoController extends \BaseController
      */
     public function index()
     {
+        $filterCategoryRoot = new \stdClass();
+        $filterCategoryRoot->name = 'All';
+        $filterCategoryOne = new \stdClass();
+        $filterCategoryOne->name = 'All';
         $this->layout->content = View::make('backend::category-two.index', array(
             'categories' => CategoryTwo::orderBy('order_number')->paginate(15),
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
-            'filter' => 'All'
+            'filterRoot' => $filterCategoryRoot,
+            'filterOne' => $filterCategoryOne
         ));
     }
 
@@ -313,37 +318,69 @@ class CategoryTwoController extends \BaseController
     /**
      * Filter category one via category root.
      *
-     * @param string $root Some string like root-{id-root}
+     * @param string $id Category root id
      * @return Response
      */
-    public function filterRoot($root){
-        list($txt, $id) = explode('-', $root);
+    public function filterWithCategoryRoot($id){
+
         $categoryRoot = CategoryRoot::find($id);
+        $filterCategoryOne = new \stdClass();
+        $filterCategoryOne->name = 'All';
         if (is_null($categoryRoot)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
         }
-        $categories = CategoryRoot::find($id)->categoryOnes()->paginate(15);
-        $this->layout->content = View::make('backend::category-one.index', array(
+        $categories = $categoryRoot->categoryTwos()->paginate(15);
+        $this->layout->content = View::make('backend::category-two.index', array(
             'categories' => $categories,
-            'total' => CategoryOne::count(),
+            'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
-            'filter' => $categoryRoot->name
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'filterRoot' => $categoryRoot,
+            'filterOne' => $filterCategoryOne
         ));
     }
 
-    public function filterRootCreate($id){
+    /**
+     * Filter category one via category one.
+     *
+     * @param string $id Category one id
+     * @return Response
+     */
+    public function filterWithCategoryOne($id){
+
+        $categoryOne = CategoryOne::find($id);
+        $filterCategoryRoot = new \stdClass();
+        $filterCategoryRoot->name = 'All';
+        if (is_null($categoryOne)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+        }
+        $categories = $categoryOne->categoryTwos()->paginate(15);
+        $this->layout->content = View::make('backend::category-two.index', array(
+            'categories' => $categories,
+            'total' => CategoryTwo::count(),
+            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'filterRoot' => $filterCategoryRoot,
+            'filterOne' => $categoryOne
+        ));
+    }
+
+    public function _ajaxFilterCategoryRoot($id){
 
         $this->layout = null;
 
         $id = (int) $id;
         $categoryOne = CategoryRoot::find($id)->categoryOnes;
 
-        $result = '<option value = "" selected="selected">Please choose a category</option>';
+
+        $listCategoryOne = array();
+        $listCategoryOne[''] = 'Please select a category';
         if( ! is_null($categoryOne)){
             foreach($categoryOne as $one){
-                $result .= '<option value="' . $one->id . '">' . $one->name . '</option>';
+                $listCategoryOne[$one->id] = $one->name;
             }
         }
+        $result = \Form::select('category_one_id', $listCategoryOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off'));
         return \Response::make($result);
     }
 }

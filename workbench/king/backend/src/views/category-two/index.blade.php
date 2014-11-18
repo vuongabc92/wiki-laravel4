@@ -17,24 +17,55 @@ List category two
 <div class="_fwfl _mt5 _mb5">
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Category root: <span class="label label-info filter-what">{{ $filter }}</span>
+            @define $filterRootName = $filterRoot->name
+            Category root: <span class="label label-info filter-root-what">{{ $filterRootName }}</span>
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-what">
+        <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-root-what">
             <li>
                 @define $allTxt = 'All'
-                <a class="_fwfl" href="{{ $filter === $allTxt ? '#' :   url('admin/category-two') }}" @if($allTxt === $filter) style="background-color:#f5f5f5" @endif>
+                <a class="_fwfl" href="{{ $filterRootName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterRootName === $allTxt) style="background-color:#f5f5f5" @endif>
                    <span class="_fl">{{ $allTxt }}</span>
-                    @if($allTxt === $filter)
+                    @if($filterRootName === $allTxt)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                     @endif
                 </a>
             </li>
             @foreach($categoryRoot as $root)
                 <li>
-                    <a class="_fwfl" href="{{ url('admin/category-two/filter/root-' . $root->id) }}" @if($root->name === $filter) style="background-color:#f5f5f5" @endif>
+                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-root/' . $root->id) }}" @if($root->name === $filterRootName) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $root->name }}</span>
-                        @if($root->name === $filter)
+                        @if($root->name === $filterRootName)
+                            <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
+                        @endif
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="btn-group _mb5">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            @define $filterOneName = $filterOne->name
+            Category one: <span class="label label-info filter-one-what">{{ $filterOneName }}</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-one-what">
+            <li>
+                @define $allTxt = 'All'
+                <a class="_fwfl" href="{{ $filterOneName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterOneName === $allTxt) style="background-color:#f5f5f5" @endif>
+                   <span class="_fl">{{ $allTxt }}</span>
+                    @if($filterOneName === $allTxt)
+                        <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
+                    @endif
+                </a>
+            </li>
+            @define $categoryOneWithCons = $filterRoot->name !== 'All' ? $filterRoot->categoryOnes : $categoryOne
+            @foreach($categoryOneWithCons as $one)
+                <li>
+                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-one/' . $one->id) }}" @if($one->name === $filterOneName) style="background-color:#f5f5f5" @endif>
+                        <span class="_fl">{{ $one->name }}</span>
+                        @if($one->name === $filterOneName)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                         @endif
                     </a>

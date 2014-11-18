@@ -13,4 +13,9 @@ class CategoryRoot extends \Eloquent{
 
         return $this->hasMany('King\Backend\CategoryOne');
     }
+
+    public function categoryTwos(){
+
+        return $this->hasMany('King\Backend\CategoryTwo');
+    }
 }

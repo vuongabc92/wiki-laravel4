@@ -43,9 +43,10 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     //Category two
     $router->match(array('GET','DELETE'), '/category-two/delete-all', 'King\Backend\CategoryTwoController@destroyAll');
     $router->resource('/category-two', 'King\Backend\CategoryTwoController');
-    $router->get('/category-two/filter/{root}', 'King\Backend\CategoryTwoController@filterRoot');
+    $router->get('/category-two/filter-category-root/{id}', 'King\Backend\CategoryTwoController@filterWithCategoryRoot');
+    $router->get('/category-two/filter-category-one/{id}', 'King\Backend\CategoryTwoController@filterWithCategoryOne');
     $router->delete('/category-two/delete-image/{id}', 'King\Backend\CategoryTwoController@destroyImg');
-    $router->get('/category-two/create-filter/{id}', 'King\Backend\CategoryTwoController@filterRootCreate');
+    $router->get('/category-two/create-filter/{id}', 'King\Backend\CategoryTwoController@_ajaxFilterCategoryRoot');
 
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');

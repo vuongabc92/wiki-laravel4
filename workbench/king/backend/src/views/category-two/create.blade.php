@@ -41,7 +41,7 @@
             <div class="col-sm-9">
                 @if(count($categoryRoot) > 0)
                     @define $listRoot = array()
-                    @define $listRoot[''] = 'Please choose a category'
+                    @define $listRoot[''] = 'Please select a category'
                     @foreach($categoryRoot as $one)
                         @define $listRoot[$one->id] = $one->name
                     @endforeach
@@ -58,11 +58,11 @@
             <div class="col-sm-9">
                 @if(count($categoryOne) > 0)
                     @define $listOne = array()
-                    @define $listOne[''] = 'Please choose a category'
+                    @define $listOne[''] = 'Please select category root first'
                     @foreach($categoryOne as $one)
                         @define $listOne[$one->id] = $one->name
                     @endforeach
-                    {{ Form::select('category_one_id', $listOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off')) }}
+                    {{ Form::select('category_one_id', $listOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off', 'disabled' => '')) }}
                 @else
                     <span class="_fwfl _mt5">
                         <span class="label label-danger">NO-ROOT-AVAILABLE</span>
@@ -117,7 +117,7 @@
                 @else
                     <button type="button" class="btn btn-danger disabled"><i class="fa fa-remove"></i> Could not save due to no category one or root available available</button>
                 @endif
-                <a href="{{ url('/admin/category-one') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
+                <a href="{{ url('/admin/category-two') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>
 
