@@ -60,10 +60,11 @@ List category two
                     @endif
                 </a>
             </li>
-            @define $categoryOneWithCons = $filterRoot->name !== 'All' ? $filterRoot->categoryOnes : $categoryOne
-            @foreach($categoryOneWithCons as $one)
+            @define $categoryOneWithCondition = $filterRoot->name !== $allTxt ? $filterRoot->categoryOnes : $categoryOne
+            @foreach($categoryOneWithCondition as $one)
                 <li>
-                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-one/' . $one->id) }}" @if($one->name === $filterOneName) style="background-color:#f5f5f5" @endif>
+                    @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-two/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-two/filter-category-one/' . $one->id)
+                    <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->name === $filterOneName) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $one->name }}</span>
                         @if($one->name === $filterOneName)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>

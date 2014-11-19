@@ -17,7 +17,7 @@
     {{ Form::model($user, array('url' => url('/admin/account/current-save'), 'method' => 'PUT', 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <h3 class="form-title"><i class="glyphicon glyphicon-user"></i> {{ trans('backend::form.accounts_currentedit_formtitle') }}</h3>
+                <h3 class="form-title _tb"><i class="fa fa-gear"></i> {{ trans('backend::form.accounts_currentedit_formtitle') }}</h3>
             </div>
         </div>
         @if(count($errors) > 0)

@@ -65,4 +65,5 @@ Category detail
     </tr>
 
 </table>
+<a href="{{ url('/admin/category-two') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
 @show

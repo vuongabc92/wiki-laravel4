@@ -45,6 +45,7 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->resource('/category-two', 'King\Backend\CategoryTwoController');
     $router->get('/category-two/filter-category-root/{id}', 'King\Backend\CategoryTwoController@filterWithCategoryRoot');
     $router->get('/category-two/filter-category-one/{id}', 'King\Backend\CategoryTwoController@filterWithCategoryOne');
+    $router->get('/category-two/filter-category-one-and-root/{idRoot}/{idOne}', 'King\Backend\CategoryTwoController@filterWithCategoryOneAndRoot');
     $router->delete('/category-two/delete-image/{id}', 'King\Backend\CategoryTwoController@destroyImg');
     $router->get('/category-two/create-filter/{id}', 'King\Backend\CategoryTwoController@_ajaxFilterCategoryRoot');
 

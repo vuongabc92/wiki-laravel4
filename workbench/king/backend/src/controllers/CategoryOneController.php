@@ -241,13 +241,25 @@ class CategoryOneController extends \BaseController
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
 
+        $deleteImg = false;
+        if (!empty($category->image)) {
+            $oldFile = $category->getAbsolutePath() . '/' . $category->image;
+            if (file_exists($oldFile)) {
+                $deleteImg = File::delete($oldFile);
+            }
+        }
+
         try{
             $category->delete();
         } catch (Exception $ex) {
             return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
         }
 
-        return _Common::redirectWithMsg('adminWarning', 'Delete Success.', '/admin/category-one');
+        if ($deleteImg) {
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+        } else {
+            return _Common::redirectWithMsg('adminWarning', 'Delete success but resource still remains.', '/admin/category-one');
+        }
     }
 
     /**
@@ -281,7 +293,7 @@ class CategoryOneController extends \BaseController
     }
 
     /**
-     * Remove all resources 
+     * Remove all resources
      *
      * @return response
      */

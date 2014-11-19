@@ -244,18 +244,32 @@ class CategoryTwoController extends \BaseController
      */
     public function destroy($id)
     {
-        $category = CategoryOne::find($id);
-        if (is_null($category)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
-        }
+        if(Request::isMethod('DELETE')){
+            $category = CategoryTwo::find($id);
+            if (is_null($category)) {
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+            }
 
-        try{
-            $category->delete();
-        } catch (Exception $ex) {
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
-        }
+            $deleteImg = false;
+            if( ! empty($category->image)){
+                $oldFile = $category->getAbsolutePath() . '/' . $category->image;
+                if (file_exists($oldFile)) {
+                    $deleteImg = File::delete($oldFile);
+                }
+            }
 
-        return _Common::redirectWithMsg('adminWarning', 'Delete Success.', '/admin/category-one');
+            try{
+                $category->delete();
+            } catch (Exception $ex) {
+                return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
+            }
+
+            if($deleteImg){
+                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
+            }else{
+                return _Common::redirectWithMsg('adminWarning', 'Delete success but resource still remain.', '/admin/category-two');
+            }
+        }
     }
 
     /**
@@ -268,9 +282,9 @@ class CategoryTwoController extends \BaseController
 
         if(Request::isMethod('DELETE')){
 
-            $category = CategoryOne::find($id);
+            $category = CategoryTwo::find($id);
             if(is_null($category)){
-                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
             }
 
             if( ! empty($category->image)){
@@ -278,13 +292,17 @@ class CategoryTwoController extends \BaseController
                 $oldFile = $category->getAbsolutePath() . '/' . $category->image;
                 if (file_exists($oldFile)) {
 
-                    File::delete($oldFile);
+                    $deleteImg = File::delete($oldFile);
 
-                    return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+                    if($deleteImg){
+                        return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
+                    }else{
+                        return _Common::redirectWithMsg('adminWarning', 'Opp! Please try again.', '/admin/category-two');
+                    }
                 }
             }
 
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
         }
     }
 
@@ -296,29 +314,31 @@ class CategoryTwoController extends \BaseController
     public function destroyAll(){
 
         if(Request::isMethod('DELETE')){
-            $categoryOne = new CategoryOne();
-            $emptyFolder = File::cleanDirectory($categoryOne->getDestinationPath() . '/');
+
+            $category = new CategoryTwo();
+            $emptyFolder = File::cleanDirectory($category->getDestinationPath() . '/');
 
             if($emptyFolder){
                 try{
-                    $categories = CategoryOne::truncate();
+                    CategoryTwo::truncate();
                 } catch (Exception $ex) {
-                    return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
+                    return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
                 }
 
-                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
             }
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
+            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
 
         }
 
-        $this->layout->content = View::make('backend::category-one.delete-all-comfirmation', array());
+        $this->layout->content = View::make('backend::category-two.delete-all-comfirmation', array());
     }
 
     /**
      * Filter category one via category root.
      *
      * @param string $id Category root id
+     *
      * @return Response
      */
     public function filterWithCategoryRoot($id){
@@ -344,6 +364,7 @@ class CategoryTwoController extends \BaseController
      * Filter category one via category one.
      *
      * @param string $id Category one id
+     *
      * @return Response
      */
     public function filterWithCategoryOne($id){
@@ -365,6 +386,43 @@ class CategoryTwoController extends \BaseController
         ));
     }
 
+    /**
+     * Filter category one via category one and root.
+     *
+     * @param string $id Category root id
+     * @param string $id Category one id
+     *
+     * @return Response
+     */
+    public function filterWithCategoryOneAndRoot($idRoot, $idOne){
+
+        $categoryOne = CategoryOne::find($idOne);
+        if (is_null($categoryOne)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+        }
+        $categoryRoot = CategoryRoot::find($idRoot);
+        if (is_null($categoryRoot)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+        }
+
+        $categories = $categoryOne->categoryTwos()->paginate(15);
+        $this->layout->content = View::make('backend::category-two.index', array(
+            'categories' => $categories,
+            'total' => CategoryTwo::count(),
+            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'filterRoot' => $categoryRoot,
+            'filterOne' => $categoryOne
+        ));
+    }
+
+    /**
+     * Call by ajax to build category one selector
+     *
+     * @param int $id Category root id
+     *
+     * @return respone category one selector HTML
+     */
     public function _ajaxFilterCategoryRoot($id){
 
         $this->layout = null;
@@ -381,6 +439,7 @@ class CategoryTwoController extends \BaseController
             }
         }
         $result = \Form::select('category_one_id', $listCategoryOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off'));
+
         return \Response::make($result);
     }
 }

@@ -1,7 +1,8 @@
 <?php namespace King\Backend\Common;
 
 use \Redirect,
-    \Session;
+    \Session,
+    \Route;
 
 class Common{
 
@@ -72,4 +73,14 @@ class Common{
         return $model::max($column);
     }
 
+    /**
+     * Get current path 
+     */
+    public function getCurrentNav(){
+
+        $currentPath = Route::getCurrentRoute()->getPath();
+        list(, $nav) = explode('/', $currentPath);
+
+        return $nav;
+    }
 }
