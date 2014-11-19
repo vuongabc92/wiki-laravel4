@@ -10,7 +10,7 @@
         {{ HTML::style('packages/king/backend/css/style.css') }}
     </head>
     <body>
-        {{ King\Backend\_Common::getNav() }}
+        {{ King\Backend\_Common::getCurrentNav() }}
         @if(Session::has('adminErrors'))
         <div class="alert alert-danger _fwfl  _tc _r0 _b0 _tw _bgr _fwb _fs13 _m0">
             <i class="fa fa-remove"></i> {{ Session::get('adminErrors') }}
