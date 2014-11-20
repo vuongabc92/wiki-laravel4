@@ -23,16 +23,28 @@ class ContactController extends \BaseController{
     public function show($id){
 
         $contact = Contact::find($id);
+        if(is_null($contact)){
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/contacts');
+        }
 
         $this->layout->content = View::make('backend::contact.show', array(
-            'contact' => Contact::find($id),
+            'contact' => $contact,
         ));
     }
 
     public function destroy($id){
 
-        $this->layout->content = View::make('backend::contact.show', array(
-            'contact' => Contact::find($id),
-        ));
+        $contact = Contact::find($id);
+        if(is_null($contact)){
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/contacts');
+        }
+
+        try{
+            $contact->delete();
+        } catch (Exception $ex) {
+            return _Common::redirectWithMsg('adminErrors', 'Opp! please try again.', '/admin/contacts');
+        }
+
+        return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/contacts');
     }
 }
