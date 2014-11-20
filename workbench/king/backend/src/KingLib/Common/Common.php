@@ -2,7 +2,8 @@
 
 use \Redirect,
     \Session,
-    \Route;
+    \Route,
+    \Config;
 
 class Common{
 
@@ -74,13 +75,49 @@ class Common{
     }
 
     /**
-     * Get current path 
+     * show active class
+     *
+     * @return string
      */
-    public function getCurrentNav(){
+    public function showActiveClass($className, $nav){
 
         $currentPath = Route::getCurrentRoute()->getPath();
-        list(, $nav) = explode('/', $currentPath);
 
-        return $nav;
+        if (count(explode('/', $currentPath)) >= 2) {
+            list(, $navPath) = explode('/', $currentPath);
+
+            if ($navPath == $nav) {
+                return $className;
+            }
+        }
+    }
+
+    /**
+     * Generate vertical menu navigation
+     *
+     * @return string Unorder list HTML
+     */
+    public function generateNavs(){
+        
+        $navs = Config::get('backend::navs');
+        $activeClass = Config::get('backend::active_nav_class');
+
+        $navHTML = '<ul class="_fwfl _db _m0 vertical-nav">';
+        foreach($navs as $order => $nav){
+            if($order == 0){
+                $navHTML .= '<li class="vertical-nav-top">';
+            }else{
+                $navHTML .= '<li>';
+            }
+            $navHTML .= '<a href="' . url($nav['url']) . '" class ="' . $this->showActiveClass($activeClass, $nav['nav_name']) . '">'
+                    .   '<i class="' . $nav['icon'] . ' left-nav-icon"></i>'
+                    .   '<span class="left-nav-txt"> ' . $nav['txt'] . '</span>'
+                    .   '<i class="fa fa-angle-left left-nav-arrow"></i>'
+                    .   '</a></li>';
+        }
+
+        $navHTML .= '</ul>';
+
+        return $navHTML;
     }
 }
