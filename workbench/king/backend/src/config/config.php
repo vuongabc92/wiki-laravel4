@@ -10,7 +10,7 @@ return array(
         array(
             'url' => 'admin',
             'txt' => 'Dashboard',
-            'nav_name' => '',
+            'nav_name' => 'home',
             'icon' => 'fa fa-dashboard'
         ),
         array(
@@ -48,6 +48,30 @@ return array(
             'txt' => 'Category two',
             'nav_name' => 'category-two',
             'icon' => 'fa fa-list'
+        ),
+        array(
+            'url' => 'admin/category-three',
+            'txt' => 'Category three',
+            'nav_name' => 'category-three',
+            'icon' => 'fa fa-list-ol'
+        ),
+        array(
+            'url' => 'admin/products',
+            'txt' => 'Products',
+            'nav_name' => 'products',
+            'icon' => 'fa fa-suitcase'
+        ),
+        array(
+            'url' => 'admin/contacts',
+            'txt' => 'Contact',
+            'nav_name' => 'contact',
+            'icon' => 'fa fa-reply'
+        ),
+        array(
+            'url' => 'admin/help',
+            'txt' => 'Help',
+            'nav_name' => 'help',
+            'icon' => 'fa fa-life-ring'
         ),
     ),
     'active_nav_class' => 'active-nav'

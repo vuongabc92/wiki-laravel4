@@ -41,6 +41,8 @@ class AccountsController extends \BaseController
                 'email.email' => Lang::get('backend::alert.accounts_currentedit_emailemail'),
                 'email.unique' => Lang::get('backend::alert.accounts_currentedit_emailemail'),
                 'password.required' => Lang::get('backend::alert.accounts_currentedit_passrequired'),
+                'old_password.min' => 'The old password field is too short',
+                'old_password.max' => 'The old password field is too long',
                 'password.min' => Lang::get('backend::alert.accounts_currentedit_passmin'),
                 'password.max' => Lang::get('backend::alert.accounts_currentedit_passmax'),
                 'password.confirmed' => Lang::get('backend::alert.accounts_currentedit_passconfirmed'),
@@ -179,7 +181,7 @@ class AccountsController extends \BaseController
                 $user->email = $email;
             }
             if(strlen(trim(Input::get('password'))) > 0){
-                $user->password = Hash::make(Input::get('password'));
+                $user->password = Hash::make($password);
             }
             $user->is_active = Input::get('is_active') ? 1 : 0;
             $user->role_id = Input::get('role');
@@ -259,6 +261,7 @@ class AccountsController extends \BaseController
             if(strtolower($user->email) === strtolower(Input::get('email'))){
                 $this->rules['email'] = 'required|email|max:100';
             }
+            $this->rules['old_password'] = 'min:6|max:60';
             $this->rules['password'] = 'min:6|max:60|confirmed';
             $this->rules['password_confirmation'] = '';
             $this->rules['role'] = '';
@@ -269,6 +272,7 @@ class AccountsController extends \BaseController
 
             $username = Input::get('username');
             $email = Input::get('email');
+            $oldPassword = Input::get('old_password');
             $password = Input::get('password');
             if(strlen(trim($username)) > 0){
                 $user->username = $username;
@@ -276,8 +280,12 @@ class AccountsController extends \BaseController
             if(strlen(trim($email)) > 0){
                 $user->email = $email;
             }
-            if(strlen(trim(Input::get('password'))) > 0){
-                $user->password = Hash::make(Input::get('password'));
+            if(strlen(trim($password)) > 0){
+                if( ! Hash::check($oldPassword, $user->password)){
+                    return _Common::redirectWithMsg('adminErrors', 'Old password is incorrect', '/admin/account/current-edit');
+                }
+
+                $user->password = Hash::make($password);
             }
 
             try{

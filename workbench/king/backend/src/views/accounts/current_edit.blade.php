@@ -17,7 +17,7 @@
     {{ Form::model($user, array('url' => url('/admin/account/current-save'), 'method' => 'PUT', 'role' => 'form', 'class' => 'form-horizontal')) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <h3 class="form-title _tb"><i class="fa fa-gear"></i> {{ trans('backend::form.accounts_currentedit_formtitle') }}</h3>
+                <h3 class="form-title _tb _fs20"><i class="fa fa-gear"></i> {{ trans('backend::form.accounts_currentedit_formtitle') }}</h3>
             </div>
         </div>
         @if(count($errors) > 0)
@@ -45,6 +45,12 @@
             <label class="col-sm-2 control-label">{{ trans('backend::form.accounts_role') }}</label>
             <div class="col-sm-9">
                 {{ Form::text('role', $user->getRole()->role, array('class' => 'form-control', 'disabled')) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="old-password" class="col-sm-2 control-label">Old password</label>
+            <div class="col-sm-9">
+                {{ Form::password('old_password', array('class' => 'form-control', 'id' => 'old-password', 'placeholder' => 'Old password' )) }}
             </div>
         </div>
         <div class="form-group">

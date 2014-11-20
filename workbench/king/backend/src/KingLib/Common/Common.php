@@ -83,6 +83,10 @@ class Common{
 
         $currentPath = Route::getCurrentRoute()->getPath();
 
+        if(count(explode('/', $currentPath)) === 1 && $nav === 'home'){
+            return $className;
+        }
+
         if (count(explode('/', $currentPath)) >= 2) {
             list(, $navPath) = explode('/', $currentPath);
 
@@ -98,7 +102,7 @@ class Common{
      * @return string Unorder list HTML
      */
     public function generateNavs(){
-        
+
         $navs = Config::get('backend::navs');
         $activeClass = Config::get('backend::active_nav_class');
 

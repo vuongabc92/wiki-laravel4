@@ -1,6 +1,4 @@
-<?php
-
-namespace King\Backend;
+<?php namespace King\Backend;
 
 class Role extends \Eloquent
 {
@@ -13,7 +11,7 @@ class Role extends \Eloquent
     protected $table = 'roles';
 
     public function users(){
-        
+
         return $this->hasMany('King\Backend\User');
     }
 }

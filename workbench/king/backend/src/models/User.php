@@ -1,6 +1,4 @@
-<?php
-
-namespace King\Backend;
+<?php namespace King\Backend;
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;

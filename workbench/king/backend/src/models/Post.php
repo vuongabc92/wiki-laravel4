@@ -1,6 +1,4 @@
-<?php
-
-namespace King\Backend;
+<?php namespace King\Backend;
 
 class Post extends \Eloquent{
 

@@ -49,6 +49,10 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->delete('/category-two/delete-image/{id}', 'King\Backend\CategoryTwoController@destroyImg');
     $router->get('/category-two/create-filter/{id}', 'King\Backend\CategoryTwoController@_ajaxFilterCategoryRoot');
 
+    //Contact
+    $router->get('/contacts', 'King\Backend\ContactController@index');
+    $router->get('/contacts/{id}', 'King\Backend\ContactController@show');
+
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

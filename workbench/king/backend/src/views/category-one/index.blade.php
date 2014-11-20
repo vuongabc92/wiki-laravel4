@@ -42,6 +42,8 @@ List category one
             @endforeach
         </ul>
     </div>
+
+    <a href="{{ url('admin/category-one/create') }}" class="btn btn-default _fr"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
 </div>
 
 <table class="table table-bordered table-hover table-striped table-responsive">
