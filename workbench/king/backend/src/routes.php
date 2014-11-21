@@ -49,9 +49,21 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->delete('/category-two/delete-image/{id}', 'King\Backend\CategoryTwoController@destroyImg');
     $router->get('/category-two/create-filter/{id}', 'King\Backend\CategoryTwoController@_ajaxFilterCategoryRoot');
 
+    //Category three
+    $router->match(array('GET','DELETE'), '/category-three/delete-all', 'King\Backend\CategoryThreeController@destroyAll');
+    $router->resource('/category-three', 'King\Backend\CategoryThreeController');
+    $router->get('/category-three/filter-category-root/{id}', 'King\Backend\CategoryThreeController@filterWithCategoryRoot');
+    $router->get('/category-three/filter-category-one/{id}', 'King\Backend\CategoryThreeController@filterWithCategoryOne');
+    $router->get('/category-three/filter-category-one-and-root/{idRoot}/{idOne}', 'King\Backend\CategoryThreeController@filterWithCategoryOneAndRoot');
+    $router->delete('/category-three/delete-image/{id}', 'King\Backend\CategoryThreeController@destroyImg');
+    $router->get('/category-three/create-filter/{id}', 'King\Backend\CategoryThreeController@_ajaxFilterCategoryRoot');
+    $router->get('/category-three/create-filter-one/{id}', 'King\Backend\CategoryThreeController@_ajaxFilterCategoryOne');
+
     //Contact
+    $router->match(array('GET','DELETE'), '/contacts/delete-all', 'King\Backend\ContactController@destroyAll');
     $router->get('/contacts', 'King\Backend\ContactController@index');
     $router->get('/contacts/{id}', 'King\Backend\ContactController@show');
+    $router->delete('/contacts/{id}', 'King\Backend\ContactController@destroy');
 
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');

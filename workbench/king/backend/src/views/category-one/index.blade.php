@@ -81,7 +81,7 @@ List category one
                     {{ Form::close() }}
                 @endif
             </td>
-            <td>{{ substr($category->description, 0, 30) }}...</td>
+            <td>{{ str_limit($category->description, $limit = 30, $end = '...') }}</td>
             @define $url = url('/admin/ajax/active/categoryOne-' . $category->id)
             <td class="active-container">{{ $category->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($category->updated_at, 'd/m/Y') }}</td>

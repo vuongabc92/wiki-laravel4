@@ -48,4 +48,11 @@ List category root
 <div class="_fwfl">
     <a href="{{ url('admin/category-root/create') }}" class="btn btn-default"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
 </div>
+
+<div class="_fwfl">
+    <div class="_fr">
+        {{ $categories->links() }}
+    </div>
+</div>
+
 @show

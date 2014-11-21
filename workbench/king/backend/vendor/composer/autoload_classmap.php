@@ -81,6 +81,8 @@ return array(
     'King\\Backend\\CategoryOne' => $baseDir . '/src/models/CategoryOne.php',
     'King\\Backend\\CategoryTwoController' => $baseDir . '/src/controllers/CategoryTwoController.php',
     'King\\Backend\\CategoryTwo' => $baseDir . '/src/models/CategoryTwo.php',
+    'King\\Backend\\CategoryThreeController' => $baseDir . '/src/controllers/CategoryThreeController.php',
+    'King\\Backend\\CategoryThree' => $baseDir . '/src/models/CategoryThree.php',
     'King\\Backend\\ContactController' => $baseDir . '/src/controllers/ContactController.php',
     'King\\Backend\\Contact' => $baseDir . '/src/models/Contact.php',
     'King\\Backend\\Common\\CommonServiceProvider' => $baseDir . '/src/KingLib/Common/CommonServiceProvider.php',

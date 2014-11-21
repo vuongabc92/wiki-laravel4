@@ -39,7 +39,7 @@ List contact from client
             <td>{{ str_limit($contact->content, $limit = 30, $end = '...') }}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($contact->created_at, 'd/m/Y') }}</td>
             <td class="_tc">
-                {{ Form::open(array('url' => 'admin/contact/' . $contact->id, 'method' => 'DELETE')) }}
+                {{ Form::open(array('url' => 'admin/contacts/' . $contact->id, 'method' => 'DELETE')) }}
                     <button type="submit" class="_ff0" data-confirmation data-msg="Delete this this???"><i class="text-danger _td_i fa fa-trash"></i></button>
                 {{ Form::close() }}
             </td>
@@ -47,4 +47,16 @@ List contact from client
         @endforeach
     </tbody>
 </table>
+
+<div class="_fwfl">
+    <a href="{{ url('admin/contacts/delete-all') }}" class="btn btn-danger _fr"><i class="fa fa-trash"></i> Delete all </a>
+    <a href="{{ url('admin/contacts') }}" class="btn btn-danger _fr _mr5"><i class="fa fa-trash"></i> Delete selected contacts </a>
+</div>
+
+<div class="_fwfl">
+    <div class="_fr">
+        {{ $contacts->links() }}
+    </div>
+</div>
+
 @show

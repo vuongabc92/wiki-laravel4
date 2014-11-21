@@ -56,4 +56,5 @@ Post view detail
         <td>{{ $post->content }}</td>
     </tr>
 </table>
+<a href="{{ url('/admin/post') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
 @show

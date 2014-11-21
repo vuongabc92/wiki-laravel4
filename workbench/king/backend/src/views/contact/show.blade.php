@@ -13,7 +13,7 @@ Contact details
 @show
 
 @section('body')
-<h4 class="_fwfl _tb _fs17"><i class="fa fa-list "></i> Contact view details</h4>
+<h4 class="_fwfl _tb _fs17"><i class="fa fa-reply "></i> Contact view details</h4>
 <table class="table table-responsive">
     <tr>
         <td style="width:200px;">Name</td>

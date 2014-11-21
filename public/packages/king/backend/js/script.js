@@ -421,3 +421,78 @@
   });
 
 }(jQuery, window));
+
+
+/**
+ *  @name categorytwofilterone
+ *  @description
+ *  @version 1.0
+ *  @options
+ *    option
+ *  @events
+ *    event
+ *  @methods
+ *    init
+ *    publicMethod
+ *    destroy
+ */
+;(function($, window, undefined) {
+  var pluginName = 'categorytwofilterone';
+
+  function Plugin(element, options) {
+    this.element = $(element);
+    this.options = $.extend({}, $.fn[pluginName].defaults, options);
+    this.init();
+  }
+
+  Plugin.prototype = {
+    init: function() {
+        var element = this.element,
+            categoryTwoId = $('#' + element.attr('data-categorytwoid')),
+            categoryTwoParent = categoryTwoId.parent('div'),
+            url = element.attr('data-categorytwofilteroneurl');
+
+            $(document.body).on('change', '#' + element.attr('id') ,function(){
+                var categoryTwoId = $('#' + element.attr('id')).val();
+                if($(this).val() !== ''){
+                    $.ajax({
+                        type: 'get',
+                        url: url + '/' + categoryTwoId,
+                        beforeSend: function(){
+                            $('.loading').show();
+                        },
+                        success: function(response){
+                            categoryTwoParent.html(response);
+                            $('.loading').hide();
+                        }
+                    });
+                }
+            });
+    },
+    destroy: function() {
+      $.removeData(this.element[0], pluginName);
+    }
+  };
+
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
+      var instance = $.data(this, pluginName);
+      if (!instance) {
+        $.data(this, pluginName, new Plugin(this, options));
+      } else if (instance[options]) {
+        instance[options](params);
+      } else {
+        window.console && console.log(options ? options + ' method is not exists in ' + pluginName : pluginName + ' plugin has been initialized');
+      }
+    });
+  };
+
+  $.fn[pluginName].defaults = {
+    option: 'value'
+  };
+
+  $(function() {
+    $('[data-' + pluginName + ']')[pluginName]();
+  });
+
+}(jQuery, window));

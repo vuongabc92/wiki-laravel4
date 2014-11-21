@@ -1,23 +1,18 @@
 <?php namespace King\Backend;
 
-class CategoryTwo extends \Eloquent{
+class CategoryThree extends \Eloquent{
 
     /**
      * Table name
      *
      * @var string $table
      */
-    protected $table = 'category_two';
+    protected $table = 'category_three';
 
     /**
      * @var string Upload folder
      */
     protected $destinationPath = 'uploads/images/category';
-
-    public function categoryThrees(){
-
-        return $this->hasMany('King\Backend\CategoryThree');
-    }
 
     /**
      * Get absolute path to file
@@ -43,5 +38,9 @@ class CategoryTwo extends \Eloquent{
 
     public function getCategoryOne(){
         return CategoryOne::find($this->category_one_id);
+    }
+
+    public function getCategoryTwo(){
+        return CategoryTwo::find($this->category_two_id);
     }
 }

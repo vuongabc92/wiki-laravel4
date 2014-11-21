@@ -19,6 +19,11 @@ class CategoryOne extends \Eloquent{
         return $this->hasMany('King\Backend\CategoryTwo');
     }
 
+    public function categoryThrees(){
+
+        return $this->hasMany('King\Backend\CategoryThree');
+    }
+
     /**
      * Get absolute path to file
      *

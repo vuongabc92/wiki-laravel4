@@ -1,6 +1,6 @@
 
 @section('title')
-List category two
+List category three
 @show
 
 @section('breadcrumb')
@@ -9,7 +9,7 @@ List category two
 @show
 
 @section('pageinfo')
-<h4 class="admin-page-name">List category two</h4>
+<h4 class="admin-page-name">List category three</h4>
 @show
 
 @section('body')
@@ -24,7 +24,7 @@ List category two
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-root-what">
             <li>
                 @define $allTxt = 'All'
-                <a class="_fwfl" href="{{ $filterRootName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterRootName === $allTxt) style="background-color:#f5f5f5" @endif>
+                <a class="_fwfl" href="{{ $filterRootName === $allTxt ? '#' :   url('admin/category-three') }}" @if($filterRootName === $allTxt) style="background-color:#f5f5f5" @endif>
                    <span class="_fl">{{ $allTxt }}</span>
                     @if($filterRootName === $allTxt)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
@@ -33,7 +33,7 @@ List category two
             </li>
             @foreach($categoryRoot as $root)
                 <li>
-                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-root/' . $root->id) }}" @if($root->name === $filterRootName) style="background-color:#f5f5f5" @endif>
+                    <a class="_fwfl" href="{{ url('admin/category-three/filter-category-root/' . $root->id) }}" @if($root->name === $filterRootName) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $root->name }}</span>
                         @if($root->name === $filterRootName)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
@@ -53,7 +53,7 @@ List category two
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-one-what">
             <li>
                 @define $allTxt = 'All'
-                <a class="_fwfl" href="{{ $filterOneName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterOneName === $allTxt) style="background-color:#f5f5f5" @endif>
+                <a class="_fwfl" href="{{ $filterOneName === $allTxt ? '#' :   url('admin/category-three') }}" @if($filterOneName === $allTxt) style="background-color:#f5f5f5" @endif>
                    <span class="_fl">{{ $allTxt }}</span>
                     @if($filterOneName === $allTxt)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
@@ -63,7 +63,7 @@ List category two
             @define $categoryOneWithCondition = $filterRoot->name !== $allTxt ? $filterRoot->categoryOnes : $categoryOne
             @foreach($categoryOneWithCondition as $one)
                 <li>
-                    @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-two/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-two/filter-category-one/' . $one->id)
+                    @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-three/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-two/filter-category-one/' . $one->id)
                     <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->name === $filterOneName) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $one->name }}</span>
                         @if($one->name === $filterOneName)
@@ -75,7 +75,7 @@ List category two
         </ul>
     </div>
 
-    <a href="{{ url('admin/category-two/create') }}" class="btn btn-default _fr"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/category-three/create') }}" class="btn btn-default _fr"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
 </div>
 
 <table class="table table-bordered table-hover table-striped table-responsive">
@@ -85,6 +85,7 @@ List category two
             <th>#</th>
             <th>Root</th>
             <th>Category one</th>
+            <th>Category two</th>
             <th>Name</th>
             <th>Image</th>
             <th>Description</th>
@@ -108,23 +109,27 @@ List category two
                 {{ $category->getCategoryOne()->name }}
                 @if(! $category->getCategoryOne()->is_active) <sup class="text text-danger" title="Disable or deleted">(*)</sup>@endif
             </td>
-            <td><a href="{{ url('admin/category-two/' . $category->id) }}">{{ $category->name }}</a></td>
+            <td>
+                {{ $category->getCategoryTwo()->name }}
+                @if(! $category->getCategoryTwo()->is_active) <sup class="text text-danger" title="Disable or deleted">(*)</sup>@endif
+            </td>
+            <td><a href="{{ url('admin/category-three/' . $category->id) }}">{{ $category->name }}</a></td>
             <td>
                 @define $img = 'uploads/images/category/' . $category->image
                 {{ empty($category->image) ||  ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '" class="_fwfl">' . HTML::image($img, $category->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
                 @if( ! empty($category->image) && file_exists($img))
-                    {{ Form::open(array('url' => 'admin/category-two/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}
+                    {{ Form::open(array('url' => 'admin/category-three/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}
                         <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
                     {{ Form::close() }}
                 @endif
             </td>
             <td>{{ str_limit($category->description, $limit = 30, $end = '...') }}</td>
-            @define $url = url('/admin/ajax/active/categoryTwo-' . $category->id)
+            @define $url = url('/admin/ajax/active/categoryThree-' . $category->id)
             <td class="active-container">{{ $category->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($category->updated_at, 'd/m/Y') }}</td>
-            <td class="_tc"><a href="{{ url('admin/category-two/' . $category->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
+            <td class="_tc"><a href="{{ url('admin/category-three/' . $category->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td class="_tc">
-                {{ Form::open(array('url' => 'admin/category-two/' . $category->id, 'method' => 'DELETE')) }}
+                {{ Form::open(array('url' => 'admin/category-three/' . $category->id, 'method' => 'DELETE')) }}
                     <button type="submit" class="_ff0" data-confirmation data-msg="Delete this this???"><i class="text-danger _td_i fa fa-trash"></i></button>
                 {{ Form::close() }}
             </td>
@@ -134,8 +139,8 @@ List category two
 </table>
 
 <div class="_fwfl">
-    <a href="{{ url('admin/category-two/create') }}" class="btn btn-default _fl"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
-    <a href="{{ url('admin/category-two/delete-all') }}" class="btn btn-danger _fr"><i class="fa fa-trash"></i> Delete all </a>
+    <a href="{{ url('admin/category-three/create') }}" class="btn btn-default _fl"><i class="fa fa-plus"></i> Add new (<span class="text text-warning">{{ $total }}</span>) </a>
+    <a href="{{ url('admin/category-three/delete-all') }}" class="btn btn-danger _fr"><i class="fa fa-trash"></i> Delete all </a>
 </div>
 
 <div class="_fwfl">

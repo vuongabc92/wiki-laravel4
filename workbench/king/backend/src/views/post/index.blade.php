@@ -43,8 +43,8 @@ List posts
                     {{ Form::close() }}
                 @endif
             </td>
-            <td>{{ substr($post->description, 0, 50) . '...' }}</td>
-            <td>{{ substr($post->content, 0, 100) . '...' }}</td>
+            <td>{{ str_limit($post->description, $limit = 30, $end = '...') }}</td>
+            <td>{{ str_limit($post->content, $limit = 30, $end = '...') }}</td>
             @define $url = url('/admin/ajax/active/post-' . $post->id)
             <td class="active-container">{{ $post->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($post->updated_at, 'd/m/Y') }}</td>

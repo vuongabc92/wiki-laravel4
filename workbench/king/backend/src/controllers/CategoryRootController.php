@@ -49,7 +49,7 @@ class CategoryRootController extends \BaseController
     public function index()
     {
         $this->layout->content = View::make('backend::category-root.index', array(
-            'categories' => CategoryRoot::all(),
+            'categories' => CategoryRoot::paginate(15),
             'total' => CategoryRoot::count()
         ));
     }
