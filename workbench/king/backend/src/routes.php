@@ -65,6 +65,9 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->get('/contacts/{id}', 'King\Backend\ContactController@show');
     $router->delete('/contacts/{id}', 'King\Backend\ContactController@destroy');
 
+    //Contact type
+    $router->resource('/contact-type', 'King\Backend\ContactTypeController');
+
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

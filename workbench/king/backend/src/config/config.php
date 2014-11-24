@@ -68,6 +68,12 @@ return array(
             'icon' => 'fa fa-reply'
         ),
         array(
+            'url' => 'admin/contact-type',
+            'txt' => 'Contact type',
+            'nav_name' => 'contact-type',
+            'icon' => 'fa fa-bars'
+        ),
+        array(
             'url' => 'admin/help',
             'txt' => 'Help',
             'nav_name' => 'help',
