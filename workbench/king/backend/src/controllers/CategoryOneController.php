@@ -21,7 +21,7 @@ class CategoryOneController extends \BaseController
      */
     public $rules = array(
         'category_root_id' => 'required|numeric',
-        'name' => 'required|min:3|max:255|unique:category_one,name',
+        'name' => 'required|min:2|max:255',
         'image' => 'image|mimes:jpg,png,jpeg,gif',
         'description' => 'max:255',
         'order_number' => 'required|numeric'
@@ -88,11 +88,15 @@ class CategoryOneController extends \BaseController
     public function store()
     {
         if(Request::isMethod('POST')){
+            
+            $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
+            $ruleUnique = _Common::checkUnique($categoryOne, Input::get('name'), '|unique:category_one,name');
+            $this->rules['name'] .= $ruleUnique;
+            
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);
             }
-
             $category = new CategoryOne();
             $category->category_root_id = Input::get('category_root_id');
             $category->name = Input::get('name');
@@ -159,11 +163,6 @@ class CategoryOneController extends \BaseController
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
 
-//        $categoryRoot = CategoryRoot::find($category->category_root_id)->where('is_active', '=', '1')->get();
-//        if(is_null($categoryRoot)){
-//            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
-//        }
-
         $this->layout->content = View::make('backend::category-one.edit', array(
             'category' => $category,
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get()
@@ -185,10 +184,10 @@ class CategoryOneController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
             }
 
-            if(strtolower(Input::get('name')) === strtolower($category->name)){
-                $this->rules['name'] = 'required|min:3|max:255';
-            }
-
+            $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
+            $ruleUnique = _Common::checkUnique($categoryOne, Input::get('name'), '|unique:category_one,name');
+            $this->rules['name'] .= $ruleUnique;
+            
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);

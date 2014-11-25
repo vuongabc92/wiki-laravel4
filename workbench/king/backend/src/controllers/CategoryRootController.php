@@ -19,7 +19,7 @@ class CategoryRootController extends \BaseController
      * @var array $rules Insert|update rules
      */
     public $rules = array(
-        'name' => 'required|min:3|max:255|unique:category_root,name',
+        'name' => 'required|min:2|max:255|unique:category_root,name',
     );
 
     /**
@@ -135,8 +135,7 @@ class CategoryRootController extends \BaseController
             if(is_null($category)){
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-root');
             }
-
-            if(strtolower(Input::get('name')) === strtolower($category->name)){
+            if(_Common::strEqual(Input::get('name'),$category->name)){
                 $this->rules['name'] = 'required|min:3|max:255';
             }
 

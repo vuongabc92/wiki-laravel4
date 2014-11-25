@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/wiki/laravel4/workbench/king/backend/src/views/category-two/index.blade.php</file>
-            <file>file:/var/www/wiki/laravel4/workbench/king/backend/src/controllers/CategoryTwoController.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/controllers/CategoryTwoController.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/controllers/CategoryOneController.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/controllers/CategoryRootController.php</file>
+            <file>file:/C:/xampp/htdocs/wiki/laravel4/workbench/king/backend/src/KingLib/Common/Common.php</file>
         </group>
     </open-files>
 </project-private>
