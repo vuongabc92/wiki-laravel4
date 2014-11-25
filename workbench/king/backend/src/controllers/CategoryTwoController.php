@@ -22,7 +22,7 @@ class CategoryTwoController extends \BaseController
     public $rules = array(
         'category_root_id' => 'required|numeric',
         'category_one_id' => 'required|numeric',
-        'name' => 'required|min:3|max:255|unique:category_two,name',
+        'name' => 'required|min:3|max:255',
         'image' => 'image|mimes:jpg,png,jpeg,gif',
         'description' => 'max:255',
         'order_number' => 'required|numeric'
@@ -98,6 +98,20 @@ class CategoryTwoController extends \BaseController
     public function store()
     {
         if(Request::isMethod('POST')){
+
+            if((int) Input::get('category_root_id') > 0){
+                $categorytwo = CategoryRoot::find((int) Input::get('category_root_id'))->categoryTwos;
+                $ruleUnique = _Common::checkUniqueName($categorytwo, Input::get('name'), '|unique:category_two,name');
+
+                if( ! empty($ruleUnique)){
+                    if ((int) Input::get('category_one_id') > 0) {
+                        $categorytwo = CategoryOne::find((int) Input::get('category_one_id'))->categoryTwos;
+                        $ruleUnique = _Common::checkUniqueName($categorytwo, Input::get('name'), '|unique:category_two,name');
+                        $this->rules['name'] .= $ruleUnique;
+                    }
+                }
+            }
+
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);
@@ -192,8 +206,19 @@ class CategoryTwoController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
             }
 
-            if(strtolower(Input::get('name')) === strtolower($category->name)){
-                $this->rules['name'] = 'required|min:3|max:255';
+            if( ! _Common::strEqual(Input::get('name'), $category->name)){
+                if ((int) Input::get('category_root_id') > 0) {
+                    $categorytwo = CategoryRoot::find((int) Input::get('category_root_id'))->categoryTwos;
+                    $ruleUnique = _Common::checkUniqueName($categorytwo, Input::get('name'), '|unique:category_two,name');
+
+                    if (!empty($ruleUnique)) {
+                        if ((int) Input::get('category_one_id') > 0) {
+                            $categorytwo = CategoryOne::find((int) Input::get('category_one_id'))->categoryTwos;
+                            $ruleUnique = _Common::checkUniqueName($categorytwo, Input::get('name'), '|unique:category_two,name');
+                            $this->rules['name'] .= $ruleUnique;
+                        }
+                    }
+                }
             }
 
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
@@ -318,17 +343,13 @@ class CategoryTwoController extends \BaseController
             $category = new CategoryTwo();
             $emptyFolder = File::cleanDirectory($category->getDestinationPath() . '/');
 
-            if($emptyFolder){
-                try{
-                    CategoryTwo::truncate();
-                } catch (Exception $ex) {
-                    return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
-                }
-
-                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
+            try {
+                CategoryTwo::truncate();
+            } catch (Exception $ex) {
+                return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
             }
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
 
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
         }
 
         $this->layout->content = View::make('backend::category-two.delete-all-comfirmation', array());

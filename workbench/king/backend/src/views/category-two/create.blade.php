@@ -57,15 +57,21 @@
             <label class="col-sm-2 control-label">Category one <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
                 @if(count($categoryOne) > 0)
+                    @if( ! is_null(\Input::old('category_root_id')) && \Input::old('category_root_id') != '')
+                        @define $categoryOneFilterRoot = King\Backend\CategoryRoot::find(\Input::old('category_root_id'))->categoryOnes
+                    @else
+                        @define $categoryOneFilterRoot = array()
+                    @endif
+
                     @define $listOne = array()
                     @define $listOne[''] = 'Please select category root first'
-                    @foreach($categoryOne as $one)
+                    @foreach($categoryOneFilterRoot as $one)
                         @define $listOne[$one->id] = $one->name
                     @endforeach
-                    {{ Form::select('category_one_id', $listOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off', 'disabled' => '')) }}
+                    {{ Form::select('category_one_id', $listOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off')) }}
                 @else
                     <span class="_fwfl _mt5">
-                        <span class="label label-danger">NO-ROOT-AVAILABLE</span>
+                        <span class="label label-danger">NO-CATEGORY-ONE-AVAILABLE</span>
                     </span>
                 @endif
             </div>
@@ -100,7 +106,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
                     <label class="_tb">
-                        {{ Form::checkbox('is_active', 1) }} Is active
+                        {{ Form::checkbox('is_active', 1, true) }} Is active
                     </label>
                 </div>
             </div>

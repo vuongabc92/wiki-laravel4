@@ -24,11 +24,15 @@ Category detail
         <td><strong class="text text-warning">{{ $category->getCategoryOne()->name }}</strong></td>
     </tr>
     <tr>
+        <td>Category two</td>
+        <td><strong class="text text-warning">{{ $category->getCategoryTwo()->name }}</strong></td>
+    </tr>
+    <tr>
         <td style="width:200px;">Name</td>
         <td>
             <span class="text text-primary _fs15">{{ $category->name }}</span>
             <span class="_fwfl">
-                <a href="{{ url('admin/category-two/' . $category->id . '/edit') }}" class="btn btn-default btn-xs _mt5"><i class="fa fa-edit"></i> Edit</a>
+                <a href="{{ url('admin/category-three/' . $category->id . '/edit') }}" class="btn btn-default btn-xs _mt5"><i class="fa fa-edit"></i> Edit</a>
             </span>
         </td>
     </tr>
@@ -38,7 +42,7 @@ Category detail
             @define $img = 'uploads/images/category/' . $category->image
             {{ empty($category->image) || ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '">' . HTML::image($img, $category->name, ['class' => 'img-thumbnail _fl view-upload-image']) . '</a>' }}
             @if( ! empty($category->image) && file_exists($img))
-                {{ Form::open(array('url' => 'admin/category-two/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => '_fwfl delete-image-frm')) }}
+                {{ Form::open(array('url' => 'admin/category-three/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => '_fwfl delete-image-frm')) }}
                 <button type="submit" class="btn btn-warning btn-xs" data-confirmation data-msg="Delete this image???"><i class="_td_i fa fa-trash"></i> delete</button>
                 {{ Form::close() }}
             @endif
@@ -51,7 +55,7 @@ Category detail
     <tr>
         <td>Status</td>
         <td>
-            @define $url = url('/admin/ajax/active/categoryTwo-' . $category->id)
+            @define $url = url('/admin/ajax/active/categoryThree-' . $category->id)
             {{ $category->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}
         </td>
     </tr>
@@ -65,5 +69,5 @@ Category detail
     </tr>
 
 </table>
-<a href="{{ url('/admin/category-two') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
+<a href="{{ url('/admin/category-three') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Back</a>
 @show

@@ -88,7 +88,7 @@ List category three
             <th>Category two</th>
             <th>Name</th>
             <th>Image</th>
-            <th>Description</th>
+            <!--<th>Description</th>-->
             <th>Is active</th>
             <th>Modified</th>
             <th>Edit</th>
@@ -123,7 +123,7 @@ List category three
                     {{ Form::close() }}
                 @endif
             </td>
-            <td>{{ str_limit($category->description, $limit = 30, $end = '...') }}</td>
+            <!--<td>{{-- str_limit($category->description, $limit = 30, $end = '...') --}}</td>-->
             @define $url = url('/admin/ajax/active/categoryThree-' . $category->id)
             <td class="active-container">{{ $category->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($category->updated_at, 'd/m/Y') }}</td>

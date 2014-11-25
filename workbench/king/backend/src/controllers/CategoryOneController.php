@@ -88,11 +88,13 @@ class CategoryOneController extends \BaseController
     public function store()
     {
         if(Request::isMethod('POST')){
-            
-            $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
-            $ruleUnique = _Common::checkUnique($categoryOne, Input::get('name'), '|unique:category_one,name');
-            $this->rules['name'] .= $ruleUnique;
-            
+
+            if((int) Input::get('category_root_id') > 0){
+                $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
+                $ruleUnique = _Common::checkUniqueName($categoryOne, Input::get('name'), '|unique:category_one,name');
+                $this->rules['name'] .= $ruleUnique;
+            }
+
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);
@@ -183,11 +185,14 @@ class CategoryOneController extends \BaseController
             if(is_null($category)){
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
             }
+            if( ! _Common::strEqual(Input::get('name'), $category->name)){
+                if((int) Input::get('category_root_id') > 0){
+                    $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
+                    $ruleUnique = _Common::checkUniqueName($categoryOne, Input::get('name'), '|unique:category_one,name');
+                    $this->rules['name'] .= $ruleUnique;
+                }
+            }
 
-            $categoryOne = CategoryRoot::find((int) Input::get('category_root_id'))->categoryOnes;
-            $ruleUnique = _Common::checkUnique($categoryOne, Input::get('name'), '|unique:category_one,name');
-            $this->rules['name'] .= $ruleUnique;
-            
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);
@@ -302,17 +307,13 @@ class CategoryOneController extends \BaseController
             $categoryOne = new CategoryOne();
             $emptyFolder = File::cleanDirectory($categoryOne->getDestinationPath() . '/');
 
-            if($emptyFolder){
-                try{
-                    $categories = CategoryOne::truncate();
-                } catch (Exception $ex) {
-                    return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
-                }
-
-                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
+            try {
+                $categories = CategoryOne::truncate();
+            } catch (Exception $ex) {
+                return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
             }
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
 
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
         }
 
         $this->layout->content = View::make('backend::category-one.delete-all-comfirmation', array());

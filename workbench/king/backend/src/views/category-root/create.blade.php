@@ -42,7 +42,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
                     <label class="_tb">
-                        {{ Form::checkbox('is_active', 1) }} Is active
+                        {{ Form::checkbox('is_active', 1, true) }} Is active
                     </label>
                 </div>
             </div>

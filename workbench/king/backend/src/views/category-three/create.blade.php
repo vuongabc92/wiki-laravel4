@@ -57,15 +57,22 @@
             <label class="col-sm-2 control-label">Category one <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
                 @if(count($categoryOne) > 0)
+
+                    @if( ! is_null(\Input::old('category_root_id')) && \Input::old('category_root_id') != '')
+                        @define $categoryOneFilterRoot = King\Backend\CategoryRoot::find(\Input::old('category_root_id'))->categoryOnes
+                    @else
+                        @define $categoryOneFilterRoot = array()
+                    @endif
+
                     @define $listOne = array()
                     @define $listOne[''] = 'Please select category root first'
-                    @foreach($categoryOne as $one)
+                    @foreach($categoryOneFilterRoot as $one)
                         @define $listOne[$one->id] = $one->name
                     @endforeach
-                    {{ Form::select('category_one_id', $listOne, '',array('class' => 'form-control', 'id' => 'category-one', 'disabled' => '', 'data-categorytwofilterone' => '', 'data-categorytwoid' => 'category-two', 'data-categorytwofilteroneurl' => url('/admin/category-three/create-filter-one/'), 'autocomplete' => 'off')) }}
+                    {{ Form::select('category_one_id', $listOne, '', array('class' => 'form-control', 'id' => 'category-one', 'data-categorytwofilterone' => '', 'data-categorytwoid' => 'category-two', 'data-categorytwofilteroneurl' => url('/admin/category-three/create-filter-one/'), 'autocomplete' => 'off')) }}
                 @else
                     <span class="_fwfl _mt5">
-                        <span class="label label-danger">NO-ROOT-AVAILABLE</span>
+                        <span class="label label-danger">NO-CATEGORY-ONE-AVAILABLE</span>
                     </span>
                 @endif
             </div>
@@ -74,15 +81,22 @@
             <label class="col-sm-2 control-label">Category two <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
                 @if(count($categoryTwo) > 0)
+
+                    @if( ! is_null(\Input::old('category_one_id')) && \Input::old('category_one_id') != '')
+                        @define $categoryTwoFilterOne = King\Backend\CategoryOne::find(\Input::old('category_one_id'))->categoryTwos
+                    @else
+                        @define $categoryTwoFilterOne = array()
+                    @endif
+
                     @define $listTwo = array()
                     @define $listTwo[''] = 'Please select category one first'
-                    @foreach($categoryTwo as $one)
+                    @foreach($categoryTwoFilterOne as $one)
                         @define $listTwo[$one->id] = $one->name
                     @endforeach
-                    {{ Form::select('category_two_id', $listTwo, '',array('class' => 'form-control', 'id' => 'category-two', 'autocomplete' => 'off', 'disabled' => '')) }}
+                    {{ Form::select('category_two_id', $listTwo, '', array('class' => 'form-control', 'id' => 'category-two', 'autocomplete' => 'off')) }}
                 @else
                     <span class="_fwfl _mt5">
-                        <span class="label label-danger">NO-ROOT-AVAILABLE</span>
+                        <span class="label label-danger">NO-CATEGORY-TWO-AVAILABLE</span>
                     </span>
                 @endif
             </div>
@@ -117,7 +131,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
                     <label class="_tb">
-                        {{ Form::checkbox('is_active', 1) }} Is active
+                        {{ Form::checkbox('is_active', 1, true) }} Is active
                     </label>
                 </div>
             </div>

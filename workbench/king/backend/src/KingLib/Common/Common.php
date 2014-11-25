@@ -124,26 +124,26 @@ class Common{
 
         return $navHTML;
     }
-    
+
     /**
      * Compare two string
-     * 
+     *
      * @param string $str1
      * @param string $str2
-     * 
-     * @return bool 
+     *
+     * @return bool
      */
     public function strEqual($str1, $str2){
-        
+
         $str1 = mb_convert_case($str1, MB_CASE_UPPER, "UTF-8");
         $str2 = mb_convert_case($str2, MB_CASE_UPPER, "UTF-8");
-        
+
         return $str1 == $str2;
     }
-    
-    public function checkUnique($array, $str, $rule, $update = false){
-        
-        if (!is_null($array)) {
+
+    public function checkUniqueName($array, $str, $rule){
+
+        if ( ! is_null($array)) {
             foreach ($array as $one) {
                 if ($this->strEqual($one->name, $str)) {
                     return $rule;

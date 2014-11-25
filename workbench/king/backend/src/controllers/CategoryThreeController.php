@@ -23,7 +23,7 @@ class CategoryThreeController extends \BaseController
         'category_root_id' => 'required|numeric',
         'category_one_id' => 'required|numeric',
         'category_two_id' => 'required|numeric',
-        'name' => 'required|min:3|max:255|unique:category_two,name',
+        'name' => 'required|min:3|max:255',
         'image' => 'image|mimes:jpg,png,jpeg,gif',
         'description' => 'max:255',
         'order_number' => 'required|numeric'
@@ -102,6 +102,27 @@ class CategoryThreeController extends \BaseController
     public function store()
     {
         if(Request::isMethod('POST')){
+
+            if((int) Input::get('category_root_id') > 0){
+                $categoryThree = CategoryRoot::find((int) Input::get('category_root_id'))->categoryThrees;
+                $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+
+                if( ! empty($ruleUnique)){
+                    if ((int) Input::get('category_one_id') > 0) {
+                        $categoryThree = CategoryOne::find((int) Input::get('category_one_id'))->categoryThrees;
+                        $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+
+                        if( ! empty($ruleUnique)){
+                            if ((int) Input::get('category_two_id') > 0) {
+                                $categoryThree = CategoryTwo::find((int) Input::get('category_two_id'))->categoryThrees;
+                                $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+                                $this->rules['name'] .= $ruleUnique;
+                            }
+                        }
+                    }
+                }
+            }
+
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
             if($validator->fails()){
                 return Redirect::back()->withInput()->withErrors($validator);
@@ -198,8 +219,26 @@ class CategoryThreeController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
             }
 
-            if(strtolower(Input::get('name')) === strtolower($category->name)){
-                $this->rules['name'] = 'required|min:3|max:255';
+            if( ! _Common::strEqual(Input::get('name'), $category->name)){
+                if((int) Input::get('category_root_id') > 0){
+                    $categoryThree = CategoryRoot::find((int) Input::get('category_root_id'))->categoryThrees;
+                    $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+
+                    if( ! empty($ruleUnique)){
+                        if ((int) Input::get('category_one_id') > 0) {
+                            $categoryThree = CategoryOne::find((int) Input::get('category_one_id'))->categoryThrees;
+                            $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+
+                            if( ! empty($ruleUnique)){
+                                if ((int) Input::get('category_two_id') > 0) {
+                                    $categoryThree = CategoryTwo::find((int) Input::get('category_two_id'))->categoryThrees;
+                                    $ruleUnique = _Common::checkUniqueName($categoryThree, Input::get('name'), '|unique:category_three,name');
+                                    $this->rules['name'] .= $ruleUnique;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             $validator = Validator::make(Input::all(), $this->rules, $this->msg);
@@ -333,7 +372,7 @@ class CategoryThreeController extends \BaseController
 
                 return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-three');
             }
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
+            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-three');
 
         }
 
@@ -382,7 +421,7 @@ class CategoryThreeController extends \BaseController
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
         $categories = $categoryOne->categoryTwos()->paginate(15);
-        $this->layout->content = View::make('backend::category-two.index', array(
+        $this->layout->content = View::make('backend::category-three.index', array(
             'categories' => $categories,
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
@@ -404,15 +443,15 @@ class CategoryThreeController extends \BaseController
 
         $categoryOne = CategoryOne::find($idOne);
         if (is_null($categoryOne)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
         $categoryRoot = CategoryRoot::find($idRoot);
         if (is_null($categoryRoot)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
 
         $categories = $categoryOne->categoryTwos()->paginate(15);
-        $this->layout->content = View::make('backend::category-two.index', array(
+        $this->layout->content = View::make('backend::category-three.index', array(
             'categories' => $categories,
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
@@ -444,7 +483,7 @@ class CategoryThreeController extends \BaseController
                 $listCategoryOne[$one->id] = $one->name;
             }
         }
-        $result = \Form::select('category_two_id', $listCategoryOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off', 'data-categorytwofilterone' => '', 'data-categorytwoid' => 'category-two', 'data-categorytwofilteroneurl' => url('/admin/category-three/create-filter-one/')));
+        $result = \Form::select('category_one_id', $listCategoryOne, '',array('class' => 'form-control', 'id' => 'category-one', 'autocomplete' => 'off', 'data-categorytwofilterone' => '', 'data-categorytwoid' => 'category-two', 'data-categorytwofilteroneurl' => url('/admin/category-three/create-filter-one/')));
 
         return \Response::make($result);
     }
@@ -470,7 +509,7 @@ class CategoryThreeController extends \BaseController
                 $listCategoryTwo[$one->id] = $one->name;
             }
         }
-        $result = \Form::select('category_one_id', $listCategoryTwo, '',array('class' => 'form-control', 'id' => 'category-two', 'autocomplete' => 'off'));
+        $result = \Form::select('category_two_id', $listCategoryTwo, '',array('class' => 'form-control', 'id' => 'category-two', 'autocomplete' => 'off'));
 
         return \Response::make($result);
     }
