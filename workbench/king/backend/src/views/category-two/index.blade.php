@@ -18,12 +18,13 @@ List category two
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             @define $filterRootName = $filterRoot->name
+            @define $filterRootId = $filterRoot->id
+            @define $allTxt = 'All'
             Category root: <span class="label label-info filter-root-what">{{ $filterRootName }}</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-root-what">
             <li>
-                @define $allTxt = 'All'
                 <a class="_fwfl" href="{{ $filterRootName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterRootName === $allTxt) style="background-color:#f5f5f5" @endif>
                    <span class="_fl">{{ $allTxt }}</span>
                     @if($filterRootName === $allTxt)
@@ -33,9 +34,9 @@ List category two
             </li>
             @foreach($categoryRoot as $root)
                 <li>
-                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-root/' . $root->id) }}" @if($root->name === $filterRootName) style="background-color:#f5f5f5" @endif>
+                    <a class="_fwfl" href="{{ url('admin/category-two/filter-category-root/' . $root->id) }}" @if($root->id === $filterRootId) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $root->name }}</span>
-                        @if($root->name === $filterRootName)
+                        @if($root->id === $filterRootId)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                         @endif
                     </a>
@@ -47,12 +48,13 @@ List category two
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             @define $filterOneName = $filterOne->name
+            @define $filterOneId = $filterOne->id
+            @define $allTxt = 'All'
             Category one: <span class="label label-info filter-one-what">{{ $filterOneName }}</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-one-what">
             <li>
-                @define $allTxt = 'All'
                 <a class="_fwfl" href="{{ $filterOneName === $allTxt ? '#' :   url('admin/category-two') }}" @if($filterOneName === $allTxt) style="background-color:#f5f5f5" @endif>
                    <span class="_fl">{{ $allTxt }}</span>
                     @if($filterOneName === $allTxt)
@@ -64,9 +66,9 @@ List category two
             @foreach($categoryOneWithCondition as $one)
                 <li>
                     @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-two/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-two/filter-category-one/' . $one->id)
-                    <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->name === $filterOneName) style="background-color:#f5f5f5" @endif>
+                    <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->id === $filterOneId) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $one->name }}</span>
-                        @if($one->name === $filterOneName)
+                        @if($one->id === $filterOneId)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                         @endif
                     </a>

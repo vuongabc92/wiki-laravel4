@@ -65,8 +65,10 @@ class CategoryTwoController extends \BaseController
     {
         $filterCategoryRoot = new \stdClass();
         $filterCategoryRoot->name = 'All';
+        $filterCategoryRoot->id = 0;
         $filterCategoryOne = new \stdClass();
         $filterCategoryOne->name = 'All';
+        $filterCategoryOne->id = 0;
         $this->layout->content = View::make('backend::category-two.index', array(
             'categories' => CategoryTwo::orderBy('order_number')->paginate(15),
             'total' => CategoryTwo::count(),
@@ -367,6 +369,7 @@ class CategoryTwoController extends \BaseController
         $categoryRoot = CategoryRoot::find($id);
         $filterCategoryOne = new \stdClass();
         $filterCategoryOne->name = 'All';
+        $filterCategoryOne->id = 0;
         if (is_null($categoryRoot)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
         }
@@ -393,6 +396,7 @@ class CategoryTwoController extends \BaseController
         $categoryOne = CategoryOne::find($id);
         $filterCategoryRoot = new \stdClass();
         $filterCategoryRoot->name = 'All';
+        $filterCategoryRoot->id = 0;
         if (is_null($categoryOne)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
         }
