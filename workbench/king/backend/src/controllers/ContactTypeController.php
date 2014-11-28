@@ -7,7 +7,7 @@ use \View,
     \Request,
     \Input;
 
-class CategoryRootController extends \BaseController
+class ContactTypeController extends \BaseController
 {
 
     /**
@@ -77,18 +77,18 @@ class CategoryRootController extends \BaseController
                 return Redirect::back()->withInput()->withErrors($validator);
             }
 
-            $category = new CategoryRoot();
-            $category->name = Input::get('name');
-            $category->is_active = ! is_null(Input::get('is_active')) ? 1 : 0;
+            $contactType = new ContactType();
+            $contactType->name = Input::get('name');
+            $contactType->is_active = ! is_null(Input::get('is_active')) ? 1 : 0;
 
             try{
-                $category->save();
+                $contactType->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
                 return Redirect::back()->withInput();
             }
 
-            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-root');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/contact-type');
         }
     }
 
@@ -111,13 +111,13 @@ class CategoryRootController extends \BaseController
      */
     public function edit($id)
     {
-        $category = CategoryRoot::find($id);
-        if(is_null($category)){
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-root');
+        $type = ContactType::find($id);
+        if(is_null($type)){
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/contact-type');
         }
 
-        $this->layout->content = View::make('backend::category-root.edit', array(
-            'category' => $category
+        $this->layout->content = View::make('backend::contact-type.edit', array(
+            'type' => $type
         ));
     }
 
@@ -131,12 +131,12 @@ class CategoryRootController extends \BaseController
     {
         if(Request::isMethod('PUT')){
 
-            $category = CategoryRoot::find($id);
-            if(is_null($category)){
-                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-root');
+            $type = ContactType::find($id);
+            if(is_null($type)){
+                return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/contact-type');
             }
 
-            if(strtolower(Input::get('name')) === strtolower($category->name)){
+            if(strtolower(Input::get('name')) === strtolower($type->name)){
                 $this->rules['name'] = 'required|min:3|max:255';
             }
 
@@ -145,17 +145,17 @@ class CategoryRootController extends \BaseController
                 return Redirect::back()->withInput()->withErrors($validator);
             }
 
-            $category->name = Input::get('name');
-            $category->is_active = !is_null(Input::get('is_active')) ? 1 : 0;
+            $type->name = Input::get('name');
+            $type->is_active = !is_null(Input::get('is_active')) ? 1 : 0;
 
             try{
-                $category->save();
+                $type->save();
             } catch (Exception $ex) {
                 Session::flash('adminErrors', 'Opp! please try again.');
                 return Redirect::back()->withInput();
             }
 
-            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/category-root');
+            return _Common::redirectWithMsg('adminSuccess', 'Save success.', '/admin/contact-type');
         }
     }
 
@@ -167,18 +167,18 @@ class CategoryRootController extends \BaseController
      */
     public function destroy($id)
     {
-        $category = CategoryRoot::find($id);
-        if (is_null($category)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-root');
+        $type = ContactType::find($id);
+        if (is_null($type)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/contact-type');
         }
 
         try{
-            $category->delete();
+            $type->delete();
         } catch (Exception $ex) {
-            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-root');
+            return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/contact-type');
         }
 
-        return _Common::redirectWithMsg('adminWarning', 'Delete Success.', '/admin/category-root');
+        return _Common::redirectWithMsg('adminWarning', 'Delete Success.', '/admin/contact-type');
     }
 
 }

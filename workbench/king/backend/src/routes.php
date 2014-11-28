@@ -68,6 +68,11 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     //Contact type
     $router->resource('/contact-type', 'King\Backend\ContactTypeController');
 
+    //Contact one
+    $router->match(array('GET','DELETE'), '/contact-online/delete-all', 'King\Backend\ContactOnlineController@destroyAll');
+    $router->resource('/contact-online', 'King\Backend\ContactOnlineController');
+    $router->get('/contact-online/filter/{id}', 'King\Backend\ContactOnlineController@filterContactType');
+
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

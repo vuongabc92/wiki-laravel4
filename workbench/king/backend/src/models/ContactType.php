@@ -8,5 +8,10 @@ class ContactType extends \Eloquent{
      * @var string $table
      */
     protected $table = 'contact_type';
-    
+
+    public function contactOnlines(){
+
+        return $this->hasMany('King\Backend\ContactOnline');
+    }
+
 }
