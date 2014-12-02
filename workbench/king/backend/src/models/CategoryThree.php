@@ -12,7 +12,7 @@ class CategoryThree extends \Eloquent{
     /**
      * @var string Upload folder
      */
-    protected $destinationPath = 'uploads/images/category';
+    protected $destinationPath = 'uploads/images/category/three';
 
     /**
      * Get absolute path to file
@@ -42,5 +42,9 @@ class CategoryThree extends \Eloquent{
 
     public function getCategoryTwo(){
         return CategoryTwo::find($this->category_two_id);
+    }
+
+    public function getImage(){
+        return $this->destinationPath . '/' . $this->image;
     }
 }

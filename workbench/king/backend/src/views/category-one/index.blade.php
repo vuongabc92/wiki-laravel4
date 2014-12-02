@@ -73,7 +73,7 @@ List category one
             </td>
             <td><a href="{{ url('admin/category-one/' . $category->id) }}">{{ $category->name }}</a></td>
             <td>
-                @define $img = 'uploads/images/category/' . $category->image
+                @define $img = $category->getImage()
                 {{ empty($category->image) ||  ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '" class="_fwfl">' . HTML::image($img, $category->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
                 @if( ! empty($category->image) && file_exists($img))
                     {{ Form::open(array('url' => 'admin/category-one/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}

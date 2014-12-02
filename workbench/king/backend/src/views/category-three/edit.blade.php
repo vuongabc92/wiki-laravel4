@@ -110,7 +110,7 @@
             <label for="image" class="col-sm-2 control-label">Image</label>
             <div class="col-sm-9">
                 <div class="_fwfl">
-                    @define $img = 'uploads/images/category/' . $category->image;
+                    @define $img = $category->getImage()
                     {{ empty($category->image) || ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '">' . HTML::image($img, $category->name, ['class' => '_fl img-thumbnail _fl post-upload-image']) . '</a>' }}
                 </div>
                 <div class="_fwfl _mt5">

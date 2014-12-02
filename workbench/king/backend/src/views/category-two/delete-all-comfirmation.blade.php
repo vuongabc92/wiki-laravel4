@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
 <li><a href="{{ url('/admin') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li><a href="{{ url('/admin/category-one') }}">categories one</a></li>
+<li><a href="{{ url('/admin/category-two') }}">categories two</a></li>
 <li class="active">delete confirmation</li>
 @show
 

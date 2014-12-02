@@ -54,7 +54,9 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->resource('/category-three', 'King\Backend\CategoryThreeController');
     $router->get('/category-three/filter-category-root/{id}', 'King\Backend\CategoryThreeController@filterWithCategoryRoot');
     $router->get('/category-three/filter-category-one/{id}', 'King\Backend\CategoryThreeController@filterWithCategoryOne');
+    $router->get('/category-three/filter-category-two/{id}', 'King\Backend\CategoryThreeController@filterWithCategoryTwo');
     $router->get('/category-three/filter-category-one-and-root/{idRoot}/{idOne}', 'King\Backend\CategoryThreeController@filterWithCategoryOneAndRoot');
+    $router->get('/category-three/filter-category-root-one-two/{idRoot}/{idOne}/{idTwo}', 'King\Backend\CategoryThreeController@filterWithCategoryRootOneTwo');
     $router->delete('/category-three/delete-image/{id}', 'King\Backend\CategoryThreeController@destroyImg');
     $router->get('/category-three/create-filter/{id}', 'King\Backend\CategoryThreeController@_ajaxFilterCategoryRoot');
     $router->get('/category-three/create-filter-one/{id}', 'King\Backend\CategoryThreeController@_ajaxFilterCategoryOne');

@@ -35,7 +35,7 @@ Category detail
     <tr>
         <td>Image</td>
         <td>
-            @define $img = 'uploads/images/category/' . $category->image
+            @define $img = $category->getImage()
             {{ empty($category->image) || ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '">' . HTML::image($img, $category->name, ['class' => 'img-thumbnail _fl view-upload-image']) . '</a>' }}
             @if( ! empty($category->image) && file_exists($img))
                 {{ Form::open(array('url' => 'admin/category-two/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => '_fwfl delete-image-frm')) }}

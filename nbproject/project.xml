@@ -6,6 +6,7 @@
             <name>laravel4</name>
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>categoryTwo</word>
             <word>elseif</word>
         </spellchecker-wordlist>
     </configuration>

@@ -17,17 +17,15 @@ List category three
 <div class="_fwfl _mt5 _mb5">
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            @define $filterRootName = $filterRoot->name
             @define $filterRootId = $filterRoot->id
-            Category root: <span class="label label-info filter-root-what">{{ $filterRootName }}</span>
+            Category root: <span class="label label-info filter-root-what">{{ $filterRoot->name }}</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-root-what">
             <li>
-                @define $allTxt = 'All'
-                <a class="_fwfl" href="{{ $filterRootName === $allTxt ? '#' :   url('admin/category-three') }}" @if($filterRootName === $allTxt) style="background-color:#f5f5f5" @endif>
-                   <span class="_fl">{{ $allTxt }}</span>
-                    @if($filterRootName === $allTxt)
+                <a class="_fwfl" href="{{ !$filterRootId ? '#' :   url('admin/category-three') }}" @if(!$filterRootId) style="background-color:#f5f5f5" @endif>
+                   <span class="_fl">All</span>
+                    @if(!$filterRootId)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                     @endif
                 </a>
@@ -47,28 +45,58 @@ List category three
 
     <div class="btn-group _mb5">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            @define $filterOneName = $filterOne->name
             @define $filterOneId = $filterOne->id
-            Category one: <span class="label label-info filter-one-what">{{ $filterOneName }}</span>
+            Category one: <span class="label label-info filter-one-what">{{ $filterOne->name }}</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-one-what">
             <li>
-                @define $allTxt = 'All'
-                <a class="_fwfl" href="{{ $filterOneName === $allTxt ? '#' :   url('admin/category-three') }}" @if($filterOneName === $allTxt) style="background-color:#f5f5f5" @endif>
-                   <span class="_fl">{{ $allTxt }}</span>
-                    @if($filterOneName === $allTxt)
+                <a class="_fwfl" href="{{ !$filterOneId ? '#' :   url('admin/category-three') }}" @if(!$filterOneId) style="background-color:#f5f5f5" @endif>
+                   <span class="_fl">All</span>
+                    @if(!$filterOneId)
                         <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                     @endif
                 </a>
             </li>
-            @define $categoryOneWithCondition = $filterRoot->name !== $allTxt ? $filterRoot->categoryOnes : $categoryOne
-            @foreach($categoryOneWithCondition as $one)
+            @foreach($categoryOne as $one)
                 <li>
-                    @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-three/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-three/filter-category-one/' . $one->id)
+                    @define $filterOneUrl = $filterOneId ? url('admin/category-three/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-three/filter-category-one/' . $one->id)
                     <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->id === $filterOneId) style="background-color:#f5f5f5" @endif>
                         <span class="_fl">{{ $one->name }}</span>
                         @if($one->id === $filterOneId)
+                            <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
+                        @endif
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="btn-group _mb5">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            @define $filterTwoId = $filterTwo->id
+            Category two: <span class="label label-info filter-one-what">{{ $filterTwo->name }}</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-scroll" role="menu" data-filter data-filter-class="filter-one-what">
+            <li>
+                <a class="_fwfl" href="{{ !$filterTwoId ? '#' :   url('admin/category-three') }}" @if(!$filterTwoId) style="background-color:#f5f5f5" @endif>
+                   <span class="_fl">All</span>
+                    @if(!$filterTwoId)
+                        <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
+                    @endif
+                </a>
+            </li>
+
+            @foreach($categoryTwo as $two)
+                <li>
+                    @define $filterTwoUrl = url('admin/category-three/filter-category-two/' . $two->id)
+                    @if($filterRootId && $filterOneId)
+                         @define $filterTwoUrl = url('admin/category-three/filter-category-root-one-two/' . $filterRoot->id . '/' . $filterOne->id . '/' . $two->id)
+                    @endif
+                    <a class="_fwfl" href="{{ $filterTwoUrl }}" @if($two->id === $filterTwoId) style="background-color:#f5f5f5" @endif>
+                        <span class="_fl">{{ $two->name }}</span>
+                        @if($two->id === $filterTwoId)
                             <i class="fa fa-check _fr _fs11 _tb _mt5"></i>
                         @endif
                     </a>
@@ -117,7 +145,7 @@ List category three
             </td>
             <td><a href="{{ url('admin/category-three/' . $category->id) }}">{{ $category->name }}</a></td>
             <td>
-                @define $img = 'uploads/images/category/' . $category->image
+                @define $img = $category->getImage()
                 {{ empty($category->image) ||  ! is_file($img) ? '<span class="text text-warning">NO IMAGE</span>' : '<a href="' . url($img) . '" class="_fwfl">' . HTML::image($img, $category->name, ['class' => 'img-thumbnail _fl post-upload-image']) . '</a>' }}
                 @if( ! empty($category->image) && file_exists($img))
                     {{ Form::open(array('url' => 'admin/category-three/delete-image/' . $category->id, 'method' => 'DELETE', 'class' => 'delete-image-frm')) }}

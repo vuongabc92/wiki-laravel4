@@ -12,7 +12,7 @@ class CategoryOne extends \Eloquent{
     /**
      * @var string Upload folder
      */
-    protected $destinationPath = 'uploads/images/category';
+    protected $destinationPath = 'uploads/images/category/one';
 
     public function categoryTwos(){
 
@@ -44,5 +44,9 @@ class CategoryOne extends \Eloquent{
 
     public function getRoot(){
         return CategoryRoot::find($this->category_root_id);
+    }
+
+    public function getImage(){
+        return $this->destinationPath . '/' . $this->image;
     }
 }

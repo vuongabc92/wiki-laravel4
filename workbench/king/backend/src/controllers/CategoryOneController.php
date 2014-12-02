@@ -245,11 +245,10 @@ class CategoryOneController extends \BaseController
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-one');
         }
 
-        $deleteImg = false;
         if (!empty($category->image)) {
             $oldFile = $category->getAbsolutePath() . '/' . $category->image;
             if (file_exists($oldFile)) {
-                $deleteImg = File::delete($oldFile);
+                File::delete($oldFile);
             }
         }
 
@@ -259,11 +258,7 @@ class CategoryOneController extends \BaseController
             return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
         }
 
-        if ($deleteImg) {
-            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
-        } else {
-            return _Common::redirectWithMsg('adminWarning', 'Delete success but resource still remains.', '/admin/category-one');
-        }
+        return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-one');
     }
 
     /**
@@ -305,10 +300,10 @@ class CategoryOneController extends \BaseController
 
         if(Request::isMethod('DELETE')){
             $categoryOne = new CategoryOne();
-            $emptyFolder = File::cleanDirectory($categoryOne->getDestinationPath() . '/');
+            File::cleanDirectory($categoryOne->getDestinationPath() . '/');
 
             try {
-                $categories = CategoryOne::truncate();
+                CategoryOne::truncate();
             } catch (Exception $ex) {
                 return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-one');
             }

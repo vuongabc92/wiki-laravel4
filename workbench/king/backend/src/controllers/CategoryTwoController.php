@@ -277,11 +277,10 @@ class CategoryTwoController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-two');
             }
 
-            $deleteImg = false;
             if( ! empty($category->image)){
                 $oldFile = $category->getAbsolutePath() . '/' . $category->image;
                 if (file_exists($oldFile)) {
-                    $deleteImg = File::delete($oldFile);
+                    File::delete($oldFile);
                 }
             }
 
@@ -291,11 +290,7 @@ class CategoryTwoController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Opp! Please try again.', '/admin/category-two');
             }
 
-            if($deleteImg){
-                return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
-            }else{
-                return _Common::redirectWithMsg('adminWarning', 'Delete success but resource still remain.', '/admin/category-two');
-            }
+            return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
         }
     }
 
@@ -319,13 +314,12 @@ class CategoryTwoController extends \BaseController
                 $oldFile = $category->getAbsolutePath() . '/' . $category->image;
                 if (file_exists($oldFile)) {
 
-                    $deleteImg = File::delete($oldFile);
-
-                    if($deleteImg){
-                        return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
-                    }else{
+                    try{
+                        File::delete($oldFile);
+                    } catch (Exception $ex) {
                         return _Common::redirectWithMsg('adminWarning', 'Opp! Please try again.', '/admin/category-two');
                     }
+                    return _Common::redirectWithMsg('adminWarning', 'Delete success.', '/admin/category-two');
                 }
             }
 
@@ -343,7 +337,7 @@ class CategoryTwoController extends \BaseController
         if(Request::isMethod('DELETE')){
 
             $category = new CategoryTwo();
-            $emptyFolder = File::cleanDirectory($category->getDestinationPath() . '/');
+            File::cleanDirectory($category->getDestinationPath() . '/');
 
             try {
                 CategoryTwo::truncate();

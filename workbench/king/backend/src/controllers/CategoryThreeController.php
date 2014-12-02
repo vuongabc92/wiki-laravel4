@@ -72,13 +72,18 @@ class CategoryThreeController extends \BaseController
         $filterCategoryOne = new \stdClass();
         $filterCategoryOne->name = 'All';
         $filterCategoryOne->id = 0;
+        $filterCategoryTwo = new \stdClass();
+        $filterCategoryTwo->name = 'All';
+        $filterCategoryTwo->id = 0;
         $this->layout->content = View::make('backend::category-three.index', array(
             'categories' => CategoryThree::orderBy('order_number')->paginate(15),
             'total' => CategoryThree::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryTwo' => CategoryTwo::where('is_active', '=', 1)->get(),
             'filterRoot' => $filterCategoryRoot,
-            'filterOne' => $filterCategoryOne
+            'filterOne' => $filterCategoryOne,
+            'filterTwo' => $filterCategoryTwo
         ));
     }
 
@@ -297,11 +302,10 @@ class CategoryThreeController extends \BaseController
                 return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
             }
 
-            $deleteImg = false;
             if( ! empty($category->image)){
                 $oldFile = $category->getAbsolutePath() . '/' . $category->image;
                 if (file_exists($oldFile)) {
-                    $deleteImg = File::delete($oldFile);
+                    File::delete($oldFile);
                 }
             }
 
@@ -378,7 +382,7 @@ class CategoryThreeController extends \BaseController
     }
 
     /**
-     * Filter category one via category root.
+     * Filter category three via category root.
      *
      * @param string $id Category root id
      *
@@ -390,6 +394,9 @@ class CategoryThreeController extends \BaseController
         $filterCategoryOne = new \stdClass();
         $filterCategoryOne->name = 'All';
         $filterCategoryOne->id = 0;
+        $filterCategoryTwo = new \stdClass();
+        $filterCategoryTwo->name = 'All';
+        $filterCategoryTwo->id = 0;
 
         if (is_null($categoryRoot)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
@@ -399,14 +406,16 @@ class CategoryThreeController extends \BaseController
             'categories' => $categories,
             'total' => CategoryThree::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
-            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryOne' => $categoryRoot->categoryOnes()->where('is_active', '=', 1)->get(),
+            'categoryTwo' => $categoryRoot->categoryTwos()->where('is_active', '=', 1)->get(),
             'filterRoot' => $categoryRoot,
-            'filterOne' => $filterCategoryOne
+            'filterOne' => $filterCategoryOne,
+            'filterTwo' => $filterCategoryTwo
         ));
     }
 
     /**
-     * Filter category one via category one.
+     * Filter category three via category one.
      *
      * @param string $id Category one id
      *
@@ -418,6 +427,9 @@ class CategoryThreeController extends \BaseController
         $filterCategoryRoot = new \stdClass();
         $filterCategoryRoot->name = 'All';
         $filterCategoryRoot->id = 0;
+        $filterCategoryTwo = new \stdClass();
+        $filterCategoryTwo->name = 'All';
+        $filterCategoryTwo->id = 0;
         if (is_null($categoryOne)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
@@ -427,13 +439,15 @@ class CategoryThreeController extends \BaseController
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryTwo' => $categoryOne->categoryTwos()->where('is_active', '=', 1)->get(),
             'filterRoot' => $filterCategoryRoot,
-            'filterOne' => $categoryOne
+            'filterOne' => $categoryOne,
+            'filterTwo' => $filterCategoryTwo
         ));
     }
 
     /**
-     * Filter category one via category one.
+     * Filter category three via category one.
      *
      * @param string $id Category one id
      *
@@ -445,6 +459,9 @@ class CategoryThreeController extends \BaseController
         $filterCategoryRoot = new \stdClass();
         $filterCategoryRoot->name = 'All';
         $filterCategoryRoot->id = 0;
+        $filterCategoryOne = new \stdClass();
+        $filterCategoryOne->name = 'All';
+        $filterCategoryOne->id = 0;
         if (is_null($categoryTwo)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
@@ -454,13 +471,15 @@ class CategoryThreeController extends \BaseController
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
             'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryTwo' => CategoryTwo::where('is_active', '=', 1)->get(),
             'filterRoot' => $filterCategoryRoot,
-            'filtertwo' => $categoryTwo
+            'filterOne' => $filterCategoryOne,
+            'filterTwo' => $categoryTwo
         ));
     }
 
     /**
-     * Filter category one via category one and root.
+     * Filter category three via category one and root.
      *
      * @param string $id Category root id
      * @param string $id Category one id
@@ -469,23 +488,62 @@ class CategoryThreeController extends \BaseController
      */
     public function filterWithCategoryOneAndRoot($idRoot, $idOne){
 
-        $categoryOne = CategoryOne::find($idOne);
-        if (is_null($categoryOne)) {
-            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
-        }
         $categoryRoot = CategoryRoot::find($idRoot);
         if (is_null($categoryRoot)) {
             return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
         }
-
+        $categoryOne = CategoryOne::find($idOne);
+        if (is_null($categoryOne)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
+        }
+        $filterCategoryTwo = new \stdClass();
+        $filterCategoryTwo->name = 'All';
+        $filterCategoryTwo->id = 0;
         $categories = $categoryOne->categoryThrees()->paginate(15);
         $this->layout->content = View::make('backend::category-three.index', array(
             'categories' => $categories,
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
-            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryOne' => $categoryRoot->categoryOnes()->where('is_active', '=', 1)->get(),
+            'categoryTwo' => $categoryOne->categoryTwos()->where('is_active', '=', 1)->get(),
             'filterRoot' => $categoryRoot,
-            'filterOne' => $categoryOne
+            'filterOne' => $categoryOne,
+            'filterTwo' => $filterCategoryTwo
+        ));
+    }
+
+    /**
+     * Filter category three via category root, one, two.
+     *
+     * @param string $id Category root id
+     * @param string $id Category one id
+     *
+     * @return Response
+     */
+    public function filterWithCategoryRootOneTwo($idRoot, $idOne, $idTwo){
+
+        $categoryRoot = CategoryRoot::find($idRoot);
+        if (is_null($categoryRoot)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
+        }
+        $categoryOne = CategoryOne::find($idOne);
+        if (is_null($categoryOne)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
+        }
+        $categoryTwo = CategoryTwo::find($idTwo);
+        if (is_null($categoryTwo)) {
+            return _Common::redirectWithMsg('adminErrors', 'Resource does not exist.', '/admin/category-three');
+        }
+        $categories = $categoryTwo->categoryThrees()->paginate(15);
+        $this->layout->content = View::make('backend::category-three.index', array(
+            'categories' => $categories,
+            'total' => CategoryTwo::count(),
+            'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
+            'categoryOne' => $categoryRoot->categoryOnes()->where('is_active', '=', 1)->get(),
+            'categoryTwo' => $categoryOne->categoryTwos()->where('is_active', '=', 1)->get(),
+            'filterRoot' => $categoryRoot,
+            'filterOne' => $categoryOne,
+            'filterTwo' => $categoryTwo
         ));
     }
 
@@ -502,7 +560,6 @@ class CategoryThreeController extends \BaseController
 
         $id = (int) $id;
         $categoryOne = CategoryRoot::find($id)->categoryOnes;
-
 
         $listCategoryOne = array();
         $listCategoryOne[''] = 'Please select a category';
