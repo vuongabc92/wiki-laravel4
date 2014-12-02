@@ -127,7 +127,7 @@ List category three
     </thead>
     <tbody>
         @foreach($categories as $category)
-            @define $class = ! $category->getRoot()->is_active ? 'warning' : ''
+            @define $class = ! $category->getRoot()->is_active || ! $category->getCategoryOne()->is_active || ! $category->getCategoryTwo()->is_active ? 'warning' : ''
         <tr class="{{ $class }}">
             <td><input type="checkbox" class="check-all" id="check-{{ $category->id }}" data-id="{{ $category->id }}"/></td>
             <td>{{ $category->order_number }}</td>

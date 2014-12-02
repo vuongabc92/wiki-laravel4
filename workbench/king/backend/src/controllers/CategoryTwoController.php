@@ -372,7 +372,7 @@ class CategoryTwoController extends \BaseController
             'categories' => $categories,
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
-            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryOne' => $categoryRoot->categoryOnes()->where('is_active', '=', 1)->get(),
             'filterRoot' => $categoryRoot,
             'filterOne' => $filterCategoryOne
         ));
@@ -399,7 +399,7 @@ class CategoryTwoController extends \BaseController
             'categories' => $categories,
             'total' => CategoryTwo::count(),
             'categoryRoot' => CategoryRoot::where('is_active', '=', 1)->get(),
-            'categoryOne' => CategoryOne::where('is_active', '=', 1)->get(),
+            'categoryOne' => $categoryRoot->categoryOnes()->where('is_active', '=', 1)->get(),
             'filterRoot' => $filterCategoryRoot,
             'filterOne' => $categoryOne
         ));

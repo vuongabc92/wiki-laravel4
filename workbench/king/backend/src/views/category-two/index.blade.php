@@ -62,8 +62,7 @@ List category two
                     @endif
                 </a>
             </li>
-            @define $categoryOneWithCondition = $filterRoot->name !== $allTxt ? $filterRoot->categoryOnes : $categoryOne
-            @foreach($categoryOneWithCondition as $one)
+            @foreach($categoryOne as $one)
                 <li>
                     @define $filterOneUrl = $filterRoot->name !== $allTxt ? url('admin/category-two/filter-category-one-and-root/' . $filterRoot->id . '/' . $one->id) : url('admin/category-two/filter-category-one/' . $one->id)
                     <a class="_fwfl" href="{{ $filterOneUrl }}" @if($one->id === $filterOneId) style="background-color:#f5f5f5" @endif>
@@ -98,7 +97,7 @@ List category two
     </thead>
     <tbody>
         @foreach($categories as $category)
-            @define $class = ! $category->getRoot()->is_active ? 'warning' : ''
+            @define $class = ! $category->getRoot()->is_active || ! $category->getCategoryOne()->is_active ? 'warning' : ''
         <tr class="{{ $class }}">
             <td><input type="checkbox" class="check-all" id="check-{{ $category->id }}" data-id="{{ $category->id }}"/></td>
             <td>{{ $category->order_number }}</td>
