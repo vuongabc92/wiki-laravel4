@@ -45,10 +45,8 @@ class CategoryOne extends \Eloquent{
     public function getRoot(){
 
         $root = CategoryRoot::find($this->category_root_id);
-        $stdClass = new \stdClass();
-        $stdClass->is_active = null;
-        $stdClass->name = '';
-        return !is_null($root) ? $root : $stdClass;
+
+        return !is_null($root) ? $root : new CategoryRoot();
     }
 
     public function getImage(){
