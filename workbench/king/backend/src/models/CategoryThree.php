@@ -33,15 +33,24 @@ class CategoryThree extends \Eloquent{
     }
 
     public function getRoot(){
-        return CategoryRoot::find($this->category_root_id);
+
+        $root = CategoryRoot::find($this->category_root_id);
+
+        return !is_null($root) ? $root : new CategoryRoot();
     }
 
     public function getCategoryOne(){
-        return CategoryOne::find($this->category_one_id);
+
+        $categoryOne = CategoryOne::find($this->category_one_id);
+
+        return !is_null($categoryOne) ? $categoryOne : new CategoryRoot();
     }
 
     public function getCategoryTwo(){
-        return CategoryTwo::find($this->category_two_id);
+
+        $categoryTwo = CategoryTwo::find($this->category_two_id);
+
+        return !is_null($categoryTwo) ? $categoryTwo : new CategoryRoot();
     }
 
     public function getImage(){
