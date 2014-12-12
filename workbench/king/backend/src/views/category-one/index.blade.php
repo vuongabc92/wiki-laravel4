@@ -57,8 +57,7 @@ List category one
             <!--<th>Description</th>-->
             <th>Is active</th>
             <th>Modified</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th style="width: 142px">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -85,11 +84,15 @@ List category one
             @define $url = url('/admin/ajax/active/categoryOne-' . $category->id)
             <td class="active-container">{{ $category->is_active ? '<span class="label label-success _cp" data-kingActive data-activeurl="' . $url . '">active</span>' : '<span class="label label-danger _cp" data-kingActive data-activeurl="' . $url . '">disable</span>'}}</td>
             <td>{{ King\Backend\_Common::changeDatetimeFormat($category->updated_at, 'd/m/Y') }}</td>
-            <td class="_tc"><a href="{{ url('admin/category-one/' . $category->id . '/edit') }}" class="text-warning _td_i fa fa-edit"></a></td>
             <td class="_tc">
-                {{ Form::open(array('url' => 'admin/category-one/' . $category->id, 'method' => 'DELETE')) }}
-                    <button type="submit" class="_ff0" data-confirmation data-msg="Delete this this???"><i class="text-danger _td_i fa fa-trash"></i></button>
-                {{ Form::close() }}
+                <div class="_w50 _fl">
+                    <a class="btn btn-default btn-xs" href="{{ url('admin/category-one/' . $category->id . '/edit') }}"><i class=" _td_i fa fa-edit"></i> Edit</a>
+                </div>
+                <div class="_w50 _fr">
+                    {{ Form::open(array('url' => 'admin/category-one/' . $category->id, 'method' => 'DELETE')) }}
+                        <button type="submit" class="btn btn-danger btn-xs" data-confirmation data-msg="Delete this this???"><i class="_td_i fa fa-trash"></i> Delete</button>
+                    {{ Form::close() }}
+                </div>
             </td>
         </tr>
         @endforeach
