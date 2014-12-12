@@ -65,7 +65,19 @@ return array(
             'url' => 'admin/contacts',
             'txt' => 'Contact',
             'nav_name' => 'contact',
-            'icon' => 'fa fa-reply'
+            'icon' => 'fa fa-comment-o'
+        ),
+        array(
+            'url' => 'admin/contact-type',
+            'txt' => 'Contact type',
+            'nav_name' => 'contact-type',
+            'icon' => 'fa fa-bars'
+        ),
+        array(
+            'url' => 'admin/contact-online',
+            'txt' => 'Contact online',
+            'nav_name' => 'contact-online',
+            'icon' => 'fa fa-comments-o'
         ),
         array(
             'url' => 'admin/help',
