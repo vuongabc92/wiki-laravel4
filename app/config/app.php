@@ -124,6 +124,7 @@ return array(
 		'King\Backend\BackendServiceProvider',
 		'King\Backend\Common\CommonServiceProvider',
 		'King\Backend\Knight\KnightServiceProvider',
+                'King\Backoffice\BackofficeServiceProvider'
 
 	),
 
