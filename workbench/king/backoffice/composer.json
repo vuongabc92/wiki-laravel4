@@ -1,0 +1,25 @@
+{
+    "name": "king/backoffice",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vuong Bui",
+            "email": "vuongabc92@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/controllers",
+            "src/support"
+        ],
+        "psr-0": {
+            "King\\Backoffice\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
