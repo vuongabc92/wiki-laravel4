@@ -73,6 +73,9 @@ Route::group(['before' => 'auth', 'prefix' => '/admin'], function($router){
     $router->resource('/contact-online', 'King\Backend\ContactOnlineController');
     $router->get('/contact-online/filter/{id}', 'King\Backend\ContactOnlineController@filterContactType');
 
+    //GUI
+    $router->get('/gui', 'King\Backend\GUIController@index');
+
     //Change active status
     $router->get('/ajax/active/{data}', 'King\Backend\CommonController@_ajaxActive');
 });

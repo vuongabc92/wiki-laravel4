@@ -32,6 +32,12 @@ return array(
             'icon' => 'fa fa-file-text'
         ),
         array(
+            'url' => 'admin/gui',
+            'txt' => 'GUI',
+            'nav_name' => 'gui',
+            'icon' => 'fa fa-desktop'
+        ),
+        array(
             'url' => 'admin/category-root',
             'txt' => 'Category root',
             'nav_name' => 'category-root',

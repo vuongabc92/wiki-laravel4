@@ -89,6 +89,7 @@ return array(
     'King\\Backend\\ContactType' => $baseDir . '/src/models/ContactType.php',
     'King\\Backend\\ContactOnlineController' => $baseDir . '/src/controllers/ContactOnlineController.php',
     'King\\Backend\\ContactOnline' => $baseDir . '/src/models/ContactOnline.php',
+    'King\\Backend\\GUIController' => $baseDir . '/src/controllers/GUIController.php',
     'King\\Backend\\Common\\CommonServiceProvider' => $baseDir . '/src/KingLib/Common/CommonServiceProvider.php',
     'King\\Backend\\_Common' => $baseDir . '/src/KingLib/Facades/Common.php',
     'King\\Backend\\Common\\Common' => $baseDir . '/src/KingLib/Common/Common.php',
